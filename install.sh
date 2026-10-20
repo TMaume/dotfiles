@@ -30,6 +30,21 @@ if ! command -v yay &> /dev/null; then
     cd ~
 fi
 
+echo "=== Configuration de Flatpak et restauration des applications ==="
+if [ -f "pkglist-flatpak.txt" ]; then
+    # Installer flatpak si ce n'est pas déjà fait
+    sudo pacman -S --needed --noconfirm flatpak
+    
+    # Ajouter le dépôt Flathub
+    flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+    
+    # Installer les applications
+    while read app; do
+        [ -z "$app" ] && continue
+        flatpak install -y flathub "$app"
+    done < pkglist-flatpak.txt
+fi
+
 echo "=== Restauration des logiciels ==="
 if [ -f "pkglist-repo.txt" ]; then
     sudo pacman -S --needed --noconfirm - < pkglist-repo.txt

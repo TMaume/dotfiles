@@ -11,12 +11,13 @@ echo -e "\n=== 2. Exportation des logiciels et services actuels ==="
 # Met à jour les listes locales avec ce qui est actuellement sur la machine
 pacman -Qqen > ~/pkglist-repo.txt
 pacman -Qqem > ~/pkglist-aur.txt
+flatpak list --app --columns=application > ~/pkglist-flatpak.txt
 systemctl list-unit-files --state=enabled --type=service --no-pager | grep \.service | awk '{print $1}' > ~/services-list.txt
 echo "✅ Listes générées."
 
 echo -e "\n=== 3. Sauvegarde sur GitHub ==="
 # Ajoute spécifiquement les 3 fichiers textes générés
-$DOTFILES_GIT add ~/pkglist-repo.txt ~/pkglist-aur.txt ~/services-list.txt
+$DOTFILES_GIT add ~/pkglist-repo.txt ~/pkglist-aur.txt ~/pkglist-flatpak.txt ~/services-list.txt
 
 # Ajoute toutes les modifications des fichiers de configuration DÉJÀ SUIVIS (ex: ~/.zshrc s'il a été modifié)
 $DOTFILES_GIT add -u
