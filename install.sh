@@ -59,18 +59,9 @@ if [ -f "pkglist-aur.txt" ]; then
     yay -S --needed --noconfirm - < pkglist-aur.txt
 fi
 
-echo "=== Initialisation de la base de données (MariaDB/MySQL) ==="
-if grep -q "^mariadb$" pkglist-repo.txt 2>/dev/null || pacman -Qs mariadb > /dev/null; then
-    if [ ! -d "/var/lib/mysql/mysql" ]; then
-        echo "Initialisation du répertoire de données MariaDB..."
-        sudo mariadb-install-db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
-    fi
-fi
-
 echo "=== Activation des services système ==="
 if [ -f "services-list.txt" ]; then
     while read service; do
-        # Ignore les lignes vides
         [ -z "$service" ] && continue 
         sudo systemctl enable "$service"
     done < services-list.txt
@@ -86,7 +77,7 @@ if [ ! -d "$DOTFILES_DIR" ]; then
     # Configuration de l'alias temporaire pour le checkout
     alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
     
-    # Backup des fichiers existants conflictuels au cas où (ex: .bashrc)
+    # Backup des fichiers existants conflictuels
     mkdir -p ~/.dotfiles-backup
     config checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | xargs -I{} mv {} ~/.dotfiles-backup/{} || true
     
@@ -98,6 +89,32 @@ echo "=== Restauration des configurations système (/etc) ==="
 if [ -d "$HOME/.dotfiles-system/etc" ]; then
     echo "Copie des fichiers vers /etc..."
     sudo cp -r $HOME/.dotfiles-system/etc/* /etc/
+fi
+
+echo "=== Configuration de la base de données (MariaDB) ==="
+# On place cette étape à la fin pour être sûr que les dotfiles (et le fichier .sql) sont bien téléchargés
+if command -v mariadb &> /dev/null; then
+    if [ ! -d "/var/lib/mysql/mysql" ]; then
+        echo "Initialisation du répertoire de données MariaDB..."
+        sudo mariadb-install-db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
+    fi
+
+    if [ -f "$HOME/bases_de_donnees_backup.sql" ]; then
+        echo ""
+        read -p "❓ Un fichier de sauvegarde SQL a été trouvé. Voulez-vous restaurer vos bases de données ? (o/N) " restore_db
+        if [[ "$restore_db" =~ ^[OoYy]$ ]]; then
+            echo "Démarrage du service MariaDB pour la restauration..."
+            sudo systemctl start mariadb
+            sleep 2 # Laisse quelques secondes au service pour s'allumer complètement
+            echo "Restauration en cours..."
+            sudo mariadb -u root < "$HOME/bases_de_donnees_backup.sql"
+            echo "✅ Bases de données restaurées avec succès !"
+        else
+            echo "⏩ Restauration ignorée. MariaDB est installé et prêt à l'emploi (vide)."
+        fi
+    else
+        echo "ℹ️ Aucun fichier bases_de_donnees_backup.sql trouvé. MariaDB est installé (vide)."
+    fi
 fi
 
 echo "=== Installation terminée ! ==="
