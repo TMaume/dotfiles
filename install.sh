@@ -30,6 +30,11 @@ if ! command -v yay &> /dev/null; then
     cd ~
 fi
 
+echo "=== Installation de Dank Material Shell (DMS) ==="
+if ! command -v dms &> /dev/null; then
+    curl -fsSL https://install.danklinux.com | sh
+fi
+
 echo "=== Configuration de Flatpak et restauration des applications ==="
 if [ -f "pkglist-flatpak.txt" ]; then
     # Installer flatpak si ce n'est pas déjà fait
@@ -64,7 +69,7 @@ if [ -f "services-list.txt" ]; then
 fi
 
 echo "=== Récupération des dotfiles (Configuration Niri, Zsh, etc.) ==="
-DOTFILES_REPO="git@github.com:TON_UTILISATEUR/TON_DEPOT.git" # <-- MODIFIE CECI
+DOTFILES_REPO="git@github.com:TMaume/dotfiles.git"
 DOTFILES_DIR="$HOME/.dotfiles"
 
 if [ ! -d "$DOTFILES_DIR" ]; then
@@ -79,6 +84,12 @@ if [ ! -d "$DOTFILES_DIR" ]; then
     
     config checkout
     config config --local status.showUntrackedFiles no
+fi
+
+echo "=== Restauration des configurations système (/etc) ==="
+if [ -d "$HOME/.dotfiles-system/etc" ]; then
+    echo "Copie des fichiers vers /etc..."
+    sudo cp -r $HOME/.dotfiles-system/etc/* /etc/
 fi
 
 echo "=== Installation terminée ! ==="

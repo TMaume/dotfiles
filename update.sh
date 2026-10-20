@@ -1,25 +1,31 @@
 #!/bin/bash
 set -e
 
-# Définition de la commande Git pour le dépôt bare (car l'alias ~/.zshrc ne marche pas dans un script bash)
+# Définition de la commande Git pour le dépôt bare
 DOTFILES_GIT="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
 
 echo "=== 1. Mise à jour du système (Dépôts + AUR) ==="
 yay -Syu
 
-echo -e "\n=== 2. Exportation des logiciels et services actuels ==="
-# Met à jour les listes locales avec ce qui est actuellement sur la machine
+echo -e "\n=== 2. Exportation des configurations actuelles ==="
+# Met à jour les listes locales
 pacman -Qqen > ~/pkglist-repo.txt
 pacman -Qqem > ~/pkglist-aur.txt
 flatpak list --app --columns=application > ~/pkglist-flatpak.txt
 systemctl list-unit-files --state=enabled --type=service --no-pager | grep \.service | awk '{print $1}' > ~/services-list.txt
-echo "✅ Listes générées."
+
+# Copie des configurations système dans le dossier de sauvegarde
+mkdir -p ~/.dotfiles-system/etc
+[ -d /etc/greetd ] && cp -r /etc/greetd ~/.dotfiles-system/etc/
+[ -f /etc/pacman.conf ] && cp /etc/pacman.conf ~/.dotfiles-system/etc/
+[ -f /etc/makepkg.conf ] && cp /etc/makepkg.conf ~/.dotfiles-system/etc/
+echo "✅ Listes et configurations système générées."
 
 echo -e "\n=== 3. Sauvegarde sur GitHub ==="
-# Ajoute spécifiquement les 3 fichiers textes générés
-$DOTFILES_GIT add ~/pkglist-repo.txt ~/pkglist-aur.txt ~/pkglist-flatpak.txt ~/services-list.txt
+# Ajoute les fichiers générés et le dossier système
+$DOTFILES_GIT add ~/pkglist-repo.txt ~/pkglist-aur.txt ~/pkglist-flatpak.txt ~/services-list.txt ~/.dotfiles-system/
 
-# Ajoute toutes les modifications des fichiers de configuration DÉJÀ SUIVIS (ex: ~/.zshrc s'il a été modifié)
+# Ajoute toutes les modifications des fichiers de configuration DÉJÀ SUIVIS
 $DOTFILES_GIT add -u
 
 # Vérifie s'il y a des changements à envoyer

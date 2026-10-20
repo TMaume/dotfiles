@@ -45,6 +45,7 @@ niri
 noto-fonts
 noto-fonts-cjk
 noto-fonts-emoji
+noto-fonts-extra
 pacman-contrib
 pam-u2f
 pipewire
@@ -77,6 +78,7 @@ tree
 ttf-dejavu
 ttf-jetbrains-mono-nerd
 ttf-liberation
+ttf-nerd-fonts-symbols
 unzip
 usbmuxd
 vlc
@@ -84,6 +86,7 @@ waybar
 wireplumber
 wireshark-qt
 wl-clipboard
+woff2-font-awesome
 wpa_supplicant
 xdg-desktop-portal-gnome
 xdg-desktop-portal-gtk
