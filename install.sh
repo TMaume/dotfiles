@@ -59,6 +59,14 @@ if [ -f "pkglist-aur.txt" ]; then
     yay -S --needed --noconfirm - < pkglist-aur.txt
 fi
 
+echo "=== Initialisation de la base de données (MariaDB/MySQL) ==="
+if grep -q "^mariadb$" pkglist-repo.txt 2>/dev/null || pacman -Qs mariadb > /dev/null; then
+    if [ ! -d "/var/lib/mysql/mysql" ]; then
+        echo "Initialisation du répertoire de données MariaDB..."
+        sudo mariadb-install-db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
+    fi
+fi
+
 echo "=== Activation des services système ==="
 if [ -f "services-list.txt" ]; then
     while read service; do

@@ -19,13 +19,27 @@ mkdir -p ~/.dotfiles-system/etc
 [ -d /etc/greetd ] && cp -r /etc/greetd ~/.dotfiles-system/etc/
 [ -f /etc/pacman.conf ] && cp /etc/pacman.conf ~/.dotfiles-system/etc/
 [ -f /etc/makepkg.conf ] && cp /etc/makepkg.conf ~/.dotfiles-system/etc/
+[ -f /etc/my.cnf ] && cp /etc/my.cnf ~/.dotfiles-system/etc/  # <-- Ajout MySQL
+
 echo "✅ Listes et configurations système générées."
 
-echo -e "\n=== 3. Sauvegarde sur GitHub ==="
-# Ajoute les fichiers générés et le dossier système
-$DOTFILES_GIT add ~/pkglist-repo.txt ~/pkglist-aur.txt ~/pkglist-flatpak.txt ~/services-list.txt ~/.dotfiles-system/
+# Exportation automatique de la base de données si le service tourne
+if systemctl is-active --quiet mariadb; then
+    echo -e "\n=== Exportation des bases de données ==="
+    echo "🔐 Sauvegarde via mariadb-dump (Mot de passe sudo peut être requis)..."
+    # Utilisation de sudo et du nouveau nom de commande, sans le paramètre -p
+    sudo mariadb-dump -u root --all-databases > ~/bases_de_donnees_backup.sql
+    
+    # On redonne les droits de ton utilisateur normal au fichier généré (au cas où sudo l'aurait bloqué)
+    sudo chown $USER:$USER ~/bases_de_donnees_backup.sql
+    echo "✅ Base de données exportée dans ~/bases_de_donnees_backup.sql."
+fi
 
-# Ajoute toutes les modifications des fichiers de configuration DÉJÀ SUIVIS
+echo -e "\n=== 3. Sauvegarde sur GitHub ==="
+# Ajoute les fichiers générés, le dossier système et le dump SQL
+$DOTFILES_GIT add ~/pkglist-repo.txt ~/pkglist-aur.txt ~/pkglist-flatpak.txt ~/services-list.txt ~/.dotfiles-system/ ~/bases_de_donnees_backup.sql
+
+# Ajoute toutes les modifications des fichiers de configuration DÉJÀ SUIVIS (Niri, DMS, Zsh, etc.)
 $DOTFILES_GIT add -u
 
 # Vérifie s'il y a des changements à envoyer
@@ -36,7 +50,7 @@ if [ -n "$($DOTFILES_GIT status --porcelain)" ]; then
     echo ""
     read -p "Entrez un message de commit (Laissez vide pour utiliser la date du jour) : " commit_msg
     if [ -z "$commit_msg" ]; then
-        commit_msg="Mise à jour système et paquets - $(date +'%d/%m/%Y %H:%M')"
+        commit_msg="Mise à jour système, paquets et DB - $(date +'%d/%m/%Y %H:%M')"
     fi
     
     $DOTFILES_GIT commit -m "$commit_msg"
