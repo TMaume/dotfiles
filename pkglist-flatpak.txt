@@ -1,0 +1,6 @@
+com.github.unrud.RemoteTouchpad
+com.heroicgameslauncher.hgl
+com.modrinth.ModrinthApp
+com.mojang.Minecraft
+org.kde.umbrello
+org.vinegarhq.Sober
