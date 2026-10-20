@@ -32,11 +32,17 @@ source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 # ==========================================
 # 3. Raccourcis Clavier (Kitty)
 # ==========================================
-# Flèche de droite : Accepter toute la suggestion d'un coup
-bindkey "^[[C" autosuggest-accept
+# Flèche de droite : Avancer le curseur vers la droite (accepte la suggestion en fin de ligne)
+bindkey "^[[C" forward-char
 
 # Ctrl + Flèche de droite : Accepter la suggestion mot par mot (ou dossier par dossier)
 bindkey "^[[1;5C" forward-word
+
+# Flèche de gauche : Déplacer le curseur vers la gauche
+bindkey "^[[D" backward-char
+
+# Touche Suppr (Delete) : Supprimer le caractère sous le curseur
+bindkey "^[[3~" delete-char
 
 # ==========================================
 # 4. Apparence (Prompt)
@@ -44,22 +50,18 @@ bindkey "^[[1;5C" forward-word
 # Chargement du thème visuel Starship
 eval "$(starship init zsh)"
 
-# ==========================================
-# 5. Coloration syntaxique
-# ==========================================
-# ATTENTION : Ce plugin doit TOUJOURS rester la dernière ligne du fichier
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
 # Environnement Swiftly
 [ -f "$HOME/.local/share/swiftly/env.sh" ] && source "$HOME/.local/share/swiftly/env.sh"
 
 # OpenClaw Completion
 [ -f '/home/dtl21/.openclaw/completions/openclaw.zsh' ] && source '/home/dtl21/.openclaw/completions/openclaw.zsh'
 
-
 # Added by Antigravity CLI installer
 export PATH="/home/dtl21/.local/bin:$PATH"
-export PATH="/home/dtl21/.local/bin:$PATH"
 alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
-alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
-alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+
+# ==========================================
+# 5. Coloration syntaxique
+# ==========================================
+# ATTENTION : Ce plugin doit TOUJOURS rester la dernière ligne du fichier
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
