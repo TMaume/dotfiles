@@ -1,0 +1,21 @@
+input {
+    keyboard {
+        xkb
+        numlock
+    }
+    trackpoint
+    mouse {
+        accel-speed 0.0
+    }
+    touchpad {
+        tap
+        accel-speed 0.3
+        natural-scroll
+        dwt
+    }
+}
+
+debug {
+    honor-xdg-activation-with-invalid-serial
+}
+
