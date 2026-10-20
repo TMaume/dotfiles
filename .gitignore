@@ -1,0 +1,5 @@
+bases_de_donnees_backup.sql
+.ssh/
+.gnupg/
+.mozilla/
+
