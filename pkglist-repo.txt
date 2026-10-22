@@ -8,6 +8,7 @@ btop
 cava
 cups
 cups-pk-helper
+dnsmasq
 docker
 dux-shell
 efibootmgr
@@ -20,6 +21,7 @@ flatpak
 fprintd
 fuse2
 fuzzel
+gamemode
 git
 github-cli
 go
@@ -28,12 +30,13 @@ grim
 gst-plugin-pipewire
 impression
 inetutils
-intel-ucode
 jdk-openjdk
 kimageformats
 kitty
 less
+lib32-gamemode
 libpulse
+libva-utils
 linux
 linux-firmware
 mako
@@ -65,7 +68,6 @@ qemu-base
 quickshell
 rust
 slurp
-sof-firmware
 starship
 steam
 strace
@@ -74,6 +76,7 @@ swaybg
 swayidle
 swaylock
 system-config-printer
+throttled
 tldr
 tmux
 tree

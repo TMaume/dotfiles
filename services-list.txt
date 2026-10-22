@@ -1,11 +1,10 @@
 bluetooth.service
-cups.service
+cups.socket
 firewalld.service
-getty@.service
+fstrim.timer
 greetd.service
-mariadb.service
 NetworkManager-dispatcher.service
-NetworkManager-wait-online.service
 NetworkManager.service
+NetworkManager-wait-online.service
+paccache.timer
 power-profiles-daemon.service
-systemd-timesyncd.service

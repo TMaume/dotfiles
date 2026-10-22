@@ -3,13 +3,10 @@ blesh-git
 dankcalendar-bin
 dsearch-bin
 dux-files-bin
-dux-files-bin-debug
 dynamips
 gns3-gui
 gns3-server
 greetd-dms-greeter-bin
-greetd-dms-greeter-bin-debug
-greetd-dms-greeter-git-debug
 neofetch
 openclaw
 sidra-bin
@@ -19,4 +16,3 @@ vesktop
 visual-studio-code-bin
 vpcs
 yay
-yay-debug

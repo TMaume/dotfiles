@@ -162,8 +162,11 @@ overview {
 // which may be more convenient to use.
 // See the binds section below for more spawn examples.
 // This line starts waybar, a commonly used bar for Wayland compositors.
+spawn-at-startup "swaybg" "-i" "/home/dtl21/Pictures/frame-1.png" "-m" "fill"
 environment {
   XDG_CURRENT_DESKTOP "niri"
+  MOZ_ENABLE_WAYLAND "1"
+  MESA_SHADER_CACHE_MAX_SIZE "4G"
 }
 hotkey-overlay {
     skip-at-startup

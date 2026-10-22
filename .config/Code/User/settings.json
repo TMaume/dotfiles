@@ -1,0 +1,81 @@
+{
+    "redhat.telemetry.enabled": false,
+    "editor.cursorBlinking": "expand",
+    "github.copilot.nextEditSuggestions.enabled": true,
+    "files.autoSave": "afterDelay",
+    "git.enableSmartCommit": true,
+    "git.confirmSync": false,
+    "workbench.colorCustomizations": {
+    },
+    "AREPL.skipLandingPage": true,
+    "AREPL.show_to_level": 5,
+    "terminal.integrated.suggest.quickSuggestions": true,
+    "terminal.integrated.suggest.suggestOnTriggerCharacters": true,
+    "chat.viewSessions.orientation": "stacked",
+    "explorer.confirmDelete": false,
+    "explorer.confirmDragAndDrop": false,
+    "files.exclude": {
+        "**/.git": false
+    },
+    "folderTemplates.structures": [
+        {
+            "name": "Projet Basique",
+            "structure": [
+                {
+                    "fileName": "src",
+                    "template": "EmptyDirectory"
+                },
+                {
+                    "fileName": "bin",
+                    "template": "EmptyDirectory"
+                },
+                {
+                    "fileName": "tests",
+                    "template": "EmptyDirectory"
+                },
+                {
+                    "fileName": "doc",
+                    "template": "EmptyDirectory"
+                }
+            ]
+        }
+    ],
+    "folderTemplates.fileTemplates": {},
+    "geminicodeassist.project": "refreshing-factor-gnm5b",
+    "geminicodeassist.inlineSuggestions.enableAuto": false,
+    "diffEditor.codeLens": true,
+    "powermode.enabled": true,
+    "indentRainbow.colors": [
+        "rgba(255,255,64,0.07)",
+        "rgba(127,255,127,0.07)",
+        "rgba(255,127,255,0.07)",
+        "rgba(79,236,236,0.07)"
+    ],
+    "editor.minimap.enabled": false,
+    "terminal.integrated.initialHint": false,
+    "vs-browser.url": "https://google.com",
+    "chat.editing.confirmEditRequestRemoval": false,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.fontFamily": "Monocraft, monospace, 'Droid Sans Mono'",
+    "animations.CursorAnimation": true,
+    "animations.Focus-Dimming-Mode": "Full Window",
+    "vscode_custom_css.imports": [
+        "file:///home/iut45/Etudiants/o22403450/.vscode/extensions/brandonkirbyson.vscode-animations-2.0.7/dist/updateHandler.js"
+    ],
+    "editor.cursorSmoothCaretAnimation": "on",
+    "terminal.integrated.smoothScrolling": true,
+    "editor.semanticTokenColorCustomizations": {
+
+    },
+    "security.workspace.trust.banner": "always",
+    "workbench.colorTheme": "Tung Tung Sahur Dark",
+    "github.copilot.enable": {
+        "*": true,
+        "plaintext": false,
+        "markdown": false,
+        "scminput": false,
+        "python": true
+    },
+    "chat.sessionSync.enabled": true,
+    "workbench.iconTheme": "vscode-icons"
+}
