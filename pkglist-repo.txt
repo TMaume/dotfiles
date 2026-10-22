@@ -7,8 +7,8 @@ bluez-utils
 btop
 cups
 cups-pk-helper
-dms-shell
 docker
+dux-shell
 efibootmgr
 eza
 fastfetch
