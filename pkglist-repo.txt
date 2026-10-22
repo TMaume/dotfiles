@@ -5,6 +5,7 @@ base-devel
 bluez
 bluez-utils
 btop
+cava
 cups
 cups-pk-helper
 docker
@@ -29,6 +30,7 @@ impression
 inetutils
 intel-ucode
 jdk-openjdk
+kimageformats
 kitty
 less
 libpulse
