@@ -151,9 +151,23 @@ sudo modprobe tcp_bbr 2>/dev/null || true
 sudo sysctl --system >/dev/null || true
 sudo udevadm control --reload-rules || true
 
-# Ajoute l'utilisateur au groupe gamemode
-if getent group gamemode >/dev/null 2>&1; then
-    sudo usermod -aG gamemode "$USER" || true
+# Ajoute l'utilisateur aux groupes gamemode, input (requis par DMS evdev) et greeter
+for grp in gamemode input greeter; do
+    if getent group "$grp" >/dev/null 2>&1; then
+        sudo usermod -aG "$grp" "$USER" || true
+    fi
+done
+
+# Synchronise les liens du thème dms-greeter vers l'utilisateur courant (évite le flash du thème par défaut au boot)
+if [ -d /var/cache/dms-greeter ]; then
+    sudo rm -rf /var/cache/dms-greeter/users/root
+    sudo mkdir -p "/var/cache/dms-greeter/users/$USER"
+    sudo ln -sfn "$HOME/.config/dms/settings.json" /var/cache/dms-greeter/settings.json
+    sudo ln -sfn "$HOME/.local/state/dms/session.json" /var/cache/dms-greeter/session.json
+    sudo ln -sfn "$HOME/.cache/dms/dms-colors.json" /var/cache/dms-greeter/colors.json
+    sudo ln -sfn "$HOME/.config/dms/settings.json" "/var/cache/dms-greeter/users/$USER/settings.json"
+    sudo ln -sfn "$HOME/.local/state/dms/session.json" "/var/cache/dms-greeter/users/$USER/session.json"
+    sudo ln -sfn "$HOME/.cache/dms/dms-colors.json" "/var/cache/dms-greeter/users/$USER/colors.json"
 fi
 
 # Adapte le chemin du fond d'écran dans Niri si le nom d'utilisateur diffère sur le nouveau PC

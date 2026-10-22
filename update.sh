@@ -70,6 +70,11 @@ if [ -d /etc/systemd/journald.conf.d ]; then
     cp -r /etc/systemd/journald.conf.d/* ~/.dotfiles-system/etc/systemd/journald.conf.d/ 2>/dev/null || true
 fi
 
+if [ -d /etc/systemd/logind.conf.d ]; then
+    mkdir -p ~/.dotfiles-system/etc/systemd/logind.conf.d
+    cp -r /etc/systemd/logind.conf.d/* ~/.dotfiles-system/etc/systemd/logind.conf.d/ 2>/dev/null || true
+fi
+
 mkdir -p ~/.dotfiles-system/etc/sysctl.d
 if [ -f /etc/sysctl.d/99-system-optimizations.conf ]; then
     cp /etc/sysctl.d/99-system-optimizations.conf ~/.dotfiles-system/etc/sysctl.d/99-system-optimizations.conf
@@ -124,6 +129,8 @@ $DOTFILES_GIT add \
     ~/.config/electron-flags.conf \
     ~/.config/mimeapps.list \
     ~/.config/firefox-user.js \
+    ~/.config/systemd/user/dms.service.d/override.conf \
+    ~/.config/systemd/user/dfiles.service.d/after-dms.conf \
     ~/.config/Code/User/settings.json \
     ~/.config/dms/settings.json \
     ~/.config/dms/plugin_settings.json \
