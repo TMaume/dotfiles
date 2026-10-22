@@ -709,6 +709,9 @@
     "media": {
       "animatedArt": true,
       "titleFont": "ui"
+    },
+    "calendar": {
+      "weekends": true
     }
   },
   "notificationAnimationDuration": 400,
@@ -950,5 +953,7 @@
     }
   ],
   "lockScreenShowPowerActions": true,
-  "enableFprint": true
+  "enableFprint": true,
+  "iconThemeDark": "System Default",
+  "calendarBackend": "dankcal"
 }

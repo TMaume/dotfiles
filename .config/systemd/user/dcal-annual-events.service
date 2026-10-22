@@ -1,0 +1,8 @@
+[Unit]
+Description=Génération et synchronisation des événements annuels français pour Dux Calendar (dcal)
+Documentation=https://github.com/duxlabs-dev/dux-calendar
+After=default.target
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/dcal-generate-events

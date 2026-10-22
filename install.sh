@@ -204,6 +204,19 @@ fi
 sudo systemctl disable cups.service mariadb.service NetworkManager-wait-online.service 2>/dev/null || true
 sudo systemctl enable cups.socket paccache.timer fstrim.timer 2>/dev/null || true
 
+# Activation des services utilisateur (DMS, dfiles, dcal et synchronisation annuelle des calendriers français)
+systemctl --user daemon-reload 2>/dev/null || true
+systemctl --user enable dms.service dfiles.service dsearch.service 2>/dev/null || true
+systemctl --user enable --now dcal.service dcal-annual-events.timer 2>/dev/null || true
+
+if [ -f "$HOME/.local/bin/dcal-generate-events" ]; then
+    chmod +x "$HOME/.local/bin/dcal-generate-events"
+    if command -v dcal &> /dev/null; then
+        echo "Génération et synchronisation initiale du Calendrier Français dans dcal..."
+        "$HOME/.local/bin/dcal-generate-events" || true
+    fi
+fi
+
 echo -e "\n=== 8. Configuration de la base de données (MariaDB) ==="
 if command -v mariadb &> /dev/null; then
     if [ ! -d "/var/lib/mysql/mysql" ]; then

@@ -1,0 +1,10 @@
+[Unit]
+Description=Synchronisation automatique annuelle/mensuelle du calendrier français pour dcal
+
+[Timer]
+OnCalendar=monthly
+Persistent=true
+RandomizedDelaySec=1h
+
+[Install]
+WantedBy=timers.target

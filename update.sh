@@ -131,6 +131,13 @@ $DOTFILES_GIT add \
     ~/.config/firefox-user.js \
     ~/.config/systemd/user/dms.service.d/override.conf \
     ~/.config/systemd/user/dfiles.service.d/after-dms.conf \
+    ~/.config/systemd/user/dcal.service.d/after-dms.conf \
+    ~/.config/systemd/user/dcal-annual-events.service \
+    ~/.config/systemd/user/dcal-annual-events.timer \
+    ~/.local/bin/dcal-generate-events \
+    ~/.config/dankcal/ \
+    ~/.config/dfiles/ui-settings.json \
+    ~/.config/environment.d/90-dms.conf \
     ~/.config/Code/User/settings.json \
     ~/.config/dms/settings.json \
     ~/.config/dms/plugin_settings.json \

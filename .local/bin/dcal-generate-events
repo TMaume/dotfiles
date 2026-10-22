@@ -1,0 +1,843 @@
+#!/usr/bin/env python3
+"""
+Générateur automatique des calendriers d'événements annuels français pour Dux Calendar (dcal) :
+  1. Jours fériés.ics          (#EF4444 - Rouge)
+  2. Fêtes & Traditions.ics    (#F59E0B - Ambre)
+  3. Saisons & Heures.ics      (#10B981 - Émeraude)
+
+Calcule dynamiquement pour une fenêtre glissante d'années (par défaut : année - 5 à année + 25) :
+- Les 11 jours fériés nationaux français (+ Vendredi Saint & Saint-Étienne pour l'Alsace-Moselle)
+- Les fêtes civiles, traditionnelles, familiales et symboliques (Réveillon de Noël, Saint-Sylvestre,
+  Épiphanie, Chandeleur, Saint-Valentin, Mardi Gras, Cendres, Fête des Grands-Mères, Saint-Patrick,
+  Poisson d'avril, Rameaux, Pâques, Fête des Mères avec la règle officielle de décalage de Pentecôte,
+  Pentecôte, Fête des Pères, Fête de la Musique, Journées du Patrimoine, Fête des Grands-Pères,
+  Octobre Rose, Halloween, Fête des Morts, Beaujolais Nouveau, Sainte-Catherine, Black Friday,
+  1er dimanche de l'Avent, Saint-Nicolas, Fête des Lumières, Nouvel An Lunaire...)
+- Les changements d'heure (Passage à l'heure d'été / Passage à l'heure d'hiver)
+- Les changements de saison astronomiques (Équinoxe de printemps, Solstice d'été, Équinoxe d'automne,
+  Solstice d'hiver) calculés à la minute près en heure de Paris selon les algorithmes de Jean Meeus.
+"""
+
+from __future__ import annotations
+
+import argparse
+import datetime as dt
+import math
+import os
+import subprocess
+import sys
+from pathlib import Path
+from zoneinfo import ZoneInfo
+
+PARIS_TZ = ZoneInfo("Europe/Paris")
+SHANGHAI_TZ = ZoneInfo("Asia/Shanghai")
+
+# Termes périodiques de Jean Meeus (Astronomical Algorithms, Chap. 27, Table 27.C)
+MEEUS_S24 = [
+    (485, 324.96, 1934.136),
+    (203, 337.23, 32964.467),
+    (199, 342.08, 20.186),
+    (182, 27.85, 445267.112),
+    (156, 73.14, 45036.886),
+    (136, 171.52, 22518.443),
+    (77, 222.54, 65928.934),
+    (74, 296.72, 3034.906),
+    (70, 243.58, 9037.513),
+    (58, 119.81, 33718.147),
+    (52, 297.17, 150.678),
+    (50, 21.02, 2281.226),
+    (45, 247.54, 29929.562),
+    (44, 325.15, 31555.956),
+    (29, 60.93, 4443.417),
+    (18, 155.12, 67555.328),
+    (17, 288.79, 4562.452),
+    (16, 198.04, 62894.029),
+    (14, 199.76, 31436.921),
+    (12, 95.39, 14577.848),
+    (12, 287.11, 31931.756),
+    (12, 320.81, 34777.259),
+    (9, 227.73, 1222.114),
+    (8, 15.45, 16859.074),
+]
+
+CHINESE_ZODIAC = [
+    "Rat",
+    "Buffle",
+    "Tigre",
+    "Lapin",
+    "Dragon",
+    "Serpent",
+    "Cheval",
+    "Chèvre",
+    "Singe",
+    "Coq",
+    "Chien",
+    "Cochon",
+]
+
+
+def easter_date(year: int) -> dt.date:
+    """Calcule la date du dimanche de Pâques (algorithme de Meeus/Jones/Butcher)."""
+    a = year % 19
+    b = year // 100
+    c = year % 100
+    d = b // 4
+    e = b % 4
+    f = (b + 8) // 25
+    g = (b - f + 1) // 3
+    h = (19 * a + b - d - g + 15) % 30
+    i = c // 4
+    k = c % 4
+    l = (32 + 2 * e + 2 * i - h - k) % 7
+    m = (a + 11 * h + 22 * l) // 451
+    month = (h + l - 7 * m + 114) // 31
+    day = ((h + l - 7 * m + 114) % 31) + 1
+    return dt.date(year, month, day)
+
+
+def nth_weekday_of_month(year: int, month: int, weekday: int, n: int) -> dt.date:
+    """
+    Renvoie le n-ième jour de la semaine (weekday: 0=lundi .. 6=dimanche) du mois.
+    Si n < 0, compte depuis la fin du mois (-1 = dernier).
+    """
+    if n > 0:
+        first = dt.date(year, month, 1)
+        offset = (weekday - first.weekday()) % 7
+        return first + dt.timedelta(days=offset + 7 * (n - 1))
+    else:
+        if month == 12:
+            last = dt.date(year + 1, 1, 1) - dt.timedelta(days=1)
+        else:
+            last = dt.date(year, month + 1, 1) - dt.timedelta(days=1)
+        offset = (last.weekday() - weekday) % 7
+        return last - dt.timedelta(days=offset + 7 * (-n - 1))
+
+
+def season_datetime_paris(year: int, season: int) -> dt.datetime:
+    """
+    Calcule l'instant astronomique exact d'un changement de saison (Meeus Chap. 27)
+    converti dans le fuseau Europe/Paris :
+      0 = Équinoxe de printemps
+      1 = Solstice d'été
+      2 = Équinoxe d'automne
+      3 = Solstice d'hiver
+    """
+    y = (year - 2000) / 1000.0
+    if season == 0:
+        jde0 = (
+            2451623.80984
+            + 365242.37404 * y
+            + 0.05169 * y**2
+            - 0.00411 * y**3
+            - 0.00057 * y**4
+        )
+    elif season == 1:
+        jde0 = (
+            2451716.56767
+            + 365241.62603 * y
+            + 0.00325 * y**2
+            + 0.00888 * y**3
+            - 0.00030 * y**4
+        )
+    elif season == 2:
+        jde0 = (
+            2451810.21715
+            + 365242.01767 * y
+            - 0.11575 * y**2
+            + 0.00337 * y**3
+            + 0.00078 * y**4
+        )
+    else:
+        jde0 = (
+            2451900.05952
+            + 365242.74049 * y
+            - 0.06223 * y**2
+            - 0.00823 * y**3
+            + 0.00032 * y**4
+        )
+
+    t = (jde0 - 2451545.0) / 36525.0
+    w = 35999.373 * t - 2.47
+    d_lambda = 1 + 0.0334 * math.cos(math.radians(w)) + 0.0007 * math.cos(math.radians(2 * w))
+    s = sum(a * math.cos(math.radians(b + c * t)) for a, b, c in MEEUS_S24)
+    jde = jde0 + (0.00001 * s) / d_lambda
+    # Approximation Delta T (TT - UTC) ~ 69.2 secondes
+    jd_utc = jde - (69.2 / 86400.0)
+    unix_ts = (jd_utc - 2440587.5) * 86400.0
+    return dt.datetime.fromtimestamp(unix_ts, tz=dt.timezone.utc).astimezone(PARIS_TZ)
+
+
+def new_moon_jde(k: int) -> float:
+    """Calcule le Jour Julien Éphéméride d'une nouvelle lune (Meeus Chap. 49)."""
+    t = k / 1236.85
+    jde = (
+        2451550.09766
+        + 29.530588861 * k
+        + 0.00015437 * t**2
+        - 0.000000150 * t**3
+        + 0.00000000073 * t**4
+    )
+    e = 1 - 0.002516 * t - 0.0000074 * t**2
+    m = math.radians((2.5534 + 29.10535670 * k - 0.0000014 * t**2 - 0.00000011 * t**3) % 360)
+    mp = math.radians(
+        (201.5643 + 385.81693528 * k + 0.0107582 * t**2 + 0.00001238 * t**3 - 0.000000058 * t**4)
+        % 360
+    )
+    f = math.radians(
+        (160.7108 + 390.67050284 * k - 0.0016118 * t**2 - 0.00000227 * t**3 + 0.000000011 * t**4)
+        % 360
+    )
+    om = math.radians((124.7746 - 1.56375588 * k + 0.0020672 * t**2 + 0.00000215 * t**3) % 360)
+    corr = (
+        -0.40720 * math.sin(mp)
+        + 0.17241 * e * math.sin(m)
+        + 0.01608 * math.sin(2 * mp)
+        + 0.01039 * math.sin(2 * f)
+        + 0.00739 * e * math.sin(mp - m)
+        - 0.00514 * e * math.sin(mp + m)
+        + 0.00208 * e * e * math.sin(2 * m)
+        - 0.00111 * math.sin(mp - 2 * f)
+        - 0.00057 * math.sin(mp + 2 * f)
+        + 0.00056 * e * math.sin(2 * mp + m)
+        - 0.00042 * math.sin(3 * mp)
+        + 0.00042 * e * math.sin(m + 2 * f)
+        + 0.00038 * math.sin(m - 2 * f)
+        - 0.00024 * math.sin(2 * mp - m)
+        - 0.00017 * math.sin(om)
+    )
+    return jde + corr
+
+
+def lunar_new_year(year: int) -> dt.date:
+    """Calcule la date du Nouvel An Lunaire (Nouvel An Chinois) pour l'année donnée."""
+    k0 = round((year - 2000 + 0.08) * 12.3685)
+    for k in range(k0 - 2, k0 + 3):
+        jd_utc = new_moon_jde(k) - (69.2 / 86400.0)
+        dt_cn = (
+            dt.datetime.fromtimestamp((jd_utc - 2440587.5) * 86400.0, tz=dt.timezone.utc)
+            .astimezone(SHANGHAI_TZ)
+            .date()
+        )
+        if dt.date(year, 1, 21) <= dt_cn <= dt.date(year, 2, 20):
+            return dt_cn
+    return dt.date(year, 2, 1)
+
+
+def ics_escape(text: str) -> str:
+    return (
+        text.replace("\\", "\\\\")
+        .replace(";", "\\;")
+        .replace(",", "\\,")
+        .replace("\n", "\\n")
+    )
+
+
+def make_vevent(
+    uid: str,
+    summary: str,
+    start_date: dt.date,
+    description: str = "",
+    categories: str = "",
+    end_date: dt.date | None = None,
+) -> str:
+    if end_date is None:
+        end_date = start_date + dt.timedelta(days=1)
+    lines = [
+        "BEGIN:VEVENT",
+        f"UID:{uid}",
+        "DTSTAMP:20260101T000000Z",
+        f"DTSTART;VALUE=DATE:{start_date.strftime('%Y%m%d')}",
+        f"DTEND;VALUE=DATE:{end_date.strftime('%Y%m%d')}",
+        f"SUMMARY:{ics_escape(summary)}",
+        "STATUS:CONFIRMED",
+        "TRANSP:TRANSPARENT",
+    ]
+    if description:
+        lines.append(f"DESCRIPTION:{ics_escape(description)}")
+    if categories:
+        lines.append(f"CATEGORIES:{ics_escape(categories)}")
+    lines.append("END:VEVENT")
+    return "\r\n".join(lines)
+
+
+def wrap_vcalendar(cal_name: str, color: str, description: str, events: list[str]) -> str:
+    header = [
+        "BEGIN:VCALENDAR",
+        "VERSION:2.0",
+        "PRODID:-//Dux Calendar//Calendrier Francais Annuel//FR",
+        "CALSCALE:GREGORIAN",
+        "METHOD:PUBLISH",
+        f"X-WR-CALNAME:{ics_escape(cal_name)}",
+        f"X-WR-CALDESC:{ics_escape(description)}",
+        "X-WR-TIMEZONE:Europe/Paris",
+        f"X-APPLE-CALENDAR-COLOR:{color}",
+        f"COLOR:{color}",
+    ]
+    footer = ["END:VCALENDAR", ""]
+    return "\r\n".join(header + events + footer)
+
+
+def build_jours_feries(years: range) -> list[str]:
+    events: list[str] = []
+    for y in years:
+        paques = easter_date(y)
+        items = [
+            (
+                f"ferie-jour-de-lan-{y}@fr.dcal",
+                dt.date(y, 1, 1),
+                "Jour de l'An",
+                "Jour férié national — Premier jour de l'année civile.",
+            ),
+            (
+                f"ferie-vendredi-saint-{y}@fr.dcal",
+                paques - dt.timedelta(days=2),
+                "Vendredi Saint (Alsace-Moselle / Outre-mer)",
+                "Jour férié légal en Alsace-Moselle et dans plusieurs collectivités d'Outre-mer ; vendredi précédant Pâques.",
+            ),
+            (
+                f"ferie-lundi-paques-{y}@fr.dcal",
+                paques + dt.timedelta(days=1),
+                "Lundi de Pâques",
+                "Jour férié national — Lendemain du dimanche de Pâques.",
+            ),
+            (
+                f"ferie-fete-du-travail-{y}@fr.dcal",
+                dt.date(y, 5, 1),
+                "Fête du Travail",
+                "Jour férié et chômé national — Journée internationale des travailleurs (1er mai).",
+            ),
+            (
+                f"ferie-victoire-1945-{y}@fr.dcal",
+                dt.date(y, 5, 8),
+                "Victoire 1945",
+                "Jour férié national — Commémoration de la victoire des Alliés et de la fin de la Seconde Guerre mondiale en Europe (8 mai 1945).",
+            ),
+            (
+                f"ferie-ascension-{y}@fr.dcal",
+                paques + dt.timedelta(days=39),
+                "Jeudi de l'Ascension",
+                "Jour férié national — Quarante jours après Pâques.",
+            ),
+            (
+                f"ferie-lundi-pentecote-{y}@fr.dcal",
+                paques + dt.timedelta(days=50),
+                "Lundi de Pentecôte",
+                "Jour férié national — Cinquante jours après Pâques.",
+            ),
+            (
+                f"ferie-fete-nationale-{y}@fr.dcal",
+                dt.date(y, 7, 14),
+                "Fête nationale (14 Juillet)",
+                "Jour férié national — Commémoration de la Prise de la Bastille (1789) et de la Fête de la Fédération (1790).",
+            ),
+            (
+                f"ferie-assomption-{y}@fr.dcal",
+                dt.date(y, 8, 15),
+                "Assomption",
+                "Jour férié national — Fête catholique du 15 août.",
+            ),
+            (
+                f"ferie-toussaint-{y}@fr.dcal",
+                dt.date(y, 11, 1),
+                "La Toussaint",
+                "Jour férié national — Fête de tous les saints (1er novembre).",
+            ),
+            (
+                f"ferie-armistice-1918-{y}@fr.dcal",
+                dt.date(y, 11, 11),
+                "Armistice 1918",
+                "Jour férié national — Commémoration de l'Armistice du 11 novembre 1918 et hommage à tous les morts pour la France.",
+            ),
+            (
+                f"ferie-noel-{y}@fr.dcal",
+                dt.date(y, 12, 25),
+                "Jour de Noël",
+                "Jour férié national — Fête de la Nativité (25 décembre).",
+            ),
+            (
+                f"ferie-saint-etienne-{y}@fr.dcal",
+                dt.date(y, 12, 26),
+                "Saint-Étienne (Alsace-Moselle)",
+                "Jour férié légal en Alsace-Moselle (lendemain de Noël, 26 décembre).",
+            ),
+        ]
+        for uid, d, summary, desc in items:
+            events.append(make_vevent(uid, summary, d, desc, "Jour férié"))
+    return events
+
+
+def build_fetes_traditions(years: range) -> list[str]:
+    events: list[str] = []
+    for y in years:
+        paques = easter_date(y)
+        pentecote = paques + dt.timedelta(days=49)
+
+        # Épiphanie : 1er dimanche après le 1er janvier (donc entre le 2 et le 8 janvier)
+        jan2 = dt.date(y, 1, 2)
+        epiphanie_dim = jan2 + dt.timedelta(days=(6 - jan2.weekday()) % 7)
+
+        # Fête des Mères en France : dernier dimanche de mai, sauf s'il coïncide avec la Pentecôte
+        # auquel cas elle est repoussée au premier dimanche de juin.
+        dernier_dim_mai = nth_weekday_of_month(y, 5, 6, -1)
+        if dernier_dim_mai == pentecote:
+            fete_meres = nth_weekday_of_month(y, 6, 6, 1)
+        else:
+            fete_meres = dernier_dim_mai
+
+        # Fête des Pères : 3e dimanche de juin
+        fete_peres = nth_weekday_of_month(y, 6, 6, 3)
+
+        # Fête des Grands-Mères : 1er dimanche de mars
+        fete_grands_meres = nth_weekday_of_month(y, 3, 6, 1)
+
+        # Fête des Grands-Pères : 1er dimanche d'octobre
+        fete_grands_peres = nth_weekday_of_month(y, 10, 6, 1)
+
+        # Fête des Voisins : dernier vendredi de mai
+        fete_voisins = nth_weekday_of_month(y, 5, 4, -1)
+
+        # Journées européennes du patrimoine : 3e week-end de septembre (samedi & dimanche)
+        patrimoine_sam = nth_weekday_of_month(y, 9, 5, 3)
+        patrimoine_fin = patrimoine_sam + dt.timedelta(days=2)
+
+        # Beaujolais Nouveau : 3e jeudi de novembre
+        beaujolais = nth_weekday_of_month(y, 11, 3, 3)
+
+        # Black Friday : vendredi suivant le 4e jeudi de novembre
+        thanksgiving = nth_weekday_of_month(y, 11, 3, 4)
+        black_friday = thanksgiving + dt.timedelta(days=1)
+
+        # 1er dimanche de l'Avent : 4e dimanche avant Noël (dimanche entre le 27 nov. et le 3 déc.)
+        noel = dt.date(y, 12, 25)
+        # Nombre de jours à reculer depuis Noël pour atteindre le dimanche précédent (1..7)
+        days_before_noel_to_sun = (noel.weekday() + 1) % 7 or 7
+        avent_1 = noel - dt.timedelta(days=days_before_noel_to_sun + 21)
+
+        # Nouvel An Lunaire
+        lny_date = lunar_new_year(y)
+        zodiac = CHINESE_ZODIAC[(y - 2020) % 12]
+
+        items: list[tuple[str, dt.date, str, str, dt.date | None]] = [
+            (
+                f"fete-epiphanie-{y}@fr.dcal",
+                epiphanie_dim,
+                "Épiphanie (Galette des Rois)",
+                "Célébrée en France le premier dimanche après le 1er janvier (et traditionnellement le 6 janvier).",
+                None,
+            ),
+            (
+                f"fete-nouvel-an-lunaire-{y}@fr.dcal",
+                lny_date,
+                f"Nouvel An Lunaire (Année du {zodiac})",
+                f"Nouvel An chinois / lunaire — début de l'année du {zodiac}.",
+                None,
+            ),
+            (
+                f"fete-chandeleur-{y}@fr.dcal",
+                dt.date(y, 2, 2),
+                "La Chandeleur",
+                "Fête des chandelles et tradition des crêpes (40 jours après Noël).",
+                None,
+            ),
+            (
+                f"fete-saint-valentin-{y}@fr.dcal",
+                dt.date(y, 2, 14),
+                "Saint-Valentin",
+                "Fête des amoureux (14 février).",
+                None,
+            ),
+            (
+                f"fete-mardi-gras-{y}@fr.dcal",
+                paques - dt.timedelta(days=47),
+                "Mardi Gras",
+                "Dernier jour du Carnaval, veille du mercredi des Cendres (47 jours avant Pâques).",
+                None,
+            ),
+            (
+                f"fete-mercredi-cendres-{y}@fr.dcal",
+                paques - dt.timedelta(days=46),
+                "Mercredi des Cendres",
+                "Premier jour du Carême (46 jours avant Pâques).",
+                None,
+            ),
+            (
+                f"fete-grands-meres-{y}@fr.dcal",
+                fete_grands_meres,
+                "Fête des Grands-Mères",
+                "Célébrée chaque année en France le premier dimanche de mars.",
+                None,
+            ),
+            (
+                f"fete-droits-des-femmes-{y}@fr.dcal",
+                dt.date(y, 3, 8),
+                "Journée internationale des droits des femmes",
+                "Journée internationale célébrée le 8 mars.",
+                None,
+            ),
+            (
+                f"fete-saint-patrick-{y}@fr.dcal",
+                dt.date(y, 3, 17),
+                "Saint-Patrick",
+                "Fête nationale irlandaise et fête culturelle célébrée le 17 mars.",
+                None,
+            ),
+            (
+                f"fete-francophonie-{y}@fr.dcal",
+                dt.date(y, 3, 20),
+                "Journée internationale de la Francophonie",
+                "Journée mondiale dédiée à la langue française et à la culture francophone (20 mars).",
+                None,
+            ),
+            (
+                f"fete-poisson-avril-{y}@fr.dcal",
+                dt.date(y, 4, 1),
+                "Poisson d'avril",
+                "Tradition des blagues et poissons d'avril du 1er avril.",
+                None,
+            ),
+            (
+                f"fete-rameaux-{y}@fr.dcal",
+                paques - dt.timedelta(days=7),
+                "Dimanche des Rameaux",
+                "Dimanche précédant Pâques, marquant le début de la Semaine sainte.",
+                None,
+            ),
+            (
+                f"fete-paques-{y}@fr.dcal",
+                paques,
+                "Dimanche de Pâques",
+                "Fête de Pâques (premier dimanche suivant la première pleine lune de printemps).",
+                None,
+            ),
+            (
+                f"fete-journee-terre-{y}@fr.dcal",
+                dt.date(y, 4, 22),
+                "Journée mondiale de la Terre",
+                "Journée mondiale de sensibilisation à l'environnement (22 avril).",
+                None,
+            ),
+            (
+                f"fete-journee-europe-{y}@fr.dcal",
+                dt.date(y, 5, 9),
+                "Journée de l'Europe",
+                "Anniversaire de la déclaration Schuman du 9 mai 1950.",
+                None,
+            ),
+            (
+                f"fete-voisins-{y}@fr.dcal",
+                fete_voisins,
+                "Fête des Voisins",
+                "Organisée chaque année le dernier vendredi du mois de mai.",
+                None,
+            ),
+            (
+                f"fete-pentecote-{y}@fr.dcal",
+                pentecote,
+                "Dimanche de Pentecôte",
+                "Septième dimanche (49 jours) après Pâques.",
+                None,
+            ),
+            (
+                f"fete-meres-{y}@fr.dcal",
+                fete_meres,
+                "Fête des Mères",
+                "Fixée en France au dernier dimanche de mai (ou au premier dimanche de juin si elle coïncide avec la Pentecôte).",
+                None,
+            ),
+            (
+                f"fete-appel-18-juin-{y}@fr.dcal",
+                dt.date(y, 6, 18),
+                "Appel du 18 Juin",
+                "Journée nationale commémorative de l'appel historique du général de Gaulle (18 juin 1940).",
+                None,
+            ),
+            (
+                f"fete-peres-{y}@fr.dcal",
+                fete_peres,
+                "Fête des Pères",
+                "Célébrée en France le troisième dimanche de juin.",
+                None,
+            ),
+            (
+                f"fete-musique-{y}@fr.dcal",
+                dt.date(y, 6, 21),
+                "Fête de la Musique",
+                "Grande fête populaire et musicale célébrée chaque 21 juin.",
+                None,
+            ),
+            (
+                f"fete-patrimoine-{y}@fr.dcal",
+                patrimoine_sam,
+                "Journées européennes du patrimoine",
+                "Troisième week-end de septembre : ouverture exceptionnelle des monuments et lieux historiques.",
+                patrimoine_fin,
+            ),
+            (
+                f"fete-octobre-rose-{y}@fr.dcal",
+                dt.date(y, 10, 1),
+                "Début d'Octobre Rose",
+                "Lancement de la campagne annuelle de sensibilisation au dépistage du cancer du sein.",
+                None,
+            ),
+            (
+                f"fete-grands-peres-{y}@fr.dcal",
+                fete_grands_peres,
+                "Fête des Grands-Pères",
+                "Célébrée en France le premier dimanche d'octobre.",
+                None,
+            ),
+            (
+                f"fete-halloween-{y}@fr.dcal",
+                dt.date(y, 10, 31),
+                "Halloween",
+                "Veille de la Toussaint (31 octobre).",
+                None,
+            ),
+            (
+                f"fete-defunts-{y}@fr.dcal",
+                dt.date(y, 11, 2),
+                "Commémoration des fidèles défunts (Fête des Morts)",
+                "Jour du souvenir des défunts, lendemain de la Toussaint (2 novembre).",
+                None,
+            ),
+            (
+                f"fete-beaujolais-{y}@fr.dcal",
+                beaujolais,
+                "Arrivée du Beaujolais Nouveau",
+                "Tradition du troisième jeudi de novembre.",
+                None,
+            ),
+            (
+                f"fete-sainte-catherine-{y}@fr.dcal",
+                dt.date(y, 11, 25),
+                "Sainte-Catherine",
+                "Fête traditionnelle du 25 novembre (« À la Sainte-Catherine, tout bois prend racine »).",
+                None,
+            ),
+            (
+                f"fete-black-friday-{y}@fr.dcal",
+                black_friday,
+                "Black Friday",
+                "Vendredi suivant le quatrième jeudi de novembre.",
+                None,
+            ),
+            (
+                f"fete-avent-1-{y}@fr.dcal",
+                avent_1,
+                "Premier dimanche de l'Avent",
+                "Début de la période de l'Avent (quatrième dimanche avant Noël).",
+                None,
+            ),
+            (
+                f"fete-saint-nicolas-{y}@fr.dcal",
+                dt.date(y, 12, 6),
+                "Saint-Nicolas",
+                "Fête traditionnelle très célébrée dans l'Est et le Nord de la France (6 décembre).",
+                None,
+            ),
+            (
+                f"fete-lumieres-{y}@fr.dcal",
+                dt.date(y, 12, 8),
+                "Fête des Lumières",
+                "Tradition des illuminations du 8 décembre (notamment à Lyon).",
+                None,
+            ),
+            (
+                f"fete-reveillon-noel-{y}@fr.dcal",
+                dt.date(y, 12, 24),
+                "Réveillon de Noël",
+                "Veille et soirée du réveillon de Noël (24 décembre).",
+                None,
+            ),
+            (
+                f"fete-saint-sylvestre-{y}@fr.dcal",
+                dt.date(y, 12, 31),
+                "Saint-Sylvestre (Réveillon du Nouvel An)",
+                "Dernier jour de l'année et soirée du réveillon du Nouvel An (31 décembre).",
+                None,
+            ),
+        ]
+        for uid, d, summary, desc, end_d in items:
+            events.append(make_vevent(uid, summary, d, desc, "Fête & Tradition", end_d))
+    return events
+
+
+def build_saisons_heures(years: range) -> list[str]:
+    events: list[str] = []
+    for y in years:
+        # Changements d'heure en Europe : dernier dimanche de mars et dernier dimanche d'octobre
+        heure_ete = nth_weekday_of_month(y, 3, 6, -1)
+        heure_hiver = nth_weekday_of_month(y, 10, 6, -1)
+
+        events.append(
+            make_vevent(
+                f"heure-ete-{y}@fr.dcal",
+                "Passage à l'heure d'été (+1h)",
+                heure_ete,
+                "Changement d'heure : à 02h00 il sera 03h00 (UTC+2, heure d'été d'Europe centrale). On avance les horloges d'une heure.",
+                "Changement d'heure",
+            )
+        )
+        events.append(
+            make_vevent(
+                f"heure-hiver-{y}@fr.dcal",
+                "Passage à l'heure d'hiver (-1h)",
+                heure_hiver,
+                "Changement d'heure : à 03h00 il sera 02h00 (UTC+1, heure normale d'Europe centrale). On recule les horloges d'une heure.",
+                "Changement d'heure",
+            )
+        )
+
+        # Saisons astronomiques (Meeus)
+        saisons_meta = [
+            (
+                0,
+                "printemps",
+                "Équinoxe de printemps (Début du Printemps)",
+                "Début astronomique du printemps dans l'hémisphère nord",
+            ),
+            (
+                1,
+                "ete",
+                "Solstice d'été (Début de l'Été)",
+                "Début astronomique de l'été — jour le plus long de l'année dans l'hémisphère nord",
+            ),
+            (
+                2,
+                "automne",
+                "Équinoxe d'automne (Début de l'Automne)",
+                "Début astronomique de l'automne dans l'hémisphère nord",
+            ),
+            (
+                3,
+                "hiver",
+                "Solstice d'hiver (Début de l'Hiver)",
+                "Début astronomique de l'hiver — jour le plus court de l'année dans l'hémisphère nord",
+            ),
+        ]
+        for s_idx, slug, title, desc_prefix in saisons_meta:
+            dt_paris = season_datetime_paris(y, s_idx)
+            heure_str = dt_paris.strftime("%Hh%M")
+            date_str = dt_paris.strftime("%d/%m/%Y")
+            tz_name = dt_paris.tzname() or "Europe/Paris"
+            desc = f"{desc_prefix} ({date_str} à {heure_str} {tz_name}, heure de Paris)."
+            events.append(
+                make_vevent(
+                    f"saison-{slug}-{y}@fr.dcal",
+                    f"{title} ({heure_str})",
+                    dt_paris.date(),
+                    desc,
+                    "Saison",
+                )
+            )
+    return events
+
+
+def write_atomic(path: Path, content: str) -> None:
+    tmp = path.with_suffix(".ics.tmp")
+    tmp.write_text(content, encoding="utf-8")
+    tmp.replace(path)
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(
+        description="Génère et synchronise les calendriers français annuels pour dcal."
+    )
+    default_dir = (
+        Path(os.environ.get("XDG_DATA_HOME", Path.home() / ".local" / "share"))
+        / "dankcal"
+        / "calendars"
+    )
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        default=default_dir,
+        help=f"Dossier de destination des fichiers .ics (défaut: {default_dir})",
+    )
+    parser.add_argument(
+        "--years-past",
+        type=int,
+        default=5,
+        help="Nombre d'années passées à inclure (défaut: 5)",
+    )
+    parser.add_argument(
+        "--years-ahead",
+        type=int,
+        default=25,
+        help="Nombre d'années futures à générer (défaut: 25)",
+    )
+    parser.add_argument(
+        "--no-sync",
+        action="store_true",
+        help="Ne pas exécuter 'dcal sync' après la génération",
+    )
+    args = parser.parse_args()
+
+    now_year = dt.datetime.now(PARIS_TZ).year
+    years = range(now_year - args.years_past, now_year + args.years_ahead + 1)
+
+    out_dir: Path = args.output_dir.expanduser().resolve()
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    calendars = [
+        (
+            "Jours fériés.ics",
+            "Jours fériés",
+            "#EF4444",
+            "Jours fériés officiels en France (Métropole et Alsace-Moselle)",
+            build_jours_feries(years),
+        ),
+        (
+            "Fêtes & Traditions.ics",
+            "Fêtes & Traditions",
+            "#F59E0B",
+            "Fêtes civiles, traditionnelles, familiales et journées symboliques de l'année",
+            build_fetes_traditions(years),
+        ),
+        (
+            "Saisons & Heures.ics",
+            "Saisons & Heures",
+            "#10B981",
+            "Changements d'heure (été/hiver) et débuts astronomiques des saisons à Paris",
+            build_saisons_heures(years),
+        ),
+    ]
+
+    for filename, cal_name, color, desc, vevents in calendars:
+        ics_text = wrap_vcalendar(cal_name, color, desc, vevents)
+        write_atomic(out_dir / filename, ics_text)
+        print(
+            f"[OK] {cal_name} ({len(vevents)} événements sur {years.start}–{years.stop - 1}) -> {out_dir / filename}"
+        )
+
+    if not args.no_sync:
+        try:
+            res = subprocess.run(
+                ["dcal", "account", "list", "--json"],
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+            if "local:calendars" not in (res.stdout or ""):
+                subprocess.run(
+                    [
+                        "dcal",
+                        "account",
+                        "add",
+                        "local",
+                        str(out_dir),
+                        "--name",
+                        "Calendrier Français",
+                    ],
+                    check=True,
+                )
+            else:
+                subprocess.run(["dcal", "sync", "local:calendars"], check=True)
+        except Exception as exc:
+            print(f"[WARN] Impossible d'exécuter 'dcal sync': {exc}", file=sys.stderr)
+
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
