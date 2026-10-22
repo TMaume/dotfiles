@@ -34,7 +34,7 @@ fi
 if systemctl list-unit-files --state=enabled --no-pager &> /dev/null; then
     systemctl list-unit-files --state=enabled --no-pager \
         | awk '$1 ~ /\.(service|timer|socket)$/ {print $1}' \
-        | grep -v -E '^(throttled\.service|getty@\.service|systemd-.*|dbus-.*)$' \
+        | grep -v -E '^(throttled\.service|NetworkManager-wait-online\.service|getty@\.service|systemd-.*|dbus-.*)$' \
         | sort -u > ~/services-list.txt
 fi
 
@@ -122,6 +122,7 @@ $DOTFILES_GIT add \
     ~/update.sh \
     ~/.config/code-flags.conf \
     ~/.config/electron-flags.conf \
+    ~/.config/mimeapps.list \
     ~/.config/firefox-user.js \
     ~/.config/Code/User/settings.json \
     ~/.config/dms/settings.json \

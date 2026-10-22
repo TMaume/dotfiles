@@ -5,6 +5,5 @@ fstrim.timer
 greetd.service
 NetworkManager-dispatcher.service
 NetworkManager.service
-NetworkManager-wait-online.service
 paccache.timer
 power-profiles-daemon.service

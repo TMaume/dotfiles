@@ -186,8 +186,8 @@ if [ -f "$HOME/services-list.txt" ]; then
         sudo systemctl enable "$unit" 2>/dev/null || true
     done < "$HOME/services-list.txt"
 fi
-# S'assure que CUPS reste en activation par socket et MariaDB en démarrage manuel
-sudo systemctl disable cups.service mariadb.service 2>/dev/null || true
+# S'assure que CUPS reste en activation par socket, MariaDB en démarrage manuel, et pas d'attente réseau au boot
+sudo systemctl disable cups.service mariadb.service NetworkManager-wait-online.service 2>/dev/null || true
 sudo systemctl enable cups.socket paccache.timer fstrim.timer 2>/dev/null || true
 
 echo -e "\n=== 8. Configuration de la base de données (MariaDB) ==="
