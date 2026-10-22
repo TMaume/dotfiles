@@ -1,4 +1,5 @@
 appimagelauncher
+argagg
 blesh-git
 dankcalendar-bin
 dsearch-bin
