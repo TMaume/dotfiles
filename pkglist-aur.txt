@@ -1,9 +1,7 @@
 appimagelauncher
 blesh-git
 dankcalendar-bin
-dankcalendar-bin-debug
 dsearch-bin
-dsearch-bin-debug
 dynamips
 gns3-gui
 gns3-server
