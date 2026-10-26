@@ -262,7 +262,7 @@
           "showMicPercent": true
         },
         {
-          "id": "notificationButton",
+          "id": "tlpPowerProfile",
           "enabled": true
         }
       ],
@@ -326,7 +326,50 @@
       "islandNotch": false,
       "islandMediaAutoSwitch": false,
       "islandPlacement": "edge",
-      "islandSystemOsd": false
+      "islandSystemOsd": false,
+      "widgetStyle": "pills",
+      "islandHomeLayout": [
+        {
+          "id": "workspaces",
+          "enabled": false
+        },
+        {
+          "id": "media",
+          "enabled": true
+        },
+        {
+          "id": "clock",
+          "enabled": true
+        },
+        {
+          "id": "weather",
+          "enabled": false
+        },
+        {
+          "id": "status",
+          "enabled": false
+        },
+        {
+          "id": "volume",
+          "enabled": false
+        },
+        {
+          "id": "brightness",
+          "enabled": false
+        },
+        {
+          "id": "notifications",
+          "enabled": true
+        },
+        {
+          "id": "privacy",
+          "enabled": true
+        },
+        {
+          "id": "tray",
+          "enabled": false
+        }
+      ]
     },
     {
       "id": "bar1792575892812",
@@ -581,7 +624,7 @@
         "colorMode": "primary",
         "customColor": "#ffffff",
         "showDate": true,
-        "showAnalogNumbers": false,
+        "showAnalogNumbers": true,
         "showAnalogSeconds": true,
         "displayPreferences": [
           "all"
@@ -613,6 +656,17 @@
         "topProcessSortBy": "cpu",
         "layoutMode": "auto",
         "graphInterval": 60,
+        "displayPreferences": [
+          "all"
+        ]
+      }
+    },
+    {
+      "id": "dw_1793049681068_bmrcn7ro6",
+      "widgetType": "dankAlbumWidget",
+      "name": "Dank Album Widget",
+      "enabled": true,
+      "config": {
         "displayPreferences": [
           "all"
         ]

@@ -129,6 +129,7 @@ $DOTFILES_GIT add \
     ~/.config/electron-flags.conf \
     ~/.config/mimeapps.list \
     ~/.config/firefox-user.js \
+    ~/.config/fastfetch/ \
     ~/.config/systemd/user/dms.service.d/override.conf \
     ~/.config/systemd/user/dfiles.service.d/after-dms.conf \
     ~/.config/systemd/user/dcal.service.d/after-dms.conf \

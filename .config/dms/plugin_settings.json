@@ -1,5 +1,17 @@
 {
   "dankKDEConnect": {
     "enabled": true
+  },
+  "volumeMixer": {
+    "enabled": false
+  },
+  "dankCleaner": {
+    "enabled": false
+  },
+  "tlpPowerProfile": {
+    "enabled": true
+  },
+  "mediaControlPlus": {
+    "enabled": true
   }
 }

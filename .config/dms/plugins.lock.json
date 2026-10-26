@@ -1,4 +1,22 @@
 {
   "lockfileVersion": 1,
-  "plugins": {}
+  "plugins": {
+    "dankAlbumWidget": {
+      "repo": "https://github.com/kmf/dank-album-widget",
+      "commit": "433d85bf6309e155f23c626590bf1f3f579d2770"
+    },
+    "dankCleaner": {
+      "repo": "https://github.com/NordicsSys/dankCleaner",
+      "commit": "bdf499182f39427ba0d720656e6fd131ddd57280"
+    },
+    "mediaControlPlus": {
+      "repo": "https://github.com/Dadangdut33/dms-plugins",
+      "path": "MediaControlPlus",
+      "commit": "63fe6b87c497f1f7c2ea61432716817db1c5c3a4"
+    },
+    "volumeMixer": {
+      "repo": "https://github.com/cwelsys/dms-volume-mixer",
+      "commit": "353e00b659a16df07105b16c8790e6b526743471"
+    }
+  }
 }

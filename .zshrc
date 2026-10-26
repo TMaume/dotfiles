@@ -61,7 +61,20 @@ export PATH="/home/dtl21/.local/bin:$PATH"
 alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 
 # ==========================================
-# 5. Coloration syntaxique
+# 5. Fastfetch adaptatif (logo masqué si largeur < 130 colonnes)
+# ==========================================
+fastfetch() {
+    local cols="${COLUMNS:-$(tput cols 2>/dev/null || echo 80)}"
+    if (( cols < 130 )) && [[ "$*" != *--logo* ]] && [[ "$*" != *-l\ * ]]; then
+        command fastfetch --logo none "$@"
+    else
+        command fastfetch "$@"
+    fi
+}
+fastfetch
+
+# ==========================================
+# 6. Coloration syntaxique
 # ==========================================
 # ATTENTION : Ce plugin doit TOUJOURS rester la dernière ligne du fichier
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
