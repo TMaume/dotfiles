@@ -5,3 +5,4 @@ com.mojang.Minecraft
 eu.nokun.MirrorHall
 org.kde.umbrello
 org.vinegarhq.Sober
+org.vinegarhq.Vinegar

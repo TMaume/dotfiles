@@ -324,7 +324,9 @@
       "followInterfaceStyle": true,
       "widgetFollowInterfaceStyle": true,
       "islandNotch": false,
-      "islandMediaAutoSwitch": false
+      "islandMediaAutoSwitch": false,
+      "islandPlacement": "edge",
+      "islandSystemOsd": false
     },
     {
       "id": "bar1792575892812",
@@ -724,7 +726,7 @@
   ],
   "foregroundLayerTransparency": 1,
   "popupTransparency": 0.95,
-  "launcherStyle": "island",
+  "launcherStyle": "full",
   "hostSurfaceColor": "default",
   "cardSurfaceColor": "default",
   "chipSurfaceColor": "default",
@@ -974,5 +976,7 @@
   "enableFprint": true,
   "iconThemeDark": "System Default",
   "calendarBackend": "dankcal",
-  "windSpeedUnit": "ms"
+  "windSpeedUnit": "ms",
+  "osdVolumeEnabled": true,
+  "osdBrightnessEnabled": true
 }

@@ -95,6 +95,7 @@ unzip
 usbmuxd
 vlc
 waybar
+wine
 wireplumber
 wireshark-qt
 wl-clipboard

@@ -10,6 +10,7 @@ gns3-server
 greetd-dms-greeter-bin
 neofetch
 openclaw
+rojo-bin
 sidra-bin
 swift-bin
 ubridge
