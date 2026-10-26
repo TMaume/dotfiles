@@ -7,3 +7,4 @@ NetworkManager-dispatcher.service
 NetworkManager.service
 paccache.timer
 power-profiles-daemon.service
+reflector.timer

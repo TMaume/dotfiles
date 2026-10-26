@@ -107,6 +107,11 @@ if [ -d /etc/tmpfiles.d ]; then
     cp -r /etc/tmpfiles.d/* ~/.dotfiles-system/etc/tmpfiles.d/ 2>/dev/null || true
 fi
 
+if [ -d /etc/xdg/reflector ]; then
+    mkdir -p ~/.dotfiles-system/etc/xdg/reflector
+    cp -r /etc/xdg/reflector/* ~/.dotfiles-system/etc/xdg/reflector/ 2>/dev/null || true
+fi
+
 echo "✅ Listes et configurations système universelles générées."
 
 # Exportation automatique de la base de données si le service tourne
@@ -163,7 +168,9 @@ $DOTFILES_GIT add \
     ~/.config/niri/dms/windowrules.kdl \
     ~/.config/niri/dms/wpblur.kdl \
     ~/.config/fish/config.fish \
+    ~/.config/ccache/ \
     ~/.config/easyeffects/ \
+    ~/.local/share/easyeffects/ \
     ~/.config/vesktop/settings.json \
     ~/.config/vesktop/settings/ \
     ~/Pictures/frame-1.png 2>/dev/null || true

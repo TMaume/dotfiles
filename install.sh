@@ -203,7 +203,7 @@ if [ -f "$HOME/services-list.txt" ]; then
 fi
 # S'assure que CUPS reste en activation par socket, MariaDB en démarrage manuel, et pas d'attente réseau au boot
 sudo systemctl disable cups.service mariadb.service NetworkManager-wait-online.service 2>/dev/null || true
-sudo systemctl enable cups.socket paccache.timer fstrim.timer 2>/dev/null || true
+sudo systemctl enable cups.socket paccache.timer fstrim.timer reflector.timer 2>/dev/null || true
 
 # Configuration des icônes d'état et activation des services utilisateur
 if command -v easyeffects &> /dev/null && [ -f /usr/share/icons/hicolor/scalable/apps/com.github.wwmm.easyeffects.svg ]; then

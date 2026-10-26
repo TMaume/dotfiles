@@ -1,0 +1,14 @@
+{
+    "input": {
+        "blocklist": [],
+        "deepfilter": {
+            "attenuation-limit": 100.0,
+            "bypass": false,
+            "max-processing-buffer": 40,
+            "post-filter-beta": 0.02
+        },
+        "plugins_order": [
+            "deepfilter"
+        ]
+    }
+}

@@ -7,12 +7,15 @@ bluez-utils
 boost
 btop
 cava
+ccache
 cmake
 cups
 cups-pk-helper
 deepfilternet-ladspa
 dnsmasq
 docker
+docker-buildx
+docker-compose
 doxygen
 dux-shell
 easyeffects
@@ -32,7 +35,9 @@ github-cli
 go
 gping
 grim
+gst-libav
 gst-plugin-pipewire
+gst-plugins-good
 impression
 inetutils
 jdk-openjdk
@@ -75,6 +80,7 @@ python-virtualenv
 qemu-base
 qt5-tools
 quickshell
+reflector
 rust
 slurp
 starship
