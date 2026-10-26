@@ -10,6 +10,7 @@ setopt INC_APPEND_HISTORY        # Écrit dans l'historique dès que la commande
 setopt SHARE_HISTORY             # Partage l'historique entre toutes les sessions/onglets ouverts
 setopt HIST_IGNORE_DUPS          # Ignore les commandes dupliquées consécutives
 setopt HIST_IGNORE_SPACE         # N'enregistre pas les commandes débutant par un espace
+setopt INTERACTIVE_COMMENTS      # Permet de coller des commentaires (#) dans le shell interactif
 
 # ==========================================
 # 1. Système de complétion intelligente

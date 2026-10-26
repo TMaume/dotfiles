@@ -102,6 +102,11 @@ if [ -f /etc/udev/rules.d/85-power-epp.rules ]; then
     cp /etc/udev/rules.d/85-power-epp.rules ~/.dotfiles-system/etc/udev/rules.d/
 fi
 
+if [ -d /etc/tmpfiles.d ]; then
+    mkdir -p ~/.dotfiles-system/etc/tmpfiles.d
+    cp -r /etc/tmpfiles.d/* ~/.dotfiles-system/etc/tmpfiles.d/ 2>/dev/null || true
+fi
+
 echo "✅ Listes et configurations système universelles générées."
 
 # Exportation automatique de la base de données si le service tourne
@@ -135,6 +140,7 @@ $DOTFILES_GIT add \
     ~/.config/systemd/user/dcal.service.d/after-dms.conf \
     ~/.config/systemd/user/dcal-annual-events.service \
     ~/.config/systemd/user/dcal-annual-events.timer \
+    ~/.config/systemd/user/easyeffects.service \
     ~/.local/bin/dcal-generate-events \
     ~/.config/dankcal/ \
     ~/.config/dfiles/ui-settings.json \
@@ -157,6 +163,7 @@ $DOTFILES_GIT add \
     ~/.config/niri/dms/windowrules.kdl \
     ~/.config/niri/dms/wpblur.kdl \
     ~/.config/fish/config.fish \
+    ~/.config/easyeffects/ \
     ~/.config/vesktop/settings.json \
     ~/.config/vesktop/settings/ \
     ~/Pictures/frame-1.png 2>/dev/null || true

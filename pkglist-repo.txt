@@ -10,10 +10,12 @@ cava
 cmake
 cups
 cups-pk-helper
+deepfilternet-ladspa
 dnsmasq
 docker
 doxygen
 dux-shell
+easyeffects
 efibootmgr
 eza
 fastfetch

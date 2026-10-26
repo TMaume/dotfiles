@@ -150,6 +150,7 @@ fi
 sudo modprobe tcp_bbr 2>/dev/null || true
 sudo sysctl --system >/dev/null || true
 sudo udevadm control --reload-rules || true
+sudo systemd-tmpfiles --create 2>/dev/null || true
 
 # Ajoute l'utilisateur aux groupes gamemode, input (requis par DMS evdev) et greeter
 for grp in gamemode input greeter; do
@@ -204,9 +205,22 @@ fi
 sudo systemctl disable cups.service mariadb.service NetworkManager-wait-online.service 2>/dev/null || true
 sudo systemctl enable cups.socket paccache.timer fstrim.timer 2>/dev/null || true
 
-# Activation des services utilisateur (DMS, dfiles, dcal et synchronisation annuelle des calendriers français)
+# Configuration des icônes d'état et activation des services utilisateur
+if command -v easyeffects &> /dev/null && [ -f /usr/share/icons/hicolor/scalable/apps/com.github.wwmm.easyeffects.svg ]; then
+    mkdir -p ~/.local/share/icons/hicolor/scalable/apps ~/.local/share/pixmaps
+    cp -f /usr/share/icons/hicolor/scalable/apps/com.github.wwmm.easyeffects.svg ~/.local/share/icons/hicolor/scalable/apps/easyeffects.svg 2>/dev/null || true
+    if command -v rsvg-convert &> /dev/null; then
+        for sz in 16 22 24 32 48 64 128; do
+            mkdir -p ~/.local/share/icons/hicolor/${sz}x${sz}/apps ~/.local/share/icons/hicolor/${sz}x${sz}/status
+            rsvg-convert -w $sz -h $sz /usr/share/icons/hicolor/scalable/apps/com.github.wwmm.easyeffects.svg -o ~/.local/share/icons/hicolor/${sz}x${sz}/apps/easyeffects.png 2>/dev/null || true
+            rsvg-convert -w $sz -h $sz /usr/share/icons/hicolor/scalable/apps/com.github.wwmm.easyeffects.svg -o ~/.local/share/icons/hicolor/${sz}x${sz}/apps/com.github.wwmm.easyeffects.png 2>/dev/null || true
+        done
+        gtk-update-icon-cache ~/.local/share/icons/hicolor 2>/dev/null || true
+    fi
+fi
+
 systemctl --user daemon-reload 2>/dev/null || true
-systemctl --user enable dms.service dfiles.service dsearch.service 2>/dev/null || true
+systemctl --user enable dms.service dfiles.service dsearch.service easyeffects.service 2>/dev/null || true
 systemctl --user enable --now dcal.service dcal-annual-events.timer 2>/dev/null || true
 
 if [ -f "$HOME/.local/bin/dcal-generate-events" ]; then
