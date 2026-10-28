@@ -7,8 +7,8 @@ DOTFILES_GIT="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
 echo "=== 1. Mise à jour du système (Dépôts + AUR + Flatpak) ==="
 yay -Syu
 if command -v flatpak &> /dev/null; then
-    flatpak update -y
-    flatpak uninstall --unused -y
+    flatpak update -y || echo "⚠️ Avertissement lors de la mise à jour Flatpak (poursuite de la sauvegarde...)"
+    flatpak uninstall --unused -y || true
 fi
 
 echo -e "\n=== 2. Exportation des configurations actuelles (Portables / Sans matériel spécifique) ==="
@@ -145,7 +145,6 @@ $DOTFILES_GIT add \
     ~/.config/systemd/user/dcal.service.d/after-dms.conf \
     ~/.config/systemd/user/dcal-annual-events.service \
     ~/.config/systemd/user/dcal-annual-events.timer \
-    ~/.config/systemd/user/easyeffects.service \
     ~/.local/bin/dcal-generate-events \
     ~/.config/dankcal/ \
     ~/.config/dfiles/ui-settings.json \
@@ -169,8 +168,6 @@ $DOTFILES_GIT add \
     ~/.config/niri/dms/wpblur.kdl \
     ~/.config/fish/config.fish \
     ~/.config/ccache/ \
-    ~/.config/easyeffects/ \
-    ~/.local/share/easyeffects/ \
     ~/.config/vesktop/settings.json \
     ~/.config/vesktop/settings/ \
     ~/Pictures/frame-1.png 2>/dev/null || true

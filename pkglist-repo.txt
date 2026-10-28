@@ -11,14 +11,12 @@ ccache
 cmake
 cups
 cups-pk-helper
-deepfilternet-ladspa
 dnsmasq
 docker
 docker-buildx
 docker-compose
 doxygen
 dux-shell
-easyeffects
 efibootmgr
 eza
 fastfetch
