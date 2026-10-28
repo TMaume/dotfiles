@@ -7,7 +7,7 @@ DOTFILES_GIT="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
 echo "=== 1. Mise à jour du système (Dépôts + AUR + Flatpak) ==="
 yay -Syu
 if command -v flatpak &> /dev/null; then
-    flatpak update -y || echo "⚠️ Avertissement lors de la mise à jour Flatpak (poursuite de la sauvegarde...)"
+    flatpak update -y || flatpak update --no-static-deltas -y || echo "⚠️ Avertissement lors de la mise à jour Flatpak (poursuite de la sauvegarde...)"
     flatpak uninstall --unused -y || true
 fi
 
