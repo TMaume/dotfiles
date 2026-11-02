@@ -77,5 +77,6 @@
         "python": true
     },
     "chat.sessionSync.enabled": true,
-    "workbench.iconTheme": "vscode-icons"
+    "workbench.iconTheme": "vscode-icons",
+    "liveServer.settings.donotVerifyTags": true
 }

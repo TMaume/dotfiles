@@ -704,9 +704,6 @@
         "HideMedia": {
             "enabled": false
         },
-        "ExpressionCloner": {
-            "enabled": true
-        },
         "CopyStickerLinks": {
             "enabled": true
         },
@@ -764,6 +761,9 @@
         },
         "DirectFileDownload": {
             "enabled": false
+        },
+        "ExpressionManager": {
+            "enabled": true
         }
     },
     "uiElements": {
@@ -780,7 +780,7 @@
         "authenticated": true,
         "url": "https://api.vencord.dev/",
         "settingsSync": true,
-        "settingsSyncVersion": 1792605146688
+        "settingsSyncVersion": 1793607679674
     },
     "nativeTitleBar": false
 }
