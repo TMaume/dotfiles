@@ -33,7 +33,7 @@
     "searchExcludes": [
     ],
     "searchHidden": false,
-    "showHidden": false,
+    "showHidden": true,
     "showSystemPartitions": false,
     "sidebarCollapsed": false,
     "springBounce": 1,

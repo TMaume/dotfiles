@@ -28,3 +28,4 @@ application/x-extension-xhtml=firefox.desktop;
 application/x-extension-xht=firefox.desktop;
 text/x-shellscript=com.danklinux.dms.notepad.desktop;
 x-scheme-handler/antigravity=antigravity.desktop;
+text/plain=dev.duxlabs.shell.notepad.desktop;
