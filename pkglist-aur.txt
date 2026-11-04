@@ -7,6 +7,7 @@ dux-files-bin
 dynamips
 gns3-gui
 gns3-server
+google-chrome
 greetd-dms-greeter-bin
 neofetch
 openclaw

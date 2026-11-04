@@ -100,6 +100,7 @@ ttf-nerd-fonts-symbols
 unzip
 usbmuxd
 vlc
+vlc-plugin-ffmpeg
 waybar
 wine
 wireplumber
