@@ -171,7 +171,7 @@
     "files": "list"
   },
   "launcherUseOverlayLayer": true,
-  "useAutoLocation": true,
+  "useAutoLocation": false,
   "networkPreference": "wifi",
   "cursorSettings": {
     "theme": "System Default",
@@ -260,10 +260,6 @@
           "id": "controlCenterButton",
           "enabled": true,
           "showMicPercent": true
-        },
-        {
-          "id": "tlpPowerProfile",
-          "enabled": true
         }
       ],
       "spacing": 4,
@@ -313,7 +309,6 @@
       "clickThrough": false,
       "hoverPopouts": true,
       "hoverPopoutDelay": 150,
-      "island": true,
       "islandReserveThickness": 34,
       "islandOuterGap": 2,
       "islandCompactThickness": 28,
@@ -324,7 +319,7 @@
       "followInterfaceStyle": true,
       "widgetFollowInterfaceStyle": true,
       "islandNotch": false,
-      "islandMediaAutoSwitch": false,
+      "islandMediaAutoSwitch": true,
       "islandPlacement": "edge",
       "islandSystemOsd": false,
       "widgetStyle": "pills",
@@ -369,7 +364,16 @@
           "id": "tray",
           "enabled": false
         }
-      ]
+      ],
+      "islandRouteNotificationCenter": "follow",
+      "islandDashTabs": true,
+      "island": true,
+      "dot": false,
+      "islandMediaLyrics": true,
+      "islandMediaClockVisible": true,
+      "islandNotificationExpand": false,
+      "islandSatellitesEnabled": true,
+      "islandSatellitePosition": "edges"
     },
     {
       "id": "bar1792575892812",
@@ -608,7 +612,6 @@
       "shadowCustomColor": "#000000",
       "followInterfaceStyle": false,
       "widgetFollowInterfaceStyle": true,
-      "island": false,
       "dot": true
     }
   ],
@@ -700,6 +703,7 @@
       "showOnLastDisplay": true,
       "position": 1,
       "mode": "compact",
+      "middleClickAction": "close",
       "taskbarAlign": "center",
       "widgetExpansion": "popout",
       "iconSize": 40,
@@ -1032,5 +1036,36 @@
   "calendarBackend": "dankcal",
   "windSpeedUnit": "ms",
   "osdVolumeEnabled": true,
-  "osdBrightnessEnabled": true
+  "osdBrightnessEnabled": true,
+  "showWeekNumber": false,
+  "widgetColorMode": "default",
+  "connectedFrameBarStyleBackups": {},
+  "frameEnabled": false,
+  "lockScreenShowWeather": true,
+  "mediaLyricsProviders": [
+    {
+      "id": "betterlyrics",
+      "enabled": true
+    },
+    {
+      "id": "lyricsplus",
+      "enabled": true
+    },
+    {
+      "id": "lrclib",
+      "enabled": true
+    },
+    {
+      "id": "unison",
+      "enabled": true
+    },
+    {
+      "id": "kugou",
+      "enabled": true
+    },
+    {
+      "id": "youtubemusic",
+      "enabled": true
+    }
+  ]
 }

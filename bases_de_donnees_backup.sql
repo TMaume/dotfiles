@@ -975,6 +975,2193 @@ COMMIT;
 SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
 --
+-- Current Database: `DBo22504119`
+--
+
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `DBo22504119` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */;
+
+USE `DBo22504119`;
+
+--
+-- Table structure for table `ARTICLE`
+--
+
+DROP TABLE IF EXISTS `ARTICLE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `ARTICLE` (
+  `id_article` int(11) NOT NULL AUTO_INCREMENT,
+  `titre` varchar(255) NOT NULL,
+  `description` varchar(500) DEFAULT NULL,
+  `contenu` text DEFAULT NULL,
+  `date_publication` date DEFAULT NULL,
+  `temps_lecture` int(11) DEFAULT NULL,
+  `lien` varchar(2048) DEFAULT NULL,
+  `id_cat_article` int(11) NOT NULL,
+  PRIMARY KEY (`id_article`),
+  KEY `id_cat_article` (`id_cat_article`),
+  CONSTRAINT `1` FOREIGN KEY (`id_cat_article`) REFERENCES `CATEGORIE_ARTICLE` (`id_cat_article`),
+  CONSTRAINT `chk_temps_lecture` CHECK (`temps_lecture` > 0)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ARTICLE`
+--
+
+SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
+LOCK TABLES `ARTICLE` WRITE;
+/*!40000 ALTER TABLE `ARTICLE` DISABLE KEYS */;
+INSERT INTO `ARTICLE` VALUES
+(1,'L’écoute active : écouter pour comprendre, pas pour répliquer','Pourquoi nous coupons souvent la parole sans le vouloir et comment offrir un réel espace d\'expression à son partenaire.','Dans une dispute ou une discussion animée, notre cerveau a tendance à préparer sa défense pendant que l\'autre parle. Au lieu d\'écouter, nous attendons notre tour pour marquer un point.\n\nL\'écoute active repose sur un principe fondamental : valider le ressenti de l\'autre avant même d\'exprimer son propre point de vue. Valider ne veut pas dire être d\'accord avec les reproches, mais reconnaître : « Je comprends que cette situation t\'ait blessé(e) ou frustré(e) ».\n\nExercice pratique à deux :\nLa prochaine fois que votre partenaire exprime une frustration, appliquez la règle des 3 secondes de silence avant de répondre. Reformulez ce que vous venez d\'entendre avec vos propres mots : « Si j\'ai bien compris, tu te sens débordé(e) parce que... Est-ce que c\'est bien ça ? ». Vous constaterez que la tension retombe presque instantanément.','2026-10-28',6,NULL,1),
+(2,'Exprimer un besoin plutôt qu’un reproche : la méthode OSBD','Inspirée de la Communication Non-Violente, une méthode en 4 étapes pour aborder les sujets délicats sans braquer l\'autre.','Dire « Tu ne ranges jamais tes affaires » déclenche immédiatement une posture défensive (« C\'est faux, hier j\'ai rangé ! »). L\'attaque crée l\'escalade.\n\nLa méthode OSBD propose une alternative constructive :\n1. Observation neutre : « Quand je vois les manteaux sur le canapé... » (des faits observables, sans exagération comme \"toujours\" ou \"jamais\").\n2. Sentiment : « ...je me sens fatigué(e) et découragé(e)... »\n3. Besoin : « ...parce que j\'ai besoin d\'un salon apaisant en rentrant du travail. »\n4. Demande concrète et négociable : « Pourrais-tu suspendre ton manteau à l\'entrée avant qu\'on dîne ? »\n\nEn remplaçant le \"tu qui tue\" par l\'expression sincère de votre besoin, vous donnez à votre partenaire l\'opportunité de vous aider plutôt que de devoir se justifier.','2026-10-22',5,NULL,1),
+(3,'Faire équipe face aux imprévus du quotidien','Passer de la mentalité \'toi contre moi\' à la mentalité \'nous deux contre le problème\'.','Une chaudière en panne, un retard de train, un oubli administratif... Dans les moments de stress, le réflexe le plus courant est de chercher un coupable : « C\'est toi qui devais t\'en occuper ! ».\n\nPourtant, les couples les plus résilients partagent un réflexe différent : ils visualisent le problème comme un adversaire extérieur. Dès qu\'un imprévu survient, posez-vous côte à côte plutôt que face à face et demandez-vous : « Quelle est notre meilleure stratégie d\'équipe pour régler ça aujourd\'hui ? ».\n\nUne fois l\'urgence passée, prenez le temps d\'analyser sereinement ce qui s\'est passé, non pour distribuer des blâmes, mais pour ajuster vos procédures communes.','2026-10-18',5,NULL,5),
+(4,'Sortir du piège parent-enfant dans la vie commune','Quand l\'un rappelle sans cesse les choses à faire et que l\'autre attend des instructions : restaurer une dynamique d\'adultes égaux.','C\'est une dynamique insidieuse : l\'un endosse le rôle du manager exigeant (« N\'oublie pas la lessive, pense au loyer »), tandis que l\'autre glisse dans le rôle de l\'adolescent passif qui exécute avec réticence (« Dis-moi ce qu\'il faut faire »).\n\nCette dynamique érode le désir et crée du ressentiment des deux côtés. Le manager se sent seul et épuisé ; le managé se sent infantilisé et dévalorisé.\n\nPour en sortir, il faut transférer la propriété complète des domaines d\'action : si l\'un s\'occupe de la cuisine pour la semaine, il gère le menu, la liste des ingrédients, la préparation et le timing sans que l\'autre n\'intervienne ni ne critique le résultat.','2026-10-14',6,NULL,5),
+(5,'La pause émotionnelle : désamorcer avant l’escalade','Reconnaître l\'inondation émotionnelle et convenir d\'un signal pour faire une pause salutaire sans abandonner la conversation.','Lorsque le rythme cardiaque dépasse 100 battements par minute au cours d\'une dispute, notre cerveau rationnel (le cortex préfrontal) se déconnecte au profit du cerveau limbique. C\'est l\'inondation émotionnelle. À ce stade, continuer à parler ne sert à rien : nous n\'écoutons plus, nous attaquons ou nous fuyons.\n\nLa règle d\'or consiste à convenir à l\'avance d\'un mot ou d\'un geste de pause (un \'Time Out\'). Lorsque l\'un des deux le prononce :\n1. On stoppe immédiatement la discussion.\n2. On s\'isole pendant au moins 20 minutes (le temps physiologique nécessaire au système nerveux pour s\'apaiser).\n3. Règle impérative : on fixe une heure précise pour reprendre l\'échange le jour même ou le lendemain (« Parlons-en ce soir à 20h après avoir bu un verre d\'eau »).\n\nCette garantie de retour évite le sentiment d\'abandon tout en prévenant les paroles irréparables.','2026-10-09',7,NULL,8),
+(6,'Identifier ses déclencheurs émotionnels','Pourquoi certaines remarques anodines déclenchent des réactions disproportionnées et comment les désamorcer ensemble.','Nous arrivons tous dans le couple avec un bagage émotionnel issu de notre enfance ou de nos relations passées : peur du rejet, peur d\'être contrôlé, sentiment d\'injustice ou d\'incompétence.\n\nQuand votre partenaire dit simplement : « Tu as oublié d\'éteindre la lumière ? » et que vous ressentez une colère intense, ce n\'est pas l\'ampoule qui pose problème. C\'est le déclencheur : « Il/elle me traite comme un enfant incapable ».\n\nPrenez un moment calme pour lister vos 3 déclencheurs principaux et partagez-les : « Quand tu dis [X] sur ce ton, cela réveille chez moi la sensation de [Y]. » La prochaine fois, au lieu d\'exploser, vous pourrez dire simplement : « Attention, là tu touches mon bouton rouge » avec le sourire.','2026-10-04',6,NULL,8),
+(7,'Les micro-rituels : 10 minutes par jour pour préserver la complicité','Pas besoin d\'un voyage lointain : la solidité d\'un couple se forge dans les petites attentions quotidiennes prévisibles.','Les grands voyages et les sorties exceptionnelles sont merveilleux, mais ils ne suffisent pas à nourrir le lien affectif sur 365 jours. Ce sont les micro-rituels quotidiens qui créent le sentiment de sécurité et d\'appartenance.\n\nQuelques exemples de rituels éprouvés :\n- Le café du matin : 5 minutes assis ensemble avant de sauter sur ses emails.\n- Le sas de décompression du soir : un câlin prolongé de 30 secondes en rentrant, sans parler de logistique ni de travail.\n- La question rituelle au coucher : « Quel a été ton moment préféré aujourd\'hui ? ».\n\nChoisissez un seul micro-rituel cette semaine et engagez-vous à le tenir chaque jour.','2026-09-29',4,NULL,6),
+(8,'Le dîner déconnecté : une bulle sans écran','Mettre les téléphones hors de portée pendant le repas pour redécouvrir le plaisir de la conversation spontanée.','Le phubbing (fait d\'ignorer son partenaire en consultant son smartphone) est devenu l\'une des causes majeures d\'éloignement discret dans les couples modernes.\n\nInstaurez la règle de la « boîte à téléphones » lors du dîner : dès qu\'on passe à table, les téléphones sont mis en mode silencieux dans un tiroir ou une corbeille dans une autre pièce.\n\nAu début, un léger sentiment de vide peut survenir. Profitez-en pour vous poser des questions inhabituelles : « Si tu pouvais apprendre une compétence instantanément cette année, ce serait quoi ? » ou « Quel projet fou aimerions-nous tester l\'été prochain ? »','2026-09-23',3,NULL,6),
+(9,'Gérer l’argent à deux : 50/50, au prorata ou compte commun ?','Comprendre les avantages et les limites de chaque modèle financier pour trouver l\'équilibre le plus juste pour votre couple.','L\'argent reste le premier sujet tabou dans les foyers. Il existe principalement trois approches de gestion :\n\n1. Le 50/50 strict : chacun verse la même somme sur le compte commun. Ce système est simple mais peut créer un déséquilibre flagrant si les revenus sont très inégaux (le partenaire qui gagne moins ne peut rien épargner).\n2. Le prorata des revenus : chacun contribue au prorata de son salaire net (ex: 60% / 40%). C\'est souvent perçu comme la méthode la plus équitable lorsque les salaires diffèrent significativement.\n3. La mise en commun totale : tous les revenus arrivent sur un compte central, et chacun dispose d\'une enveloppe de dépenses personnelles d\'égal montant.\n\nDiscutez-en ouvertement : la meilleure méthode est celle que vous avez choisie ensemble, en accord avec vos valeurs communes.','2026-09-17',8,NULL,2),
+(10,'L’enveloppe plaisir individuelle : préserver son autonomie','Pourquoi conserver une somme d\'argent propre sans avoir à rendre de comptes est essentiel pour la sérénité du couple.','L\'une des causes fréquentes de disputes financières est le jugement porté sur les achats plaisir de l\'autre (« Pourquoi as-tu acheté cette veste ? », « Encore un jeu vidéo ? »).\n\nLa solution la plus saine consiste à définir pour chacun une enveloppe mensuelle sans justification. Cet argent, versé sur un compte personnel, peut être dépensé, économisé ou utilisé selon les envies de chacun sans que le partenaire n\'ait son mot à dire.\n\nCette bulle d\'autonomie supprime la culpabilité et préserve le sentiment de liberté personnelle au sein du projet commun.','2026-09-10',5,NULL,2),
+(11,'La charge mentale invisible : la rendre visible pour mieux la partager','Planifier les repas, anticiper les vaccins, renouveler les produits : pourquoi penser à tout épuise et comment y remédier.','La charge mentale n\'est pas seulement le fait d\'exécuter une tâche (passer l\'aspirateur, faire cuire des pâtes). C\'est le travail invisible d\'anticipation, d\'organisation et de surveillance continue (« Il n\'y a plus de café pour demain », « Il faut prendre rendez-vous chez le dentiste avant la rentrée »).\n\nLorsque cette charge repose sur une seule personne, elle engendre une fatigue chronique et de l\'aigreur.\n\nComment la désamorcer ?\n1. Cartographiez toutes les récurrences invisibles du foyer sur une liste commune.\n2. Ne déléguez pas l\'exécution (« Peux-tu faire les courses ? »), déléguez la responsabilité complète du domaine (« Tu gères l\'alimentation cette semaine : menus, courses et réassort »).\n3. Acceptez que votre partenaire fasse les choses différemment de vous.','2026-09-03',6,NULL,3),
+(12,'Le débrief dominical de 15 minutes','Un rendez-vous hebdomadaire court et efficace pour aligner vos semaines et démarrer le lundi en toute tranquillité.','Prenez 15 minutes chaque dimanche soir, avec un thé ou un café, pour passer en revue 4 questions précises :\n1. Quels sont nos événements clés et nos déplacements cette semaine ?\n2. Quels soirs dînons-nous ensemble à la maison ?\n3. Quelles sont les 3 priorités logistiques à régler (courses, factures, réparation) ?\n4. Quand planifions-nous notre moment à deux de la semaine ?\n\nCe court rituel élimine 80% des frictions de la semaine et évite les malentendus du type : « Mais je croyais que tu ne rentrais pas ce soir ! »','2026-08-25',4,NULL,3),
+(13,'Les 5 langages de l’amour : parler la langue de son partenaire','Découvrir la manière dont vous et votre conjoint donnez et recevez l\'affection pour éviter de parler dans le vide.','Selon Gary Chapman, nous exprimons tous notre affection selon cinq dialectes distincts :\n1. Les paroles valorisantes : compliments sincères, encouragements, mots doux.\n2. Les moments de qualité : présence attentive, discussions en tête-à-tête sans distraction.\n3. Les cadeaux : attentions tangibles qui montrent qu\'on a pensé à l\'autre.\n4. Les services rendus : gestes concrets d\'aide (préparer le petit-déjeuner, réparer un objet).\n5. Le contact physique : câlins, caresses, se tenir la main.\n\nLe piège classique : nous donnons l\'amour de la façon dont nous aimerions le recevoir. Si votre langage est les paroles valorisantes alors que celui de votre conjoint est les services rendus, vos compliments peuvent ne pas combler son besoin. Demandez à votre partenaire : « Quand te sens-tu le plus aimé(e) par moi ? »','2026-08-16',8,NULL,4),
+(14,'Cultiver son jardin secret au sein du couple','Pourquoi l\'individualité et les passions personnelles renforcent l\'attraction mutuelle plutôt que de l\'affaiblir.','La fusion totale peut paradoxalement étouffer le désir. Pour qu\'il y ait attraction, il doit y avoir une certaine altérité : deux individus complets qui choisissent de partager leur vie, plutôt que deux moitiés qui dépendent l\'une de l\'autre.\n\nConservez des activités propres, des amis distincts, des moments de solitude où vous vous ressourcez. En ayant des expériences personnelles à raconter le soir, vous maintenez la curiosité et le mystère dans la relation.','2026-08-08',5,NULL,4),
+(15,'La règle du propriétaire : autonomie totale sur une tâche','Pourquoi demander \'comment tu veux que je fasse ?\' maintient la charge mentale et comment devenir un vrai propriétaire de tâche.','Être le \'propriétaire\' d\'une responsabilité signifie s\'en occuper de la conception à la réalisation, sans solliciter l\'autre. Par exemple, si vous êtes responsable de la voiture :\n- Vous vérifiez les niveaux d\'huile et la pression des pneus sans qu\'on vous le demande.\n- Vous planifiez le contrôle technique et vous prenez le rendez-vous.\n- Vous réglez la facture et rangez les papiers.\n\nCette autonomie crée un soulagement profond pour le couple : chacun sait qu\'il peut faire une confiance totale à son partenaire sur ses domaines dédiés sans avoir à vérifier derrière.','2026-07-30',5,NULL,7),
+(16,'La gratitude au quotidien : valoriser ce qui est fait','Transformer la routine en cercle vertueux en exprimant sa reconnaissance pour les gestes ordinaires.','Avec le temps, les gestes du quotidien deviennent invisibles : « C\'est normal qu\'il cuisine », « C\'est normal qu\'elle s\'occupe des poubelles ».\n\nCe glissement vers l\'évidence produit un sentiment d\'ingratitude qui mine la motivation. Pourtant, dire un simple « Merci d\'avoir pensé au pain ce soir » ou « J\'ai vu que tu avais nettoyé la salle de bain, c\'est super agréable » ne prend que deux secondes et recharge immédiatement le réservoir affectif.\n\nFaites le test aujourd\'hui : remerciez votre partenaire pour une chose ordinaire qu\'il ou elle fait régulièrement sans que personne ne le remarque.','2026-07-19',5,NULL,7);
+/*!40000 ALTER TABLE `ARTICLE` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
+
+--
+-- Table structure for table `BUDGET_HEBDO`
+--
+
+DROP TABLE IF EXISTS `BUDGET_HEBDO`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `BUDGET_HEBDO` (
+  `id_budget_h` int(11) NOT NULL AUTO_INCREMENT,
+  `date_debut` datetime NOT NULL,
+  `date_fin` datetime NOT NULL,
+  `montant_alloue` decimal(10,2) NOT NULL,
+  `id_budget_m` int(11) NOT NULL,
+  PRIMARY KEY (`id_budget_h`),
+  KEY `id_budget_m` (`id_budget_m`),
+  CONSTRAINT `1` FOREIGN KEY (`id_budget_m`) REFERENCES `BUDGET_MENSUEL` (`id_budget_m`) ON DELETE CASCADE,
+  CONSTRAINT `chk_dates_hebdo` CHECK (`date_fin` >= `date_debut`),
+  CONSTRAINT `chk_montant_hebdo` CHECK (`montant_alloue` >= 0)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `BUDGET_HEBDO`
+--
+
+SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
+LOCK TABLES `BUDGET_HEBDO` WRITE;
+/*!40000 ALTER TABLE `BUDGET_HEBDO` DISABLE KEYS */;
+INSERT INTO `BUDGET_HEBDO` VALUES
+(1,'2026-10-01 00:00:00','2026-10-07 00:00:00',750.00,34),
+(2,'2026-10-08 00:00:00','2026-10-14 00:00:00',750.00,34),
+(3,'2026-10-15 00:00:00','2026-10-21 00:00:00',750.00,34),
+(4,'2026-10-22 00:00:00','2026-10-28 00:00:00',750.00,34);
+/*!40000 ALTER TABLE `BUDGET_HEBDO` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_uca1400_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`o22504119`@`localhost`*/ /*!50003 trigger verif_montant_budget_hebdo
+before INSERT
+ON BUDGET_HEBDO FOR EACH ROW
+BEGIN
+    declare budget_mois DECIMAL(10,2);
+    declare somme_budget_hebdo DECIMAL(10,2);
+    declare mes varchar(100);
+    select montant_global into budget_mois from BUDGET_MENSUEL where id_budget_m = NEW.id_budget_m;
+    select IFNULL(SUM(montant_alloue), 0.00) into somme_budget_hebdo from BUDGET_HEBDO where id_budget_m = NEW.id_budget_m;
+    if (somme_budget_hebdo + NEW.montant_alloue) > budget_mois then
+        set mes = concat("Budget impossible : repartition des budgets hebdos sont superieur au budget mensuel");
+        signal SQLSTATE "45000" set MESSAGE_TEXT = mes;
+    end if;
+END 
+*/;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_uca1400_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`o22504119`@`localhost`*/ /*!50003 TRIGGER verif_montant_budget_hebdo_update
+BEFORE UPDATE ON BUDGET_HEBDO FOR EACH ROW
+BEGIN
+    DECLARE budget_mois DECIMAL(10,2);
+    DECLARE somme_autres_budget_hebdo DECIMAL(10,2);
+    DECLARE mes VARCHAR(100);
+    SELECT montant_global INTO budget_mois FROM BUDGET_MENSUEL WHERE id_budget_m = NEW.id_budget_m;
+    SELECT IFNULL(SUM(montant_alloue), 0.00) INTO somme_autres_budget_hebdo 
+    FROM BUDGET_HEBDO 
+    WHERE id_budget_m = NEW.id_budget_m 
+      AND id_budget_h != NEW.id_budget_h;
+    IF (somme_autres_budget_hebdo + NEW.montant_alloue) > budget_mois THEN
+        SET mes = CONCAT('Budget impossible : repartition des budgets hebdos sont superieur au budget mensuel');
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = mes;
+    END IF;
+END 
+*/;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
+-- Table structure for table `BUDGET_MENSUEL`
+--
+
+DROP TABLE IF EXISTS `BUDGET_MENSUEL`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `BUDGET_MENSUEL` (
+  `id_budget_m` int(11) NOT NULL AUTO_INCREMENT,
+  `mois` tinyint(4) NOT NULL,
+  `annee` year(4) NOT NULL,
+  `montant_global` decimal(10,2) NOT NULL,
+  `id_foyer` int(11) NOT NULL,
+  PRIMARY KEY (`id_budget_m`),
+  KEY `id_foyer` (`id_foyer`),
+  CONSTRAINT `1` FOREIGN KEY (`id_foyer`) REFERENCES `FOYER` (`id_foyer`) ON DELETE CASCADE,
+  CONSTRAINT `chk_mois` CHECK (`mois` between 1 and 12),
+  CONSTRAINT `chk_montant_budget` CHECK (`montant_global` >= 0)
+) ENGINE=InnoDB AUTO_INCREMENT=10002 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `BUDGET_MENSUEL`
+--
+
+SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
+LOCK TABLES `BUDGET_MENSUEL` WRITE;
+/*!40000 ALTER TABLE `BUDGET_MENSUEL` DISABLE KEYS */;
+INSERT INTO `BUDGET_MENSUEL` VALUES
+(1,1,2024,3000.00,1),
+(2,2,2024,2800.00,1),
+(3,3,2024,2800.00,1),
+(4,4,2024,2800.00,1),
+(5,5,2024,2800.00,1),
+(6,6,2024,2800.00,1),
+(7,7,2024,2800.00,1),
+(8,8,2024,2800.00,1),
+(9,9,2024,2800.00,1),
+(10,10,2024,2800.00,1),
+(11,11,2024,2800.00,1),
+(12,12,2024,2800.00,1),
+(13,1,2025,3000.00,1),
+(14,2,2025,3000.00,1),
+(15,3,2025,3000.00,1),
+(16,4,2025,3000.00,1),
+(17,5,2025,3000.00,1),
+(18,6,2025,3000.00,1),
+(19,7,2025,3000.00,1),
+(20,8,2025,3000.00,1),
+(21,9,2025,3000.00,1),
+(22,10,2025,3000.00,1),
+(23,11,2025,3000.00,1),
+(24,12,2025,3000.00,1),
+(25,1,2026,3000.00,1),
+(26,2,2026,3000.00,1),
+(27,3,2026,3000.00,1),
+(28,4,2026,3000.00,1),
+(29,5,2026,3000.00,1),
+(30,6,2026,3000.00,1),
+(31,7,2026,3000.00,1),
+(32,8,2026,3000.00,1),
+(33,9,2026,3000.00,1),
+(34,10,2026,3000.00,1),
+(35,11,2026,3000.00,1),
+(36,10,2026,4000.00,2),
+(37,11,2026,4000.00,2),
+(38,10,2026,2500.00,3),
+(39,11,2026,2500.00,3);
+/*!40000 ALTER TABLE `BUDGET_MENSUEL` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_uca1400_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`o22504119`@`localhost`*/ /*!50003 trigger limite_budget_mensuel
+before INSERT
+ON BUDGET_MENSUEL FOR EACH ROW
+BEGIN
+    declare somme_revenus_mensuel DECIMAL(10,2);
+    declare budget_mois DECIMAL(10,2);
+    declare mes varchar(100);
+    select IFNULL(SUM(revenu_mensuel), 0.00) into somme_revenus_mensuel from PARTENAIRE where id_foyer = NEW.id_foyer;
+    set budget_mois = NEW.montant_global;
+    if somme_revenus_mensuel < budget_mois then
+        set mes = concat("Budget impossible : somme des revenus insuffisants");
+        signal SQLSTATE "45000" set MESSAGE_TEXT = mes;
+    end if;
+END 
+*/;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_uca1400_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`o22504119`@`localhost`*/ /*!50003 TRIGGER limite_budget_mensuel_update
+BEFORE UPDATE ON BUDGET_MENSUEL FOR EACH ROW
+BEGIN
+    DECLARE somme_revenus_mensuel DECIMAL(10,2);
+    DECLARE budget_mois DECIMAL(10,2);
+    DECLARE mes VARCHAR(100);
+    SELECT IFNULL(SUM(revenu_mensuel), 0.00) INTO somme_revenus_mensuel FROM PARTENAIRE WHERE id_foyer = NEW.id_foyer;
+    SET budget_mois = NEW.montant_global;
+    IF somme_revenus_mensuel < budget_mois THEN
+        SET mes = CONCAT('Budget impossible : somme des revenus insuffisants');
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = mes;
+    END IF;
+END 
+*/;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
+-- Table structure for table `CATEGORIE_ARTICLE`
+--
+
+DROP TABLE IF EXISTS `CATEGORIE_ARTICLE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `CATEGORIE_ARTICLE` (
+  `id_cat_article` int(11) NOT NULL AUTO_INCREMENT,
+  `nom_cat_article` varchar(100) NOT NULL,
+  PRIMARY KEY (`id_cat_article`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `CATEGORIE_ARTICLE`
+--
+
+SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
+LOCK TABLES `CATEGORIE_ARTICLE` WRITE;
+/*!40000 ALTER TABLE `CATEGORIE_ARTICLE` DISABLE KEYS */;
+INSERT INTO `CATEGORIE_ARTICLE` VALUES
+(1,'Communication'),
+(2,'Finances'),
+(3,'Organisation'),
+(4,'Intimité'),
+(5,'Coopération'),
+(6,'Temps ensemble'),
+(7,'Responsabilités'),
+(8,'Conflits');
+/*!40000 ALTER TABLE `CATEGORIE_ARTICLE` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
+
+--
+-- Table structure for table `CATEGORIE_DEPENSE`
+--
+
+DROP TABLE IF EXISTS `CATEGORIE_DEPENSE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `CATEGORIE_DEPENSE` (
+  `id_cat_depense` int(11) NOT NULL AUTO_INCREMENT,
+  `nom_cat_depense` varchar(100) NOT NULL,
+  PRIMARY KEY (`id_cat_depense`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `CATEGORIE_DEPENSE`
+--
+
+SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
+LOCK TABLES `CATEGORIE_DEPENSE` WRITE;
+/*!40000 ALTER TABLE `CATEGORIE_DEPENSE` DISABLE KEYS */;
+INSERT INTO `CATEGORIE_DEPENSE` VALUES
+(1,'Logement'),
+(2,'Alimentation'),
+(3,'Mobilité'),
+(4,'Loisirs & Sorties'),
+(5,'Santé'),
+(6,'Factures & Énergie'),
+(7,'Maison & Déco'),
+(8,'Abonnements'),
+(9,'Autre');
+/*!40000 ALTER TABLE `CATEGORIE_DEPENSE` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
+
+--
+-- Table structure for table `CATEGORIE_PRODUIT`
+--
+
+DROP TABLE IF EXISTS `CATEGORIE_PRODUIT`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `CATEGORIE_PRODUIT` (
+  `id_cat_produit` int(11) NOT NULL AUTO_INCREMENT,
+  `nom_cat_produit` varchar(100) NOT NULL,
+  PRIMARY KEY (`id_cat_produit`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `CATEGORIE_PRODUIT`
+--
+
+SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
+LOCK TABLES `CATEGORIE_PRODUIT` WRITE;
+/*!40000 ALTER TABLE `CATEGORIE_PRODUIT` DISABLE KEYS */;
+INSERT INTO `CATEGORIE_PRODUIT` VALUES
+(1,'Fruits & Légumes'),
+(2,'Frais & Crèmerie'),
+(3,'Épicerie & Boissons'),
+(4,'Hygiène & Entretien'),
+(5,'Boulangerie');
+/*!40000 ALTER TABLE `CATEGORIE_PRODUIT` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
+
+--
+-- Table structure for table `CATEGORIE_TACHE`
+--
+
+DROP TABLE IF EXISTS `CATEGORIE_TACHE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `CATEGORIE_TACHE` (
+  `id_cat_tache` int(11) NOT NULL AUTO_INCREMENT,
+  `nom_cat_tache` varchar(100) NOT NULL,
+  PRIMARY KEY (`id_cat_tache`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `CATEGORIE_TACHE`
+--
+
+SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
+LOCK TABLES `CATEGORIE_TACHE` WRITE;
+/*!40000 ALTER TABLE `CATEGORIE_TACHE` DISABLE KEYS */;
+INSERT INTO `CATEGORIE_TACHE` VALUES
+(1,'Ménage'),
+(2,'Cuisine'),
+(3,'Administratif'),
+(4,'Extérieur & Balcon'),
+(5,'Courses & Rangement');
+/*!40000 ALTER TABLE `CATEGORIE_TACHE` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
+
+--
+-- Table structure for table `CONTRIBUTION`
+--
+
+DROP TABLE IF EXISTS `CONTRIBUTION`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `CONTRIBUTION` (
+  `id_partenaire` int(11) NOT NULL,
+  `id_budget_m` int(11) NOT NULL,
+  `part_pourcentage` int(11) NOT NULL,
+  PRIMARY KEY (`id_partenaire`,`id_budget_m`),
+  KEY `id_budget_m` (`id_budget_m`),
+  CONSTRAINT `1` FOREIGN KEY (`id_partenaire`) REFERENCES `PARTENAIRE` (`id_partenaire`) ON DELETE CASCADE,
+  CONSTRAINT `2` FOREIGN KEY (`id_budget_m`) REFERENCES `BUDGET_MENSUEL` (`id_budget_m`) ON DELETE CASCADE,
+  CONSTRAINT `chk_pourcentage` CHECK (`part_pourcentage` between 0 and 100)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `CONTRIBUTION`
+--
+
+SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
+LOCK TABLES `CONTRIBUTION` WRITE;
+/*!40000 ALTER TABLE `CONTRIBUTION` DISABLE KEYS */;
+INSERT INTO `CONTRIBUTION` VALUES
+(1,1,50),
+(1,2,50),
+(1,3,50),
+(1,4,50),
+(1,5,50),
+(1,6,50),
+(1,7,50),
+(1,8,50),
+(1,9,50),
+(1,10,50),
+(1,11,50),
+(1,12,50),
+(1,13,55),
+(1,14,55),
+(1,15,55),
+(1,16,55),
+(1,17,55),
+(1,18,55),
+(1,19,55),
+(1,20,55),
+(1,21,55),
+(1,22,55),
+(1,23,55),
+(1,24,55),
+(1,25,60),
+(1,26,60),
+(1,27,60),
+(1,28,60),
+(1,29,60),
+(1,30,60),
+(1,31,60),
+(1,32,60),
+(1,33,60),
+(1,34,60),
+(1,35,50),
+(2,1,50),
+(2,2,50),
+(2,3,50),
+(2,4,50),
+(2,5,50),
+(2,6,50),
+(2,7,50),
+(2,8,50),
+(2,9,50),
+(2,10,50),
+(2,11,50),
+(2,12,50),
+(2,13,45),
+(2,14,45),
+(2,15,45),
+(2,16,45),
+(2,17,45),
+(2,18,45),
+(2,19,45),
+(2,20,45),
+(2,21,45),
+(2,22,45),
+(2,23,45),
+(2,24,45),
+(2,25,40),
+(2,26,40),
+(2,27,40),
+(2,28,40),
+(2,29,40),
+(2,30,40),
+(2,31,40),
+(2,32,40),
+(2,33,40),
+(2,34,40),
+(2,35,50),
+(3,36,75),
+(3,37,75),
+(4,36,25),
+(4,37,25),
+(5,38,50),
+(5,39,50),
+(6,38,50),
+(6,39,50);
+/*!40000 ALTER TABLE `CONTRIBUTION` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_uca1400_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`o22504119`@`localhost`*/ /*!50003 trigger verif_repart_contribution
+before INSERT
+ON CONTRIBUTION FOR EACH ROW
+BEGIN
+    declare somme_part_contribution int;
+    declare mes varchar(100);
+    select IFNULL(SUM(part_pourcentage), 0) into somme_part_contribution from CONTRIBUTION where id_budget_m = NEW.id_budget_m;
+    if (somme_part_contribution + NEW.part_pourcentage) > 100 then
+        set mes = concat("Part de contribution impossible : la somme des pourcentages depasse 100%");
+        signal SQLSTATE "45000" set MESSAGE_TEXT = mes;
+    end if;
+END 
+*/;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_uca1400_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`o22504119`@`localhost`*/ /*!50003 TRIGGER verif_repart_contribution_update
+BEFORE UPDATE ON CONTRIBUTION FOR EACH ROW
+BEGIN
+    DECLARE somme_autres_parts INT;
+    DECLARE mes VARCHAR(100);
+    SELECT IFNULL(SUM(part_pourcentage), 0) INTO somme_autres_parts
+    FROM CONTRIBUTION
+    WHERE id_budget_m = NEW.id_budget_m
+      AND id_partenaire != NEW.id_partenaire;
+    IF (somme_autres_parts + NEW.part_pourcentage) > 100 THEN
+        SET mes = CONCAT('Part de contribution impossible : la somme des pourcentages depasse 100%');
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = mes;
+    END IF;
+END 
+*/;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
+-- Table structure for table `DEPENSE`
+--
+
+DROP TABLE IF EXISTS `DEPENSE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `DEPENSE` (
+  `id_depense` int(11) NOT NULL AUTO_INCREMENT,
+  `titre` varchar(255) NOT NULL,
+  `montant_total` decimal(10,2) NOT NULL,
+  `date_depense` date NOT NULL,
+  `id_cat_depense` int(11) NOT NULL,
+  `id_foyer` int(11) NOT NULL,
+  PRIMARY KEY (`id_depense`),
+  KEY `id_cat_depense` (`id_cat_depense`),
+  KEY `id_foyer` (`id_foyer`),
+  CONSTRAINT `1` FOREIGN KEY (`id_cat_depense`) REFERENCES `CATEGORIE_DEPENSE` (`id_cat_depense`),
+  CONSTRAINT `2` FOREIGN KEY (`id_foyer`) REFERENCES `FOYER` (`id_foyer`) ON DELETE CASCADE,
+  CONSTRAINT `chk_montant_depense` CHECK (`montant_total` > 0)
+) ENGINE=InnoDB AUTO_INCREMENT=392 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `DEPENSE`
+--
+
+SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
+LOCK TABLES `DEPENSE` WRITE;
+/*!40000 ALTER TABLE `DEPENSE` DISABLE KEYS */;
+INSERT INTO `DEPENSE` VALUES
+(1,'Loyer appartement',1150.00,'2024-01-01',1,1),
+(2,'Électricité EDF',95.00,'2024-01-05',6,1),
+(3,'Abonnement Box Fibre',39.99,'2024-01-10',8,1),
+(4,'Abonnements Streaming',28.00,'2024-01-12',8,1),
+(5,'Courses Carrefour',125.40,'2024-01-07',2,1),
+(6,'Marché Bio samedi',48.50,'2024-01-14',2,1),
+(7,'Courses hebdomadaires',118.20,'2024-01-21',2,1),
+(8,'Supermarché réassort',76.80,'2024-01-28',2,1),
+(9,'Recharge Pass Transports',84.10,'2024-01-02',3,1),
+(10,'Plein d\'essence',68.50,'2024-01-18',3,1),
+(11,'Dîner restaurant italien',74.00,'2024-01-16',4,1),
+(12,'Loyer appartement',1150.00,'2024-02-01',1,1),
+(13,'Électricité EDF',95.00,'2024-02-05',6,1),
+(14,'Abonnement Box Fibre',39.99,'2024-02-10',8,1),
+(15,'Abonnements Streaming',28.00,'2024-02-12',8,1),
+(16,'Courses Carrefour',125.40,'2024-02-07',2,1),
+(17,'Marché Bio samedi',48.50,'2024-02-14',2,1),
+(18,'Courses hebdomadaires',118.20,'2024-02-21',2,1),
+(19,'Supermarché réassort',76.80,'2024-02-28',2,1),
+(20,'Recharge Pass Transports',84.10,'2024-02-02',3,1),
+(21,'Plein d\'essence',68.50,'2024-02-18',3,1),
+(22,'Dîner restaurant italien',74.00,'2024-02-16',4,1),
+(23,'Loyer appartement',1150.00,'2024-03-01',1,1),
+(24,'Électricité EDF',95.00,'2024-03-05',6,1),
+(25,'Abonnement Box Fibre',39.99,'2024-03-10',8,1),
+(26,'Abonnements Streaming',28.00,'2024-03-12',8,1),
+(27,'Courses Carrefour',125.40,'2024-03-07',2,1),
+(28,'Marché Bio samedi',48.50,'2024-03-14',2,1),
+(29,'Courses hebdomadaires',118.20,'2024-03-21',2,1),
+(30,'Supermarché réassort',76.80,'2024-03-28',2,1),
+(31,'Recharge Pass Transports',84.10,'2024-03-02',3,1),
+(32,'Plein d\'essence',68.50,'2024-03-18',3,1),
+(33,'Dîner restaurant italien',74.00,'2024-03-16',4,1),
+(34,'Loyer appartement',1150.00,'2024-04-01',1,1),
+(35,'Électricité EDF',95.00,'2024-04-05',6,1),
+(36,'Abonnement Box Fibre',39.99,'2024-04-10',8,1),
+(37,'Abonnements Streaming',28.00,'2024-04-12',8,1),
+(38,'Courses Carrefour',125.40,'2024-04-07',2,1),
+(39,'Marché Bio samedi',48.50,'2024-04-14',2,1),
+(40,'Courses hebdomadaires',118.20,'2024-04-21',2,1),
+(41,'Supermarché réassort',76.80,'2024-04-28',2,1),
+(42,'Recharge Pass Transports',84.10,'2024-04-02',3,1),
+(43,'Plein d\'essence',68.50,'2024-04-18',3,1),
+(44,'Dîner restaurant italien',74.00,'2024-04-16',4,1),
+(45,'Loyer appartement',1150.00,'2024-05-01',1,1),
+(46,'Électricité EDF',95.00,'2024-05-05',6,1),
+(47,'Abonnement Box Fibre',39.99,'2024-05-10',8,1),
+(48,'Abonnements Streaming',28.00,'2024-05-12',8,1),
+(49,'Courses Carrefour',125.40,'2024-05-07',2,1),
+(50,'Marché Bio samedi',48.50,'2024-05-14',2,1),
+(51,'Courses hebdomadaires',118.20,'2024-05-21',2,1),
+(52,'Supermarché réassort',76.80,'2024-05-28',2,1),
+(53,'Recharge Pass Transports',84.10,'2024-05-02',3,1),
+(54,'Plein d\'essence',68.50,'2024-05-18',3,1),
+(55,'Dîner restaurant italien',74.00,'2024-05-16',4,1),
+(56,'Loyer appartement',1150.00,'2024-06-01',1,1),
+(57,'Électricité EDF',95.00,'2024-06-05',6,1),
+(58,'Abonnement Box Fibre',39.99,'2024-06-10',8,1),
+(59,'Abonnements Streaming',28.00,'2024-06-12',8,1),
+(60,'Courses Carrefour',125.40,'2024-06-07',2,1),
+(61,'Marché Bio samedi',48.50,'2024-06-14',2,1),
+(62,'Courses hebdomadaires',118.20,'2024-06-21',2,1),
+(63,'Supermarché réassort',76.80,'2024-06-28',2,1),
+(64,'Recharge Pass Transports',84.10,'2024-06-02',3,1),
+(65,'Plein d\'essence',68.50,'2024-06-18',3,1),
+(66,'Dîner restaurant italien',74.00,'2024-06-16',4,1),
+(67,'Loyer appartement',1150.00,'2024-07-01',1,1),
+(68,'Électricité EDF',95.00,'2024-07-05',6,1),
+(69,'Abonnement Box Fibre',39.99,'2024-07-10',8,1),
+(70,'Abonnements Streaming',28.00,'2024-07-12',8,1),
+(71,'Courses Carrefour',125.40,'2024-07-07',2,1),
+(72,'Marché Bio samedi',48.50,'2024-07-14',2,1),
+(73,'Courses hebdomadaires',118.20,'2024-07-21',2,1),
+(74,'Supermarché réassort',76.80,'2024-07-28',2,1),
+(75,'Recharge Pass Transports',84.10,'2024-07-02',3,1),
+(76,'Plein d\'essence',68.50,'2024-07-18',3,1),
+(77,'Dîner restaurant italien',74.00,'2024-07-16',4,1),
+(78,'Loyer appartement',1150.00,'2024-08-01',1,1),
+(79,'Électricité EDF',95.00,'2024-08-05',6,1),
+(80,'Abonnement Box Fibre',39.99,'2024-08-10',8,1),
+(81,'Abonnements Streaming',28.00,'2024-08-12',8,1),
+(82,'Courses Carrefour',125.40,'2024-08-07',2,1),
+(83,'Marché Bio samedi',48.50,'2024-08-14',2,1),
+(84,'Courses hebdomadaires',118.20,'2024-08-21',2,1),
+(85,'Supermarché réassort',76.80,'2024-08-28',2,1),
+(86,'Recharge Pass Transports',84.10,'2024-08-02',3,1),
+(87,'Plein d\'essence',68.50,'2024-08-18',3,1),
+(88,'Dîner restaurant italien',74.00,'2024-08-16',4,1),
+(89,'Loyer appartement',1150.00,'2024-09-01',1,1),
+(90,'Électricité EDF',95.00,'2024-09-05',6,1),
+(91,'Abonnement Box Fibre',39.99,'2024-09-10',8,1),
+(92,'Abonnements Streaming',28.00,'2024-09-12',8,1),
+(93,'Courses Carrefour',125.40,'2024-09-07',2,1),
+(94,'Marché Bio samedi',48.50,'2024-09-14',2,1),
+(95,'Courses hebdomadaires',118.20,'2024-09-21',2,1),
+(96,'Supermarché réassort',76.80,'2024-09-28',2,1),
+(97,'Recharge Pass Transports',84.10,'2024-09-02',3,1),
+(98,'Plein d\'essence',68.50,'2024-09-18',3,1),
+(99,'Dîner restaurant italien',74.00,'2024-09-16',4,1),
+(100,'Loyer appartement',1150.00,'2024-10-01',1,1),
+(101,'Électricité EDF',95.00,'2024-10-05',6,1),
+(102,'Abonnement Box Fibre',39.99,'2024-10-10',8,1),
+(103,'Abonnements Streaming',28.00,'2024-10-12',8,1),
+(104,'Courses Carrefour',125.40,'2024-10-07',2,1),
+(105,'Marché Bio samedi',48.50,'2024-10-14',2,1),
+(106,'Courses hebdomadaires',118.20,'2024-10-21',2,1),
+(107,'Supermarché réassort',76.80,'2024-10-28',2,1),
+(108,'Recharge Pass Transports',84.10,'2024-10-02',3,1),
+(109,'Plein d\'essence',68.50,'2024-10-18',3,1),
+(110,'Dîner restaurant italien',74.00,'2024-10-16',4,1),
+(111,'Loyer appartement',1150.00,'2024-11-01',1,1),
+(112,'Électricité EDF',95.00,'2024-11-05',6,1),
+(113,'Abonnement Box Fibre',39.99,'2024-11-10',8,1),
+(114,'Abonnements Streaming',28.00,'2024-11-12',8,1),
+(115,'Courses Carrefour',125.40,'2024-11-07',2,1),
+(116,'Marché Bio samedi',48.50,'2024-11-14',2,1),
+(117,'Courses hebdomadaires',118.20,'2024-11-21',2,1),
+(118,'Supermarché réassort',76.80,'2024-11-28',2,1),
+(119,'Recharge Pass Transports',84.10,'2024-11-02',3,1),
+(120,'Plein d\'essence',68.50,'2024-11-18',3,1),
+(121,'Dîner restaurant italien',74.00,'2024-11-16',4,1),
+(122,'Loyer appartement',1150.00,'2024-12-01',1,1),
+(123,'Électricité EDF',95.00,'2024-12-05',6,1),
+(124,'Abonnement Box Fibre',39.99,'2024-12-10',8,1),
+(125,'Abonnements Streaming',28.00,'2024-12-12',8,1),
+(126,'Courses Carrefour',125.40,'2024-12-07',2,1),
+(127,'Marché Bio samedi',48.50,'2024-12-14',2,1),
+(128,'Courses hebdomadaires',118.20,'2024-12-21',2,1),
+(129,'Supermarché réassort',76.80,'2024-12-28',2,1),
+(130,'Recharge Pass Transports',84.10,'2024-12-02',3,1),
+(131,'Plein d\'essence',68.50,'2024-12-18',3,1),
+(132,'Dîner restaurant italien',74.00,'2024-12-16',4,1),
+(133,'Meubles salon IKEA',650.00,'2024-01-20',7,1),
+(134,'Billets de train vacances été',240.00,'2024-06-15',3,1),
+(135,'Logement vacances Pays Basque',780.00,'2024-08-01',4,1),
+(136,'Cadeaux de Noël famille',185.00,'2024-12-18',9,1),
+(137,'Loyer appartement',1200.00,'2025-01-01',1,1),
+(138,'Électricité EDF',110.00,'2025-01-05',6,1),
+(139,'Abonnement Box Fibre',41.99,'2025-01-10',8,1),
+(140,'Abonnements Streaming',30.00,'2025-01-12',8,1),
+(141,'Courses Carrefour',132.80,'2025-01-06',2,1),
+(142,'Marché producteurs',52.00,'2025-01-13',2,1),
+(143,'Courses alimentation',124.60,'2025-01-20',2,1),
+(144,'Supermarché & Hygiène',85.30,'2025-01-27',2,1),
+(145,'Forfait transports mensuel',86.40,'2025-01-02',3,1),
+(146,'Carburant station service',72.00,'2025-01-17',3,1),
+(147,'Sortie restaurant & bistrot',82.00,'2025-01-15',4,1),
+(148,'Loyer appartement',1200.00,'2025-02-01',1,1),
+(149,'Électricité EDF',110.00,'2025-02-05',6,1),
+(150,'Abonnement Box Fibre',41.99,'2025-02-10',8,1),
+(151,'Abonnements Streaming',30.00,'2025-02-12',8,1),
+(152,'Courses Carrefour',132.80,'2025-02-06',2,1),
+(153,'Marché producteurs',52.00,'2025-02-13',2,1),
+(154,'Courses alimentation',124.60,'2025-02-20',2,1),
+(155,'Supermarché & Hygiène',85.30,'2025-02-27',2,1),
+(156,'Forfait transports mensuel',86.40,'2025-02-02',3,1),
+(157,'Carburant station service',72.00,'2025-02-17',3,1),
+(158,'Sortie restaurant & bistrot',82.00,'2025-02-15',4,1),
+(159,'Loyer appartement',1200.00,'2025-03-01',1,1),
+(160,'Électricité EDF',110.00,'2025-03-05',6,1),
+(161,'Abonnement Box Fibre',41.99,'2025-03-10',8,1),
+(162,'Abonnements Streaming',30.00,'2025-03-12',8,1),
+(163,'Courses Carrefour',132.80,'2025-03-06',2,1),
+(164,'Marché producteurs',52.00,'2025-03-13',2,1),
+(165,'Courses alimentation',124.60,'2025-03-20',2,1),
+(166,'Supermarché & Hygiène',85.30,'2025-03-27',2,1),
+(167,'Forfait transports mensuel',86.40,'2025-03-02',3,1),
+(168,'Carburant station service',72.00,'2025-03-17',3,1),
+(169,'Sortie restaurant & bistrot',82.00,'2025-03-15',4,1),
+(170,'Loyer appartement',1200.00,'2025-04-01',1,1),
+(171,'Électricité EDF',110.00,'2025-04-05',6,1),
+(172,'Abonnement Box Fibre',41.99,'2025-04-10',8,1),
+(173,'Abonnements Streaming',30.00,'2025-04-12',8,1),
+(174,'Courses Carrefour',132.80,'2025-04-06',2,1),
+(175,'Marché producteurs',52.00,'2025-04-13',2,1),
+(176,'Courses alimentation',124.60,'2025-04-20',2,1),
+(177,'Supermarché & Hygiène',85.30,'2025-04-27',2,1),
+(178,'Forfait transports mensuel',86.40,'2025-04-02',3,1),
+(179,'Carburant station service',72.00,'2025-04-17',3,1),
+(180,'Sortie restaurant & bistrot',82.00,'2025-04-15',4,1),
+(181,'Loyer appartement',1200.00,'2025-05-01',1,1),
+(182,'Électricité EDF',110.00,'2025-05-05',6,1),
+(183,'Abonnement Box Fibre',41.99,'2025-05-10',8,1),
+(184,'Abonnements Streaming',30.00,'2025-05-12',8,1),
+(185,'Courses Carrefour',132.80,'2025-05-06',2,1),
+(186,'Marché producteurs',52.00,'2025-05-13',2,1),
+(187,'Courses alimentation',124.60,'2025-05-20',2,1),
+(188,'Supermarché & Hygiène',85.30,'2025-05-27',2,1),
+(189,'Forfait transports mensuel',86.40,'2025-05-02',3,1),
+(190,'Carburant station service',72.00,'2025-05-17',3,1),
+(191,'Sortie restaurant & bistrot',82.00,'2025-05-15',4,1),
+(192,'Loyer appartement',1200.00,'2025-06-01',1,1),
+(193,'Électricité EDF',110.00,'2025-06-05',6,1),
+(194,'Abonnement Box Fibre',41.99,'2025-06-10',8,1),
+(195,'Abonnements Streaming',30.00,'2025-06-12',8,1),
+(196,'Courses Carrefour',132.80,'2025-06-06',2,1),
+(197,'Marché producteurs',52.00,'2025-06-13',2,1),
+(198,'Courses alimentation',124.60,'2025-06-20',2,1),
+(199,'Supermarché & Hygiène',85.30,'2025-06-27',2,1),
+(200,'Forfait transports mensuel',86.40,'2025-06-02',3,1),
+(201,'Carburant station service',72.00,'2025-06-17',3,1),
+(202,'Sortie restaurant & bistrot',82.00,'2025-06-15',4,1),
+(203,'Loyer appartement',1200.00,'2025-07-01',1,1),
+(204,'Électricité EDF',110.00,'2025-07-05',6,1),
+(205,'Abonnement Box Fibre',41.99,'2025-07-10',8,1),
+(206,'Abonnements Streaming',30.00,'2025-07-12',8,1),
+(207,'Courses Carrefour',132.80,'2025-07-06',2,1),
+(208,'Marché producteurs',52.00,'2025-07-13',2,1),
+(209,'Courses alimentation',124.60,'2025-07-20',2,1),
+(210,'Supermarché & Hygiène',85.30,'2025-07-27',2,1),
+(211,'Forfait transports mensuel',86.40,'2025-07-02',3,1),
+(212,'Carburant station service',72.00,'2025-07-17',3,1),
+(213,'Sortie restaurant & bistrot',82.00,'2025-07-15',4,1),
+(214,'Loyer appartement',1200.00,'2025-08-01',1,1),
+(215,'Électricité EDF',110.00,'2025-08-05',6,1),
+(216,'Abonnement Box Fibre',41.99,'2025-08-10',8,1),
+(217,'Abonnements Streaming',30.00,'2025-08-12',8,1),
+(218,'Courses Carrefour',132.80,'2025-08-06',2,1),
+(219,'Marché producteurs',52.00,'2025-08-13',2,1),
+(220,'Courses alimentation',124.60,'2025-08-20',2,1),
+(221,'Supermarché & Hygiène',85.30,'2025-08-27',2,1),
+(222,'Forfait transports mensuel',86.40,'2025-08-02',3,1),
+(223,'Carburant station service',72.00,'2025-08-17',3,1),
+(224,'Sortie restaurant & bistrot',82.00,'2025-08-15',4,1),
+(225,'Loyer appartement',1200.00,'2025-09-01',1,1),
+(226,'Électricité EDF',110.00,'2025-09-05',6,1),
+(227,'Abonnement Box Fibre',41.99,'2025-09-10',8,1),
+(228,'Abonnements Streaming',30.00,'2025-09-12',8,1),
+(229,'Courses Carrefour',132.80,'2025-09-06',2,1),
+(230,'Marché producteurs',52.00,'2025-09-13',2,1),
+(231,'Courses alimentation',124.60,'2025-09-20',2,1),
+(232,'Supermarché & Hygiène',85.30,'2025-09-27',2,1),
+(233,'Forfait transports mensuel',86.40,'2025-09-02',3,1),
+(234,'Carburant station service',72.00,'2025-09-17',3,1),
+(235,'Sortie restaurant & bistrot',82.00,'2025-09-15',4,1),
+(236,'Loyer appartement',1200.00,'2025-10-01',1,1),
+(237,'Électricité EDF',110.00,'2025-10-05',6,1),
+(238,'Abonnement Box Fibre',41.99,'2025-10-10',8,1),
+(239,'Abonnements Streaming',30.00,'2025-10-12',8,1),
+(240,'Courses Carrefour',132.80,'2025-10-06',2,1),
+(241,'Marché producteurs',52.00,'2025-10-13',2,1),
+(242,'Courses alimentation',124.60,'2025-10-20',2,1),
+(243,'Supermarché & Hygiène',85.30,'2025-10-27',2,1),
+(244,'Forfait transports mensuel',86.40,'2025-10-02',3,1),
+(245,'Carburant station service',72.00,'2025-10-17',3,1),
+(246,'Sortie restaurant & bistrot',82.00,'2025-10-15',4,1),
+(247,'Loyer appartement',1200.00,'2025-11-01',1,1),
+(248,'Électricité EDF',110.00,'2025-11-05',6,1),
+(249,'Abonnement Box Fibre',41.99,'2025-11-10',8,1),
+(250,'Abonnements Streaming',30.00,'2025-11-12',8,1),
+(251,'Courses Carrefour',132.80,'2025-11-06',2,1),
+(252,'Marché producteurs',52.00,'2025-11-13',2,1),
+(253,'Courses alimentation',124.60,'2025-11-20',2,1),
+(254,'Supermarché & Hygiène',85.30,'2025-11-27',2,1),
+(255,'Forfait transports mensuel',86.40,'2025-11-02',3,1),
+(256,'Carburant station service',72.00,'2025-11-17',3,1),
+(257,'Sortie restaurant & bistrot',82.00,'2025-11-15',4,1),
+(258,'Loyer appartement',1200.00,'2025-12-01',1,1),
+(259,'Électricité EDF',110.00,'2025-12-05',6,1),
+(260,'Abonnement Box Fibre',41.99,'2025-12-10',8,1),
+(261,'Abonnements Streaming',30.00,'2025-12-12',8,1),
+(262,'Courses Carrefour',132.80,'2025-12-06',2,1),
+(263,'Marché producteurs',52.00,'2025-12-13',2,1),
+(264,'Courses alimentation',124.60,'2025-12-20',2,1),
+(265,'Supermarché & Hygiène',85.30,'2025-12-27',2,1),
+(266,'Forfait transports mensuel',86.40,'2025-12-02',3,1),
+(267,'Carburant station service',72.00,'2025-12-17',3,1),
+(268,'Sortie restaurant & bistrot',82.00,'2025-12-15',4,1),
+(269,'Plantes et déco Leroy Merlin',145.00,'2025-03-22',7,1),
+(270,'Location gîte Annecy',420.00,'2025-09-10',4,1),
+(271,'Révision annuelle voiture',280.00,'2025-10-18',3,1),
+(272,'Repas réveillon Noël',160.00,'2025-12-24',2,1),
+(273,'Loyer appartement',1200.00,'2026-01-01',1,1),
+(274,'Électricité EDF',105.00,'2026-01-05',6,1),
+(275,'Abonnement Box Fibre',41.99,'2026-01-10',8,1),
+(276,'Abonnements Streaming',32.00,'2026-01-12',8,1),
+(277,'Courses Carrefour Market',138.50,'2026-01-07',2,1),
+(278,'Marché Bio local',55.00,'2026-01-14',2,1),
+(279,'Courses hebdomadaires',128.90,'2026-01-21',2,1),
+(280,'Supermarché appoint',78.40,'2026-01-28',2,1),
+(281,'Abonnement Transports',88.80,'2026-01-02',3,1),
+(282,'Plein d\'essence',74.00,'2026-01-19',3,1),
+(283,'Restaurant en amoureux',86.00,'2026-01-16',4,1),
+(284,'Loyer appartement',1200.00,'2026-02-01',1,1),
+(285,'Électricité EDF',105.00,'2026-02-05',6,1),
+(286,'Abonnement Box Fibre',41.99,'2026-02-10',8,1),
+(287,'Abonnements Streaming',32.00,'2026-02-12',8,1),
+(288,'Courses Carrefour Market',138.50,'2026-02-07',2,1),
+(289,'Marché Bio local',55.00,'2026-02-14',2,1),
+(290,'Courses hebdomadaires',128.90,'2026-02-21',2,1),
+(291,'Supermarché appoint',78.40,'2026-02-28',2,1),
+(292,'Abonnement Transports',88.80,'2026-02-02',3,1),
+(293,'Plein d\'essence',74.00,'2026-02-19',3,1),
+(294,'Restaurant en amoureux',86.00,'2026-02-16',4,1),
+(295,'Loyer appartement',1200.00,'2026-03-01',1,1),
+(296,'Électricité EDF',105.00,'2026-03-05',6,1),
+(297,'Abonnement Box Fibre',41.99,'2026-03-10',8,1),
+(298,'Abonnements Streaming',32.00,'2026-03-12',8,1),
+(299,'Courses Carrefour Market',138.50,'2026-03-07',2,1),
+(300,'Marché Bio local',55.00,'2026-03-14',2,1),
+(301,'Courses hebdomadaires',128.90,'2026-03-21',2,1),
+(302,'Supermarché appoint',78.40,'2026-03-28',2,1),
+(303,'Abonnement Transports',88.80,'2026-03-02',3,1),
+(304,'Plein d\'essence',74.00,'2026-03-19',3,1),
+(305,'Restaurant en amoureux',86.00,'2026-03-16',4,1),
+(306,'Loyer appartement',1200.00,'2026-04-01',1,1),
+(307,'Électricité EDF',105.00,'2026-04-05',6,1),
+(308,'Abonnement Box Fibre',41.99,'2026-04-10',8,1),
+(309,'Abonnements Streaming',32.00,'2026-04-12',8,1),
+(310,'Courses Carrefour Market',138.50,'2026-04-07',2,1),
+(311,'Marché Bio local',55.00,'2026-04-14',2,1),
+(312,'Courses hebdomadaires',128.90,'2026-04-21',2,1),
+(313,'Supermarché appoint',78.40,'2026-04-28',2,1),
+(314,'Abonnement Transports',88.80,'2026-04-02',3,1),
+(315,'Plein d\'essence',74.00,'2026-04-19',3,1),
+(316,'Restaurant en amoureux',86.00,'2026-04-16',4,1),
+(317,'Loyer appartement',1200.00,'2026-05-01',1,1),
+(318,'Électricité EDF',105.00,'2026-05-05',6,1),
+(319,'Abonnement Box Fibre',41.99,'2026-05-10',8,1),
+(320,'Abonnements Streaming',32.00,'2026-05-12',8,1),
+(321,'Courses Carrefour Market',138.50,'2026-05-07',2,1),
+(322,'Marché Bio local',55.00,'2026-05-14',2,1),
+(323,'Courses hebdomadaires',128.90,'2026-05-21',2,1),
+(324,'Supermarché appoint',78.40,'2026-05-28',2,1),
+(325,'Abonnement Transports',88.80,'2026-05-02',3,1),
+(326,'Plein d\'essence',74.00,'2026-05-19',3,1),
+(327,'Restaurant en amoureux',86.00,'2026-05-16',4,1),
+(328,'Loyer appartement',1200.00,'2026-06-01',1,1),
+(329,'Électricité EDF',105.00,'2026-06-05',6,1),
+(330,'Abonnement Box Fibre',41.99,'2026-06-10',8,1),
+(331,'Abonnements Streaming',32.00,'2026-06-12',8,1),
+(332,'Courses Carrefour Market',138.50,'2026-06-07',2,1),
+(333,'Marché Bio local',55.00,'2026-06-14',2,1),
+(334,'Courses hebdomadaires',128.90,'2026-06-21',2,1),
+(335,'Supermarché appoint',78.40,'2026-06-28',2,1),
+(336,'Abonnement Transports',88.80,'2026-06-02',3,1),
+(337,'Plein d\'essence',74.00,'2026-06-19',3,1),
+(338,'Restaurant en amoureux',86.00,'2026-06-16',4,1),
+(339,'Loyer appartement',1200.00,'2026-07-01',1,1),
+(340,'Électricité EDF',105.00,'2026-07-05',6,1),
+(341,'Abonnement Box Fibre',41.99,'2026-07-10',8,1),
+(342,'Abonnements Streaming',32.00,'2026-07-12',8,1),
+(343,'Courses Carrefour Market',138.50,'2026-07-07',2,1),
+(344,'Marché Bio local',55.00,'2026-07-14',2,1),
+(345,'Courses hebdomadaires',128.90,'2026-07-21',2,1),
+(346,'Supermarché appoint',78.40,'2026-07-28',2,1),
+(347,'Abonnement Transports',88.80,'2026-07-02',3,1),
+(348,'Plein d\'essence',74.00,'2026-07-19',3,1),
+(349,'Restaurant en amoureux',86.00,'2026-07-16',4,1),
+(350,'Loyer appartement',1200.00,'2026-08-01',1,1),
+(351,'Électricité EDF',105.00,'2026-08-05',6,1),
+(352,'Abonnement Box Fibre',41.99,'2026-08-10',8,1),
+(353,'Abonnements Streaming',32.00,'2026-08-12',8,1),
+(354,'Courses Carrefour Market',138.50,'2026-08-07',2,1),
+(355,'Marché Bio local',55.00,'2026-08-14',2,1),
+(356,'Courses hebdomadaires',128.90,'2026-08-21',2,1),
+(357,'Supermarché appoint',78.40,'2026-08-28',2,1),
+(358,'Abonnement Transports',88.80,'2026-08-02',3,1),
+(359,'Plein d\'essence',74.00,'2026-08-19',3,1),
+(360,'Restaurant en amoureux',86.00,'2026-08-16',4,1),
+(361,'Loyer appartement',1200.00,'2026-09-01',1,1),
+(362,'Électricité EDF',105.00,'2026-09-05',6,1),
+(363,'Abonnement Box Fibre',41.99,'2026-09-10',8,1),
+(364,'Abonnements Streaming',32.00,'2026-09-12',8,1),
+(365,'Courses Carrefour Market',138.50,'2026-09-07',2,1),
+(366,'Marché Bio local',55.00,'2026-09-14',2,1),
+(367,'Courses hebdomadaires',128.90,'2026-09-21',2,1),
+(368,'Supermarché appoint',78.40,'2026-09-28',2,1),
+(369,'Abonnement Transports',88.80,'2026-09-02',3,1),
+(370,'Plein d\'essence',74.00,'2026-09-19',3,1),
+(371,'Restaurant en amoureux',86.00,'2026-09-16',4,1),
+(372,'Billets ferry Corse été',360.00,'2026-06-20',3,1),
+(373,'Logement vacances Corse',950.00,'2026-07-28',4,1),
+(374,'Loyer',1200.00,'2026-10-01',1,1),
+(375,'Électricité EDF',115.00,'2026-10-05',6,1),
+(376,'Abonnement Box Internet',41.99,'2026-10-10',8,1),
+(377,'Abonnements Streaming',32.00,'2026-10-12',8,1),
+(378,'Courses Semaine',150.00,'2026-10-17',2,1),
+(379,'Pharmacie & Soins',26.50,'2026-10-18',5,1),
+(380,'Restaurant Italien en tête-à-tête',68.00,'2026-10-19',4,1),
+(381,'Plein d\'essence',71.20,'2026-10-23',3,1),
+(382,'Magasin Bio légumes & vrac',42.80,'2026-10-26',2,1),
+(383,'Décoration automne & bougies',35.00,'2026-10-29',7,1),
+(384,'Loyer',1200.00,'2026-11-01',1,1),
+(385,'Abonnement Transports Novembre',88.80,'2026-11-02',3,1),
+(386,'Courses fraîches début de mois',84.30,'2026-11-03',2,1),
+(387,'Loyer Foyer 2',1400.00,'2026-10-01',1,2),
+(388,'Facture Électricité Foyer 2',80.00,'2026-10-08',6,2),
+(389,'Resto Anniversaire Christophe',200.00,'2026-10-28',4,2),
+(390,'Loyer Foyer 3',950.00,'2026-10-01',1,3),
+(391,'Courses Foyer 3',110.00,'2026-10-15',2,3);
+/*!40000 ALTER TABLE `DEPENSE` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
+
+--
+-- Table structure for table `EPARGNE`
+--
+
+DROP TABLE IF EXISTS `EPARGNE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `EPARGNE` (
+  `id_epargne` int(11) NOT NULL AUTO_INCREMENT,
+  `montant_depose` decimal(10,2) DEFAULT 0.00,
+  `objectif_total` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`id_epargne`),
+  CONSTRAINT `chk_epargne_montants` CHECK (`montant_depose` >= 0 and `objectif_total` > 0)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `EPARGNE`
+--
+
+SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
+LOCK TABLES `EPARGNE` WRITE;
+/*!40000 ALTER TABLE `EPARGNE` DISABLE KEYS */;
+INSERT INTO `EPARGNE` VALUES
+(1,3800.00,5000.00),
+(2,9500.00,15000.00),
+(3,3000.00,3000.00),
+(5,0.00,1200.00);
+/*!40000 ALTER TABLE `EPARGNE` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
+
+--
+-- Table structure for table `EPARGNER`
+--
+
+DROP TABLE IF EXISTS `EPARGNER`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `EPARGNER` (
+  `id_epargne` int(11) NOT NULL,
+  `id_budget_m` int(11) NOT NULL,
+  `date_epargne` date NOT NULL,
+  PRIMARY KEY (`id_epargne`,`id_budget_m`,`date_epargne`),
+  KEY `id_budget_m` (`id_budget_m`),
+  CONSTRAINT `1` FOREIGN KEY (`id_epargne`) REFERENCES `EPARGNE` (`id_epargne`) ON DELETE CASCADE,
+  CONSTRAINT `2` FOREIGN KEY (`id_budget_m`) REFERENCES `BUDGET_MENSUEL` (`id_budget_m`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `EPARGNER`
+--
+
+SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
+LOCK TABLES `EPARGNER` WRITE;
+/*!40000 ALTER TABLE `EPARGNER` DISABLE KEYS */;
+INSERT INTO `EPARGNER` VALUES
+(1,10,'2024-10-15'),
+(2,12,'2024-12-15'),
+(1,15,'2025-03-15'),
+(1,20,'2025-08-15'),
+(2,24,'2025-12-15'),
+(1,27,'2026-03-15'),
+(1,34,'2026-10-15'),
+(2,34,'2026-10-15');
+/*!40000 ALTER TABLE `EPARGNER` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
+
+--
+-- Table structure for table `EVENEMENT`
+--
+
+DROP TABLE IF EXISTS `EVENEMENT`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `EVENEMENT` (
+  `id_evenement` int(11) NOT NULL AUTO_INCREMENT,
+  `titre` varchar(255) NOT NULL,
+  `date_heure` datetime NOT NULL,
+  `type_moment` varchar(100) DEFAULT NULL,
+  `id_foyer` int(11) NOT NULL,
+  PRIMARY KEY (`id_evenement`),
+  KEY `id_foyer` (`id_foyer`),
+  CONSTRAINT `1` FOREIGN KEY (`id_foyer`) REFERENCES `FOYER` (`id_foyer`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `EVENEMENT`
+--
+
+SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
+LOCK TABLES `EVENEMENT` WRITE;
+/*!40000 ALTER TABLE `EVENEMENT` DISABLE KEYS */;
+INSERT INTO `EVENEMENT` VALUES
+(1,'Emménagement ensemble','2024-01-15 10:00:00','Événement foyer',1),
+(2,'Week-end en Baie de Somme','2024-06-21 18:00:00','Moment à deux',1),
+(3,'Vacances d\'été au Pays Basque','2024-08-03 09:00:00','Vacances',1),
+(4,'Dîner de la Saint-Sylvestre','2024-12-31 20:30:00','Moment à deux',1),
+(5,'Anniversaire Alexis','2025-04-14 19:30:00','Anniversaire',1),
+(6,'Week-end à Annecy','2025-09-12 17:00:00','Moment à deux',1),
+(7,'Dîner aux chandelles à la maison','2026-02-14 20:00:00','Moment à deux',1),
+(8,'Soirée ciné & sushis','2026-05-18 19:30:00','Moment à deux',1),
+(9,'Vacances en Corse','2026-08-01 08:00:00','Vacances',1),
+(10,'Dîner sans écrans','2026-10-19 20:00:00','Moment à deux',1),
+(11,'RDV Conseil Banque & Épargne','2026-10-22 14:00:00','Administratif',1),
+(12,'Brunch du dimanche','2026-10-25 11:30:00','Moment à deux',1),
+(13,'Soirée jeux de société avec amis','2026-11-07 19:30:00','Convivialité',1),
+(14,'Anniversaire Christophe','2026-10-28 19:30:00','Fête',2);
+/*!40000 ALTER TABLE `EVENEMENT` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
+
+--
+-- Table structure for table `FOYER`
+--
+
+DROP TABLE IF EXISTS `FOYER`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `FOYER` (
+  `id_foyer` int(11) NOT NULL AUTO_INCREMENT,
+  `nom_foyer` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id_foyer`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `FOYER`
+--
+
+SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
+LOCK TABLES `FOYER` WRITE;
+/*!40000 ALTER TABLE `FOYER` DISABLE KEYS */;
+INSERT INTO `FOYER` VALUES
+(1,'Alexis & Djoumessy'),
+(2,'Timothy & Christophe'),
+(3,'Jordan & Casey');
+/*!40000 ALTER TABLE `FOYER` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
+
+--
+-- Table structure for table `INTERAGIR`
+--
+
+DROP TABLE IF EXISTS `INTERAGIR`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `INTERAGIR` (
+  `id_partenaire` int(11) NOT NULL,
+  `id_article` int(11) NOT NULL,
+  `est_lu` tinyint(1) DEFAULT 0,
+  `est_enregistre` tinyint(1) DEFAULT 0,
+  PRIMARY KEY (`id_partenaire`,`id_article`),
+  KEY `id_article` (`id_article`),
+  CONSTRAINT `1` FOREIGN KEY (`id_partenaire`) REFERENCES `PARTENAIRE` (`id_partenaire`) ON DELETE CASCADE,
+  CONSTRAINT `2` FOREIGN KEY (`id_article`) REFERENCES `ARTICLE` (`id_article`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `INTERAGIR`
+--
+
+SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
+LOCK TABLES `INTERAGIR` WRITE;
+/*!40000 ALTER TABLE `INTERAGIR` DISABLE KEYS */;
+INSERT INTO `INTERAGIR` VALUES
+(1,1,0,0),
+(1,2,0,1),
+(1,3,1,0),
+(1,4,1,1),
+(1,5,1,1),
+(1,6,0,0),
+(1,7,1,0),
+(1,8,0,1),
+(1,9,1,0),
+(1,10,0,0),
+(1,11,1,1),
+(1,12,0,0),
+(1,13,1,1),
+(1,14,0,0),
+(1,15,1,0),
+(1,16,0,0),
+(2,1,1,1),
+(2,2,0,0),
+(2,3,0,1),
+(2,4,1,0),
+(2,5,0,0),
+(2,6,0,1),
+(2,7,1,0),
+(2,8,0,0),
+(2,9,0,1),
+(2,10,1,0),
+(2,11,0,0),
+(2,12,0,1),
+(2,13,1,0),
+(2,14,0,0),
+(2,15,0,0),
+(2,16,1,0);
+/*!40000 ALTER TABLE `INTERAGIR` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
+
+--
+-- Table structure for table `LISTER`
+--
+
+DROP TABLE IF EXISTS `LISTER`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `LISTER` (
+  `id_foyer` int(11) NOT NULL,
+  `id_produit` int(11) NOT NULL,
+  `quantite` int(11) DEFAULT 1,
+  `achete` tinyint(1) DEFAULT 0,
+  PRIMARY KEY (`id_foyer`,`id_produit`),
+  KEY `id_produit` (`id_produit`),
+  CONSTRAINT `1` FOREIGN KEY (`id_foyer`) REFERENCES `FOYER` (`id_foyer`) ON DELETE CASCADE,
+  CONSTRAINT `2` FOREIGN KEY (`id_produit`) REFERENCES `PRODUIT` (`id_produit`) ON DELETE CASCADE,
+  CONSTRAINT `chk_quantite` CHECK (`quantite` > 0)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `LISTER`
+--
+
+SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
+LOCK TABLES `LISTER` WRITE;
+/*!40000 ALTER TABLE `LISTER` DISABLE KEYS */;
+INSERT INTO `LISTER` VALUES
+(1,1,6,0),
+(1,2,1,0),
+(1,11,2,0),
+(1,12,1,1),
+(1,13,1,0),
+(1,19,2,0),
+(1,31,1,0),
+(1,38,2,1),
+(1,41,1,0),
+(1,42,1,0),
+(2,22,1,0),
+(2,33,1,1);
+/*!40000 ALTER TABLE `LISTER` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
+
+--
+-- Table structure for table `PARTENAIRE`
+--
+
+DROP TABLE IF EXISTS `PARTENAIRE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `PARTENAIRE` (
+  `id_partenaire` int(11) NOT NULL AUTO_INCREMENT,
+  `prenom` varchar(100) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `mot_de_passe` varchar(255) NOT NULL,
+  `revenu_mensuel` decimal(10,2) DEFAULT 0.00,
+  `id_foyer` int(11) NOT NULL,
+  PRIMARY KEY (`id_partenaire`),
+  UNIQUE KEY `email` (`email`),
+  KEY `id_foyer` (`id_foyer`),
+  CONSTRAINT `1` FOREIGN KEY (`id_foyer`) REFERENCES `FOYER` (`id_foyer`) ON DELETE CASCADE,
+  CONSTRAINT `chk_revenu` CHECK (`revenu_mensuel` >= 0)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `PARTENAIRE`
+--
+
+SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
+LOCK TABLES `PARTENAIRE` WRITE;
+/*!40000 ALTER TABLE `PARTENAIRE` DISABLE KEYS */;
+INSERT INTO `PARTENAIRE` VALUES
+(1,'Alexis','alexis@email.com','hameau',3000.00,1),
+(2,'Djoumessy','djoumessy@email.com','goba',2400.00,1),
+(3,'Timothy','timothy@email.com','maume',4500.00,2),
+(4,'Christophe','christophe@email.com','lechopier',2000.00,2),
+(5,'Jordan','jordan@email.com','jordan123',2500.00,3),
+(6,'Casey','casey@email.com','casey123',2500.00,3);
+/*!40000 ALTER TABLE `PARTENAIRE` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
+
+--
+-- Table structure for table `PARTICIPER`
+--
+
+DROP TABLE IF EXISTS `PARTICIPER`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `PARTICIPER` (
+  `id_partenaire` int(11) NOT NULL,
+  `id_evenement` int(11) NOT NULL,
+  PRIMARY KEY (`id_partenaire`,`id_evenement`),
+  KEY `id_evenement` (`id_evenement`),
+  CONSTRAINT `1` FOREIGN KEY (`id_partenaire`) REFERENCES `PARTENAIRE` (`id_partenaire`) ON DELETE CASCADE,
+  CONSTRAINT `2` FOREIGN KEY (`id_evenement`) REFERENCES `EVENEMENT` (`id_evenement`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `PARTICIPER`
+--
+
+SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
+LOCK TABLES `PARTICIPER` WRITE;
+/*!40000 ALTER TABLE `PARTICIPER` DISABLE KEYS */;
+INSERT INTO `PARTICIPER` VALUES
+(1,1),
+(2,1),
+(1,2),
+(2,2),
+(1,3),
+(2,3),
+(1,4),
+(2,4),
+(1,5),
+(2,5),
+(1,6),
+(2,6),
+(1,7),
+(2,7),
+(1,8),
+(2,8),
+(1,9),
+(2,9),
+(1,10),
+(2,10),
+(1,11),
+(2,11),
+(1,12),
+(2,12),
+(1,13),
+(2,13),
+(3,14),
+(4,14);
+/*!40000 ALTER TABLE `PARTICIPER` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
+
+--
+-- Table structure for table `PAYER`
+--
+
+DROP TABLE IF EXISTS `PAYER`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `PAYER` (
+  `id_partenaire` int(11) NOT NULL,
+  `id_depense` int(11) NOT NULL,
+  `montant_paye` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`id_partenaire`,`id_depense`),
+  KEY `id_depense` (`id_depense`),
+  CONSTRAINT `1` FOREIGN KEY (`id_partenaire`) REFERENCES `PARTENAIRE` (`id_partenaire`) ON DELETE CASCADE,
+  CONSTRAINT `2` FOREIGN KEY (`id_depense`) REFERENCES `DEPENSE` (`id_depense`) ON DELETE CASCADE,
+  CONSTRAINT `chk_montant_paye` CHECK (`montant_paye` >= 0)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `PAYER`
+--
+
+SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
+LOCK TABLES `PAYER` WRITE;
+/*!40000 ALTER TABLE `PAYER` DISABLE KEYS */;
+INSERT INTO `PAYER` VALUES
+(1,1,1150.00),
+(1,3,39.99),
+(1,5,125.40),
+(1,8,76.80),
+(1,9,84.10),
+(1,11,74.00),
+(1,12,1150.00),
+(1,14,39.99),
+(1,16,125.40),
+(1,19,76.80),
+(1,20,84.10),
+(1,22,74.00),
+(1,23,1150.00),
+(1,25,39.99),
+(1,27,125.40),
+(1,30,76.80),
+(1,31,84.10),
+(1,33,74.00),
+(1,34,1150.00),
+(1,36,39.99),
+(1,38,125.40),
+(1,41,76.80),
+(1,42,84.10),
+(1,44,74.00),
+(1,45,1150.00),
+(1,47,39.99),
+(1,49,125.40),
+(1,52,76.80),
+(1,53,84.10),
+(1,55,74.00),
+(1,56,1150.00),
+(1,58,39.99),
+(1,60,125.40),
+(1,63,76.80),
+(1,64,84.10),
+(1,66,74.00),
+(1,67,1150.00),
+(1,69,39.99),
+(1,71,125.40),
+(1,74,76.80),
+(1,75,84.10),
+(1,77,74.00),
+(1,78,1150.00),
+(1,80,39.99),
+(1,82,125.40),
+(1,85,76.80),
+(1,86,84.10),
+(1,88,74.00),
+(1,89,1150.00),
+(1,91,39.99),
+(1,93,125.40),
+(1,96,76.80),
+(1,97,84.10),
+(1,99,74.00),
+(1,100,1150.00),
+(1,102,39.99),
+(1,104,125.40),
+(1,107,76.80),
+(1,108,84.10),
+(1,110,74.00),
+(1,111,1150.00),
+(1,113,39.99),
+(1,115,125.40),
+(1,118,76.80),
+(1,119,84.10),
+(1,121,74.00),
+(1,122,1150.00),
+(1,124,39.99),
+(1,126,125.40),
+(1,129,76.80),
+(1,130,84.10),
+(1,132,74.00),
+(1,133,650.00),
+(1,135,780.00),
+(1,137,1200.00),
+(1,139,41.99),
+(1,141,132.80),
+(1,144,85.30),
+(1,145,86.40),
+(1,148,1200.00),
+(1,150,41.99),
+(1,152,132.80),
+(1,155,85.30),
+(1,156,86.40),
+(1,159,1200.00),
+(1,161,41.99),
+(1,163,132.80),
+(1,166,85.30),
+(1,167,86.40),
+(1,170,1200.00),
+(1,172,41.99),
+(1,174,132.80),
+(1,177,85.30),
+(1,178,86.40),
+(1,181,1200.00),
+(1,183,41.99),
+(1,185,132.80),
+(1,188,85.30),
+(1,189,86.40),
+(1,192,1200.00),
+(1,194,41.99),
+(1,196,132.80),
+(1,199,85.30),
+(1,200,86.40),
+(1,203,1200.00),
+(1,205,41.99),
+(1,207,132.80),
+(1,210,85.30),
+(1,211,86.40),
+(1,214,1200.00),
+(1,216,41.99),
+(1,218,132.80),
+(1,221,85.30),
+(1,222,86.40),
+(1,225,1200.00),
+(1,227,41.99),
+(1,229,132.80),
+(1,232,85.30),
+(1,233,86.40),
+(1,236,1200.00),
+(1,238,41.99),
+(1,240,132.80),
+(1,243,85.30),
+(1,244,86.40),
+(1,247,1200.00),
+(1,249,41.99),
+(1,251,132.80),
+(1,254,85.30),
+(1,255,86.40),
+(1,258,1200.00),
+(1,260,41.99),
+(1,262,132.80),
+(1,265,85.30),
+(1,266,86.40),
+(1,270,420.00),
+(1,271,280.00),
+(1,273,1200.00),
+(1,275,41.99),
+(1,277,138.50),
+(1,280,78.40),
+(1,281,88.80),
+(1,283,86.00),
+(1,284,1200.00),
+(1,286,41.99),
+(1,288,138.50),
+(1,291,78.40),
+(1,292,88.80),
+(1,294,86.00),
+(1,295,1200.00),
+(1,297,41.99),
+(1,299,138.50),
+(1,302,78.40),
+(1,303,88.80),
+(1,305,86.00),
+(1,306,1200.00),
+(1,308,41.99),
+(1,310,138.50),
+(1,313,78.40),
+(1,314,88.80),
+(1,316,86.00),
+(1,317,1200.00),
+(1,319,41.99),
+(1,321,138.50),
+(1,324,78.40),
+(1,325,88.80),
+(1,327,86.00),
+(1,328,1200.00),
+(1,330,41.99),
+(1,332,138.50),
+(1,335,78.40),
+(1,336,88.80),
+(1,338,86.00),
+(1,339,1200.00),
+(1,341,41.99),
+(1,343,138.50),
+(1,346,78.40),
+(1,347,88.80),
+(1,349,86.00),
+(1,350,1200.00),
+(1,352,41.99),
+(1,354,138.50),
+(1,357,78.40),
+(1,358,88.80),
+(1,360,86.00),
+(1,361,1200.00),
+(1,363,41.99),
+(1,365,138.50),
+(1,368,78.40),
+(1,369,88.80),
+(1,371,86.00),
+(1,372,360.00),
+(1,374,1200.00),
+(1,375,115.00),
+(1,376,41.99),
+(1,379,26.50),
+(1,380,68.00),
+(1,383,35.00),
+(1,384,1200.00),
+(1,385,88.80),
+(2,2,95.00),
+(2,4,28.00),
+(2,6,48.50),
+(2,7,118.20),
+(2,10,68.50),
+(2,13,95.00),
+(2,15,28.00),
+(2,17,48.50),
+(2,18,118.20),
+(2,21,68.50),
+(2,24,95.00),
+(2,26,28.00),
+(2,28,48.50),
+(2,29,118.20),
+(2,32,68.50),
+(2,35,95.00),
+(2,37,28.00),
+(2,39,48.50),
+(2,40,118.20),
+(2,43,68.50),
+(2,46,95.00),
+(2,48,28.00),
+(2,50,48.50),
+(2,51,118.20),
+(2,54,68.50),
+(2,57,95.00),
+(2,59,28.00),
+(2,61,48.50),
+(2,62,118.20),
+(2,65,68.50),
+(2,68,95.00),
+(2,70,28.00),
+(2,72,48.50),
+(2,73,118.20),
+(2,76,68.50),
+(2,79,95.00),
+(2,81,28.00),
+(2,83,48.50),
+(2,84,118.20),
+(2,87,68.50),
+(2,90,95.00),
+(2,92,28.00),
+(2,94,48.50),
+(2,95,118.20),
+(2,98,68.50),
+(2,101,95.00),
+(2,103,28.00),
+(2,105,48.50),
+(2,106,118.20),
+(2,109,68.50),
+(2,112,95.00),
+(2,114,28.00),
+(2,116,48.50),
+(2,117,118.20),
+(2,120,68.50),
+(2,123,95.00),
+(2,125,28.00),
+(2,127,48.50),
+(2,128,118.20),
+(2,131,68.50),
+(2,134,240.00),
+(2,136,185.00),
+(2,138,110.00),
+(2,140,30.00),
+(2,142,52.00),
+(2,143,124.60),
+(2,146,72.00),
+(2,147,82.00),
+(2,149,110.00),
+(2,151,30.00),
+(2,153,52.00),
+(2,154,124.60),
+(2,157,72.00),
+(2,158,82.00),
+(2,160,110.00),
+(2,162,30.00),
+(2,164,52.00),
+(2,165,124.60),
+(2,168,72.00),
+(2,169,82.00),
+(2,171,110.00),
+(2,173,30.00),
+(2,175,52.00),
+(2,176,124.60),
+(2,179,72.00),
+(2,180,82.00),
+(2,182,110.00),
+(2,184,30.00),
+(2,186,52.00),
+(2,187,124.60),
+(2,190,72.00),
+(2,191,82.00),
+(2,193,110.00),
+(2,195,30.00),
+(2,197,52.00),
+(2,198,124.60),
+(2,201,72.00),
+(2,202,82.00),
+(2,204,110.00),
+(2,206,30.00),
+(2,208,52.00),
+(2,209,124.60),
+(2,212,72.00),
+(2,213,82.00),
+(2,215,110.00),
+(2,217,30.00),
+(2,219,52.00),
+(2,220,124.60),
+(2,223,72.00),
+(2,224,82.00),
+(2,226,110.00),
+(2,228,30.00),
+(2,230,52.00),
+(2,231,124.60),
+(2,234,72.00),
+(2,235,82.00),
+(2,237,110.00),
+(2,239,30.00),
+(2,241,52.00),
+(2,242,124.60),
+(2,245,72.00),
+(2,246,82.00),
+(2,248,110.00),
+(2,250,30.00),
+(2,252,52.00),
+(2,253,124.60),
+(2,256,72.00),
+(2,257,82.00),
+(2,259,110.00),
+(2,261,30.00),
+(2,263,52.00),
+(2,264,124.60),
+(2,267,72.00),
+(2,268,82.00),
+(2,269,145.00),
+(2,272,160.00),
+(2,274,105.00),
+(2,276,32.00),
+(2,278,55.00),
+(2,279,128.90),
+(2,282,74.00),
+(2,285,105.00),
+(2,287,32.00),
+(2,289,55.00),
+(2,290,128.90),
+(2,293,74.00),
+(2,296,105.00),
+(2,298,32.00),
+(2,300,55.00),
+(2,301,128.90),
+(2,304,74.00),
+(2,307,105.00),
+(2,309,32.00),
+(2,311,55.00),
+(2,312,128.90),
+(2,315,74.00),
+(2,318,105.00),
+(2,320,32.00),
+(2,322,55.00),
+(2,323,128.90),
+(2,326,74.00),
+(2,329,105.00),
+(2,331,32.00),
+(2,333,55.00),
+(2,334,128.90),
+(2,337,74.00),
+(2,340,105.00),
+(2,342,32.00),
+(2,344,55.00),
+(2,345,128.90),
+(2,348,74.00),
+(2,351,105.00),
+(2,353,32.00),
+(2,355,55.00),
+(2,356,128.90),
+(2,359,74.00),
+(2,362,105.00),
+(2,364,32.00),
+(2,366,55.00),
+(2,367,128.90),
+(2,370,74.00),
+(2,373,950.00),
+(2,377,32.00),
+(2,378,150.00),
+(2,381,71.20),
+(2,382,42.80),
+(2,386,84.30),
+(3,387,1400.00),
+(3,388,80.00),
+(3,389,200.00),
+(5,390,950.00),
+(6,391,110.00);
+/*!40000 ALTER TABLE `PAYER` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_uca1400_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`o22504119`@`localhost`*/ /*!50003 trigger trop_paye
+before INSERT
+ON PAYER FOR EACH ROW
+BEGIN
+    declare mes varchar(100);
+    declare somme_deja_paye DECIMAL(10,2);
+    declare somme_a_payer DECIMAL(10,2);
+    declare somme_supplementaire DECIMAL(10,2);
+    SELECT montant_total into somme_a_payer from DEPENSE where id_depense = NEW.id_depense;
+    SELECT IFNULL(SUM(montant_paye), 0.00) into somme_deja_paye from PAYER where id_depense = NEW.id_depense;
+    set somme_supplementaire = NEW.montant_paye;
+    if (somme_supplementaire + somme_deja_paye) > somme_a_payer then
+        set mes = concat("Trop payé : la somme payee depasse le montant total de la depense");
+        signal SQLSTATE "45000" set MESSAGE_TEXT = mes;
+    end if;
+END 
+*/;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_uca1400_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`o22504119`@`localhost`*/ /*!50003 TRIGGER trop_paye_update
+BEFORE UPDATE ON PAYER FOR EACH ROW
+BEGIN
+    DECLARE mes VARCHAR(100);
+    DECLARE somme_deja_paye DECIMAL(10,2);
+    DECLARE somme_a_payer DECIMAL(10,2);
+    SELECT montant_total INTO somme_a_payer FROM DEPENSE WHERE id_depense = NEW.id_depense;
+    SELECT IFNULL(SUM(montant_paye), 0.00) INTO somme_deja_paye 
+    FROM PAYER 
+    WHERE id_depense = NEW.id_depense 
+      AND id_partenaire != OLD.id_partenaire;
+    IF (NEW.montant_paye + somme_deja_paye) > somme_a_payer THEN
+        SET mes = CONCAT('Trop payé : la somme payee depasse le montant total de la depense');
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = mes;
+    END IF;
+END 
+*/;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
+-- Table structure for table `PRODUIT`
+--
+
+DROP TABLE IF EXISTS `PRODUIT`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `PRODUIT` (
+  `id_produit` int(11) NOT NULL AUTO_INCREMENT,
+  `nom` varchar(255) NOT NULL,
+  `id_cat_produit` int(11) NOT NULL,
+  PRIMARY KEY (`id_produit`),
+  KEY `id_cat_produit` (`id_cat_produit`),
+  CONSTRAINT `1` FOREIGN KEY (`id_cat_produit`) REFERENCES `CATEGORIE_PRODUIT` (`id_cat_produit`)
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `PRODUIT`
+--
+
+SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
+LOCK TABLES `PRODUIT` WRITE;
+/*!40000 ALTER TABLE `PRODUIT` DISABLE KEYS */;
+INSERT INTO `PRODUIT` VALUES
+(1,'Pommes Gala Bio',1),
+(2,'Carottes des sables',1),
+(3,'Bananes Cavendish',1),
+(4,'Poireaux',1),
+(5,'Courgettes',1),
+(6,'Salade batavia',1),
+(7,'Tomates grappes',1),
+(8,'Citrons jaunes',1),
+(9,'Avocats',1),
+(10,'Champignons de Paris',1),
+(11,'Lait demi-écrémé Bio',2),
+(12,'Beurre demi-sel',2),
+(13,'Œufs frais de plein air x12',2),
+(14,'Emmental râpé 200g',2),
+(15,'Yaourts nature x8',2),
+(16,'Crème fraîche épaisse',2),
+(17,'Fromage Comté 18 mois',2),
+(18,'Mozzarella di Bufala',2),
+(19,'Pâtes tagliatelles complètes',3),
+(20,'Riz basmati 1kg',3),
+(21,'Huile d\'olive vierge extra',3),
+(22,'Café moulu arabica 500g',3),
+(23,'Chocolat noir 70%',3),
+(24,'Sauce tomate basilic Bio',3),
+(25,'Farine de blé T55 1kg',3),
+(26,'Lentilles vertes du Puy',3),
+(27,'Flocons d\'avoine Bio',3),
+(28,'Thé vert menthe',3),
+(29,'Confiture d\'abricots',3),
+(30,'Miel de fleurs',3),
+(31,'Lessive liquide écologique',4),
+(32,'Liquide vaisselle amande',4),
+(33,'Papier toilette recyclé x12',4),
+(34,'Sacs poubelle 30L',4),
+(35,'Éponges grattantes x4',4),
+(36,'Savon de Marseille',4),
+(37,'Dentifrice blancheur',4),
+(38,'Baguette tradition Bio',5),
+(39,'Pain complet aux céréales',5),
+(40,'Croissants au beurre x4',5),
+(41,'Argent',5),
+(42,'Argent',1);
+/*!40000 ALTER TABLE `PRODUIT` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
+
+--
+-- Table structure for table `REMBOURSEMENT`
+--
+
+DROP TABLE IF EXISTS `REMBOURSEMENT`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `REMBOURSEMENT` (
+  `id_remboursement` int(11) NOT NULL AUTO_INCREMENT,
+  `montant` decimal(10,2) NOT NULL,
+  `date_remboursement` date NOT NULL,
+  `est_regle` tinyint(1) DEFAULT 0,
+  `id_emetteur` int(11) NOT NULL,
+  `id_receveur` int(11) NOT NULL,
+  `id_depense` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_remboursement`),
+  KEY `id_emetteur` (`id_emetteur`),
+  KEY `id_receveur` (`id_receveur`),
+  KEY `id_depense` (`id_depense`),
+  CONSTRAINT `1` FOREIGN KEY (`id_emetteur`) REFERENCES `PARTENAIRE` (`id_partenaire`) ON DELETE CASCADE,
+  CONSTRAINT `2` FOREIGN KEY (`id_receveur`) REFERENCES `PARTENAIRE` (`id_partenaire`) ON DELETE CASCADE,
+  CONSTRAINT `3` FOREIGN KEY (`id_depense`) REFERENCES `DEPENSE` (`id_depense`) ON DELETE SET NULL,
+  CONSTRAINT `chk_montant_remboursement` CHECK (`montant` > 0),
+  CONSTRAINT `chk_emetteur_receveur` CHECK (`id_emetteur` <> `id_receveur`)
+) ENGINE=InnoDB AUTO_INCREMENT=114 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `REMBOURSEMENT`
+--
+
+SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
+LOCK TABLES `REMBOURSEMENT` WRITE;
+/*!40000 ALTER TABLE `REMBOURSEMENT` DISABLE KEYS */;
+INSERT INTO `REMBOURSEMENT` VALUES
+(1,575.00,'2024-01-01',1,2,1,1),
+(2,47.50,'2024-01-05',1,1,2,2),
+(3,37.00,'2024-01-16',1,2,1,11),
+(4,575.00,'2024-02-01',1,2,1,12),
+(5,47.50,'2024-02-05',1,1,2,13),
+(6,37.00,'2024-02-16',1,2,1,22),
+(7,575.00,'2024-03-01',1,2,1,23),
+(8,47.50,'2024-03-05',1,1,2,24),
+(9,37.00,'2024-03-16',1,2,1,33),
+(10,575.00,'2024-04-01',1,2,1,34),
+(11,47.50,'2024-04-05',1,1,2,35),
+(12,37.00,'2024-04-16',1,2,1,44),
+(13,575.00,'2024-05-01',1,2,1,45),
+(14,47.50,'2024-05-05',1,1,2,46),
+(15,37.00,'2024-05-16',1,2,1,55),
+(16,575.00,'2024-06-01',1,2,1,56),
+(17,47.50,'2024-06-05',1,1,2,57),
+(18,37.00,'2024-06-16',1,2,1,66),
+(19,575.00,'2024-07-01',1,2,1,67),
+(20,47.50,'2024-07-05',1,1,2,68),
+(21,37.00,'2024-07-16',1,2,1,77),
+(22,575.00,'2024-08-01',1,2,1,78),
+(23,47.50,'2024-08-05',1,1,2,79),
+(24,37.00,'2024-08-16',1,2,1,88),
+(25,575.00,'2024-09-01',1,2,1,89),
+(26,47.50,'2024-09-05',1,1,2,90),
+(27,37.00,'2024-09-16',1,2,1,99),
+(28,575.00,'2024-10-01',1,2,1,100),
+(29,47.50,'2024-10-05',1,1,2,101),
+(30,37.00,'2024-10-16',1,2,1,110),
+(31,575.00,'2024-11-01',1,2,1,111),
+(32,47.50,'2024-11-05',1,1,2,112),
+(33,37.00,'2024-11-16',1,2,1,121),
+(34,575.00,'2024-12-01',1,2,1,122),
+(35,47.50,'2024-12-05',1,1,2,123),
+(36,37.00,'2024-12-16',1,2,1,132),
+(37,325.00,'2024-01-20',1,2,1,133),
+(38,120.00,'2024-06-15',1,1,2,134),
+(39,390.00,'2024-08-01',1,2,1,135),
+(40,92.50,'2024-12-18',1,1,2,136),
+(41,540.00,'2025-01-01',1,2,1,137),
+(42,49.50,'2025-01-05',1,1,2,138),
+(43,41.00,'2025-01-15',1,1,2,147),
+(44,540.00,'2025-02-01',1,2,1,148),
+(45,49.50,'2025-02-05',1,1,2,149),
+(46,41.00,'2025-02-15',1,1,2,158),
+(47,540.00,'2025-03-01',1,2,1,159),
+(48,49.50,'2025-03-05',1,1,2,160),
+(49,41.00,'2025-03-15',1,1,2,169),
+(50,540.00,'2025-04-01',1,2,1,170),
+(51,49.50,'2025-04-05',1,1,2,171),
+(52,41.00,'2025-04-15',1,1,2,180),
+(53,540.00,'2025-05-01',1,2,1,181),
+(54,49.50,'2025-05-05',1,1,2,182),
+(55,41.00,'2025-05-15',1,1,2,191),
+(56,540.00,'2025-06-01',1,2,1,192),
+(57,49.50,'2025-06-05',1,1,2,193),
+(58,41.00,'2025-06-15',1,1,2,202),
+(59,540.00,'2025-07-01',1,2,1,203),
+(60,49.50,'2025-07-05',1,1,2,204),
+(61,41.00,'2025-07-15',1,1,2,213),
+(62,540.00,'2025-08-01',1,2,1,214),
+(63,49.50,'2025-08-05',1,1,2,215),
+(64,41.00,'2025-08-15',1,1,2,224),
+(65,540.00,'2025-09-01',1,2,1,225),
+(66,49.50,'2025-09-05',1,1,2,226),
+(67,41.00,'2025-09-15',1,1,2,235),
+(68,540.00,'2025-10-01',1,2,1,236),
+(69,49.50,'2025-10-05',1,1,2,237),
+(70,41.00,'2025-10-15',1,1,2,246),
+(71,540.00,'2025-11-01',1,2,1,247),
+(72,49.50,'2025-11-05',1,1,2,248),
+(73,41.00,'2025-11-15',1,1,2,257),
+(74,540.00,'2025-12-01',1,2,1,258),
+(75,49.50,'2025-12-05',1,1,2,259),
+(76,41.00,'2025-12-15',1,1,2,268),
+(77,72.50,'2025-03-22',1,1,2,269),
+(78,210.00,'2025-09-10',1,2,1,270),
+(79,140.00,'2025-10-18',1,2,1,271),
+(80,80.00,'2025-12-24',1,1,2,272),
+(81,480.00,'2026-01-01',1,2,1,273),
+(82,42.00,'2026-01-05',1,1,2,274),
+(83,43.00,'2026-01-16',1,2,1,283),
+(84,480.00,'2026-02-01',1,2,1,284),
+(85,42.00,'2026-02-05',1,1,2,285),
+(86,43.00,'2026-02-16',1,2,1,294),
+(87,480.00,'2026-03-01',1,2,1,295),
+(88,42.00,'2026-03-05',1,1,2,296),
+(89,43.00,'2026-03-16',1,2,1,305),
+(90,480.00,'2026-04-01',1,2,1,306),
+(91,42.00,'2026-04-05',1,1,2,307),
+(92,43.00,'2026-04-16',1,2,1,316),
+(93,480.00,'2026-05-01',1,2,1,317),
+(94,42.00,'2026-05-05',1,1,2,318),
+(95,43.00,'2026-05-16',1,2,1,327),
+(96,480.00,'2026-06-01',1,2,1,328),
+(97,42.00,'2026-06-05',1,1,2,329),
+(98,43.00,'2026-06-16',1,2,1,338),
+(99,480.00,'2026-07-01',1,2,1,339),
+(100,42.00,'2026-07-05',1,1,2,340),
+(101,43.00,'2026-07-16',1,2,1,349),
+(102,480.00,'2026-08-01',1,2,1,350),
+(103,42.00,'2026-08-05',1,1,2,351),
+(104,43.00,'2026-08-16',1,2,1,360),
+(105,480.00,'2026-09-01',1,2,1,361),
+(106,42.00,'2026-09-05',1,1,2,362),
+(107,43.00,'2026-09-16',1,2,1,371),
+(108,180.00,'2026-06-20',1,2,1,372),
+(109,475.00,'2026-07-28',1,1,2,373),
+(110,480.00,'2026-10-01',0,2,1,374),
+(111,40.00,'2026-10-17',0,1,2,378),
+(112,20.00,'2026-10-10',0,2,1,NULL),
+(113,50.00,'2026-09-15',1,4,3,NULL);
+/*!40000 ALTER TABLE `REMBOURSEMENT` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_uca1400_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`o22504119`@`localhost`*/ /*!50003 trigger emetteur_different_receveur_insert
+before INSERT
+ON REMBOURSEMENT FOR EACH ROW
+BEGIN
+    if NEW.id_emetteur = NEW.id_receveur then
+        signal SQLSTATE "45000" set MESSAGE_TEXT = "l'emetteur et le receveur sont identiques";
+    end if;
+end 
+*/;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_uca1400_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`o22504119`@`localhost`*/ /*!50003 trigger emetteur_different_receveur_update
+before update
+ON REMBOURSEMENT FOR EACH ROW
+BEGIN
+    if NEW.id_emetteur = NEW.id_receveur then
+        signal SQLSTATE "45000" set MESSAGE_TEXT = "l'emetteur et le receveur sont identiques";
+    end if;
+end 
+*/;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
+-- Table structure for table `TACHE`
+--
+
+DROP TABLE IF EXISTS `TACHE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `TACHE` (
+  `id_tache` int(11) NOT NULL AUTO_INCREMENT,
+  `libelle` varchar(255) NOT NULL,
+  `date_echeance` date DEFAULT NULL,
+  `duree_estimee` int(11) DEFAULT NULL,
+  `terminee` tinyint(1) DEFAULT 0,
+  `frequence_jours` int(11) DEFAULT 0,
+  `id_partenaire` int(11) DEFAULT NULL,
+  `id_cat_tache` int(11) NOT NULL,
+  `id_foyer` int(11) NOT NULL,
+  PRIMARY KEY (`id_tache`),
+  KEY `id_partenaire` (`id_partenaire`),
+  KEY `id_cat_tache` (`id_cat_tache`),
+  KEY `id_foyer` (`id_foyer`),
+  CONSTRAINT `1` FOREIGN KEY (`id_partenaire`) REFERENCES `PARTENAIRE` (`id_partenaire`) ON DELETE SET NULL,
+  CONSTRAINT `2` FOREIGN KEY (`id_cat_tache`) REFERENCES `CATEGORIE_TACHE` (`id_cat_tache`),
+  CONSTRAINT `3` FOREIGN KEY (`id_foyer`) REFERENCES `FOYER` (`id_foyer`) ON DELETE CASCADE,
+  CONSTRAINT `chk_duree` CHECK (`duree_estimee` > 0),
+  CONSTRAINT `chk_frequence` CHECK (`frequence_jours` >= 0)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `TACHE`
+--
+
+SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
+LOCK TABLES `TACHE` WRITE;
+/*!40000 ALTER TABLE `TACHE` DISABLE KEYS */;
+INSERT INTO `TACHE` VALUES
+(1,'Trier les placards de la cuisine','2026-09-15',45,0,0,1,1,1),
+(2,'Déclarer les impôts communs','2026-05-20',30,0,0,2,3,1),
+(3,'Réviser le chauffe-eau','2026-09-28',20,0,365,1,3,1),
+(4,'Dépoussiérer les radiateurs','2026-10-02',30,0,30,2,1,1),
+(5,'Nettoyer les vitres du salon','2026-10-05',40,1,60,1,1,1),
+(6,'Faire le tri du réfrigérateur','2026-10-12',15,1,7,2,2,1),
+(7,'Ranger le balcon d\'automne','2026-10-15',35,0,0,1,4,1),
+(8,'Lancer une lessive de draps','2026-10-19',15,1,7,1,1,1),
+(9,'Faire les courses de la semaine','2026-10-19',40,1,7,2,2,1),
+(10,'Nettoyer la salle de bain','2026-10-20',25,0,14,NULL,1,1),
+(11,'Passer l\'aspirateur et la serpillière','2026-10-21',30,1,7,1,1,1),
+(12,'Préparer le batch-cooking du week-end','2026-10-24',60,0,7,2,2,1),
+(13,'Arroser les plantes vertes','2026-10-26',10,1,5,1,4,1),
+(14,'Payer la facture d\'eau semestrielle','2026-10-28',15,1,0,2,3,1),
+(15,'Changer les filtres de la hotte','2026-11-02',20,1,90,NULL,1,1),
+(16,'Payer la taxe d\'habitation','2026-10-25',15,1,0,3,3,2),
+(17,'Nettoyer la terrasse','2026-10-27',45,0,30,4,4,2);
+/*!40000 ALTER TABLE `TACHE` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
+
+--
 -- Current Database: `Entrepot`
 --
 
@@ -6928,7 +9115,9 @@ SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `db` WRITE;
 /*!40000 ALTER TABLE `db` DISABLE KEYS */;
 INSERT INTO `db` VALUES
-('localhost','JDBCSem4','dev','Y','Y','Y','Y','Y','Y','N','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y');
+('localhost','JDBCSem4','dev','Y','Y','Y','Y','Y','Y','N','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y'),
+('localhost','DBo22504119','o22504119','Y','Y','Y','Y','Y','Y','N','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y'),
+('127.0.0.1','DBo22504119','o22504119','Y','Y','Y','Y','Y','Y','N','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y');
 /*!40000 ALTER TABLE `db` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;
@@ -7023,7 +9212,9 @@ INSERT INTO `global_priv` VALUES
 ('localhost','root','{\"access\":18446744073709551615,\"plugin\":\"mysql_native_password\",\"authentication_string\":\"invalid\",\"auth_or\":[{},{\"plugin\":\"unix_socket\"}]}'),
 ('localhost','mysql','{\"access\":18446744073709551615,\"plugin\":\"mysql_native_password\",\"authentication_string\":\"invalid\",\"auth_or\":[{},{\"plugin\":\"unix_socket\"}]}'),
 ('','PUBLIC','{\"access\":0,\"is_role\":true}'),
-('localhost','dev','{\"access\":1099511627775,\"version_id\":130002,\"plugin\":\"mysql_native_password\",\"authentication_string\":\"\",\"password_last_changed\":1791532492}');
+('localhost','dev','{\"access\":1099511627775,\"version_id\":130002,\"plugin\":\"mysql_native_password\",\"authentication_string\":\"\",\"password_last_changed\":1791532492}'),
+('localhost','o22504119','{\"access\":0,\"version_id\":130002,\"plugin\":\"mysql_native_password\",\"authentication_string\":\"*2B48A1BF1F3D631003D32B97D79214E5743BD1CB\",\"password_last_changed\":1793959026}'),
+('127.0.0.1','o22504119','{\"access\":0,\"version_id\":130002,\"plugin\":\"mysql_native_password\",\"authentication_string\":\"*2B48A1BF1F3D631003D32B97D79214E5743BD1CB\",\"password_last_changed\":1793959026}');
 /*!40000 ALTER TABLE `global_priv` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;
@@ -8985,6 +11176,12 @@ USE `ADeux`;
 USE `BanqueTPIndex`;
 
 --
+-- Current Database: `DBo22504119`
+--
+
+USE `DBo22504119`;
+
+--
 -- Current Database: `Entrepot`
 --
 
@@ -9047,4 +11244,4 @@ USE `mysql`;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
 
--- Dump completed on 2026-11-06  9:58:14
+-- Dump completed on 2026-11-06 16:27:04

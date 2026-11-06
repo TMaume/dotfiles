@@ -81,6 +81,7 @@ quickshell
 reflector
 rust
 slurp
+snapshot
 starship
 steam
 strace

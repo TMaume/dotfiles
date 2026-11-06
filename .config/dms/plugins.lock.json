@@ -9,6 +9,11 @@
       "repo": "https://github.com/NordicsSys/dankCleaner",
       "commit": "bdf499182f39427ba0d720656e6fd131ddd57280"
     },
+    "dankKDEConnect": {
+      "repo": "https://github.com/duxlabs-dev/dux-plugins",
+      "path": "DankKDEConnect",
+      "commit": "9508fe62b90bd761b0c1d367cef2f1efefdddcaa"
+    },
     "mediaControlPlus": {
       "repo": "https://github.com/Dadangdut33/dms-plugins",
       "path": "MediaControlPlus",
