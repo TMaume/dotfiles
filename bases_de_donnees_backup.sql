@@ -17,6 +17,927 @@
 /*M!100616 SET @OLD_NOTE_VERBOSITY=@@NOTE_VERBOSITY, NOTE_VERBOSITY=0 */;
 
 --
+-- Current Database: `ADeux`
+--
+
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `ADeux` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */;
+
+USE `ADeux`;
+
+--
+-- Table structure for table `ARTICLE`
+--
+
+DROP TABLE IF EXISTS `ARTICLE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `ARTICLE` (
+  `id_article` int(11) NOT NULL AUTO_INCREMENT,
+  `titre` varchar(255) NOT NULL,
+  `date_publication` date DEFAULT NULL,
+  `temps_lecture` int(11) DEFAULT NULL,
+  `lien` varchar(2048) DEFAULT NULL,
+  `id_cat_article` int(11) NOT NULL,
+  PRIMARY KEY (`id_article`),
+  KEY `id_cat_article` (`id_cat_article`),
+  CONSTRAINT `1` FOREIGN KEY (`id_cat_article`) REFERENCES `CATEGORIE_ARTICLE` (`id_cat_article`),
+  CONSTRAINT `chk_temps_lecture` CHECK (`temps_lecture` > 0)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ARTICLE`
+--
+
+SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
+LOCK TABLES `ARTICLE` WRITE;
+/*!40000 ALTER TABLE `ARTICLE` DISABLE KEYS */;
+INSERT INTO `ARTICLE` VALUES
+(1,'Mieux s’écouter, sans chercher à répondre','2026-10-19',6,'https://lien.com/art1',1),
+(2,'La charge invisible se partage aussi','2026-09-21',6,'https://lien.com/art2',3);
+/*!40000 ALTER TABLE `ARTICLE` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
+
+--
+-- Table structure for table `BUDGET_HEBDO`
+--
+
+DROP TABLE IF EXISTS `BUDGET_HEBDO`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `BUDGET_HEBDO` (
+  `id_budget_h` int(11) NOT NULL AUTO_INCREMENT,
+  `date_debut` datetime NOT NULL,
+  `date_fin` datetime NOT NULL,
+  `montant_alloue` decimal(10,2) NOT NULL,
+  `id_budget_m` int(11) NOT NULL,
+  PRIMARY KEY (`id_budget_h`),
+  KEY `id_budget_m` (`id_budget_m`),
+  CONSTRAINT `1` FOREIGN KEY (`id_budget_m`) REFERENCES `BUDGET_MENSUEL` (`id_budget_m`) ON DELETE CASCADE,
+  CONSTRAINT `chk_dates_hebdo` CHECK (`date_fin` >= `date_debut`),
+  CONSTRAINT `chk_montant_hebdo` CHECK (`montant_alloue` >= 0)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `BUDGET_HEBDO`
+--
+
+SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
+LOCK TABLES `BUDGET_HEBDO` WRITE;
+/*!40000 ALTER TABLE `BUDGET_HEBDO` DISABLE KEYS */;
+INSERT INTO `BUDGET_HEBDO` VALUES
+(1,'2026-10-01 00:00:00','2026-10-07 00:00:00',750.00,1),
+(2,'2026-10-08 00:00:00','2026-10-14 00:00:00',750.00,1);
+/*!40000 ALTER TABLE `BUDGET_HEBDO` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_uca1400_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`dev`@`localhost`*/ /*!50003 trigger verif_montant_budget_hebdo
+before INSERT
+ON BUDGET_HEBDO FOR EACH ROW
+BEGIN
+    declare budget_mois DECIMAL(10,2);
+    declare somme_budget_hebdo DECIMAL(10,2);
+    declare mes varchar(100);
+    select montant_global into budget_mois from BUDGET_MENSUEL where id_budget_m = NEW.id_budget_m;
+    select IFNULL(SUM(montant_alloue), 0.00) into somme_budget_hebdo from BUDGET_HEBDO where id_budget_m = NEW.id_budget_m;
+    if (somme_budget_hebdo + NEW.montant_alloue) > budget_mois then
+        set mes = concat("Budget impossible : repartition des budgets hebdos sont superieur au budget mensuel");
+        signal SQLSTATE "45000" set MESSAGE_TEXT = mes;
+    end if;
+END 
+*/;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
+-- Table structure for table `BUDGET_MENSUEL`
+--
+
+DROP TABLE IF EXISTS `BUDGET_MENSUEL`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `BUDGET_MENSUEL` (
+  `id_budget_m` int(11) NOT NULL AUTO_INCREMENT,
+  `mois` tinyint(4) NOT NULL,
+  `annee` year(4) NOT NULL,
+  `montant_global` decimal(10,2) NOT NULL,
+  `id_foyer` int(11) NOT NULL,
+  PRIMARY KEY (`id_budget_m`),
+  KEY `id_foyer` (`id_foyer`),
+  CONSTRAINT `1` FOREIGN KEY (`id_foyer`) REFERENCES `FOYER` (`id_foyer`) ON DELETE CASCADE,
+  CONSTRAINT `chk_mois` CHECK (`mois` between 1 and 12),
+  CONSTRAINT `chk_montant_budget` CHECK (`montant_global` >= 0)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `BUDGET_MENSUEL`
+--
+
+SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
+LOCK TABLES `BUDGET_MENSUEL` WRITE;
+/*!40000 ALTER TABLE `BUDGET_MENSUEL` DISABLE KEYS */;
+INSERT INTO `BUDGET_MENSUEL` VALUES
+(1,10,2026,3000.00,1),
+(2,11,2026,3000.00,1),
+(3,10,2026,4000.00,2),
+(4,10,2026,2000.00,3);
+/*!40000 ALTER TABLE `BUDGET_MENSUEL` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_uca1400_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`dev`@`localhost`*/ /*!50003 trigger limite_budget_mensuel
+before INSERT
+ON BUDGET_MENSUEL FOR EACH ROW
+BEGIN
+    declare somme_revenus_mensuel DECIMAL(10,2);
+    declare budget_mois DECIMAL(10,2);
+    declare mes varchar(100);
+    select IFNULL(SUM(revenu_mensuel), 0.00) into somme_revenus_mensuel from PARTENAIRE where id_foyer = NEW.id_foyer;
+    set budget_mois = NEW.montant_global;
+    if somme_revenus_mensuel < budget_mois then
+        set mes = concat("Budget impossible : somme des revenus insuffisants");
+        signal SQLSTATE "45000" set MESSAGE_TEXT = mes;
+    end if;
+END 
+*/;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
+-- Table structure for table `CATEGORIE_ARTICLE`
+--
+
+DROP TABLE IF EXISTS `CATEGORIE_ARTICLE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `CATEGORIE_ARTICLE` (
+  `id_cat_article` int(11) NOT NULL AUTO_INCREMENT,
+  `nom_cat_article` varchar(100) NOT NULL,
+  PRIMARY KEY (`id_cat_article`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `CATEGORIE_ARTICLE`
+--
+
+SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
+LOCK TABLES `CATEGORIE_ARTICLE` WRITE;
+/*!40000 ALTER TABLE `CATEGORIE_ARTICLE` DISABLE KEYS */;
+INSERT INTO `CATEGORIE_ARTICLE` VALUES
+(1,'Communication'),
+(2,'Finances'),
+(3,'Organisation'),
+(4,'Intimité');
+/*!40000 ALTER TABLE `CATEGORIE_ARTICLE` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
+
+--
+-- Table structure for table `CATEGORIE_DEPENSE`
+--
+
+DROP TABLE IF EXISTS `CATEGORIE_DEPENSE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `CATEGORIE_DEPENSE` (
+  `id_cat_depense` int(11) NOT NULL AUTO_INCREMENT,
+  `nom_cat_depense` varchar(100) NOT NULL,
+  PRIMARY KEY (`id_cat_depense`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `CATEGORIE_DEPENSE`
+--
+
+SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
+LOCK TABLES `CATEGORIE_DEPENSE` WRITE;
+/*!40000 ALTER TABLE `CATEGORIE_DEPENSE` DISABLE KEYS */;
+INSERT INTO `CATEGORIE_DEPENSE` VALUES
+(1,'Logement'),
+(2,'Alimentation'),
+(3,'Mobilité'),
+(4,'Loisirs'),
+(5,'Santé'),
+(6,'Factures');
+/*!40000 ALTER TABLE `CATEGORIE_DEPENSE` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
+
+--
+-- Table structure for table `CATEGORIE_PRODUIT`
+--
+
+DROP TABLE IF EXISTS `CATEGORIE_PRODUIT`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `CATEGORIE_PRODUIT` (
+  `id_cat_produit` int(11) NOT NULL AUTO_INCREMENT,
+  `nom_cat_produit` varchar(100) NOT NULL,
+  PRIMARY KEY (`id_cat_produit`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `CATEGORIE_PRODUIT`
+--
+
+SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
+LOCK TABLES `CATEGORIE_PRODUIT` WRITE;
+/*!40000 ALTER TABLE `CATEGORIE_PRODUIT` DISABLE KEYS */;
+INSERT INTO `CATEGORIE_PRODUIT` VALUES
+(1,'Fruits & Légumes'),
+(2,'Frais'),
+(3,'Épicerie'),
+(4,'Hygiène & Entretien');
+/*!40000 ALTER TABLE `CATEGORIE_PRODUIT` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
+
+--
+-- Table structure for table `CATEGORIE_TACHE`
+--
+
+DROP TABLE IF EXISTS `CATEGORIE_TACHE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `CATEGORIE_TACHE` (
+  `id_cat_tache` int(11) NOT NULL AUTO_INCREMENT,
+  `nom_cat_tache` varchar(100) NOT NULL,
+  PRIMARY KEY (`id_cat_tache`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `CATEGORIE_TACHE`
+--
+
+SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
+LOCK TABLES `CATEGORIE_TACHE` WRITE;
+/*!40000 ALTER TABLE `CATEGORIE_TACHE` DISABLE KEYS */;
+INSERT INTO `CATEGORIE_TACHE` VALUES
+(1,'Ménage'),
+(2,'Cuisine'),
+(3,'Administratif'),
+(4,'Extérieur');
+/*!40000 ALTER TABLE `CATEGORIE_TACHE` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
+
+--
+-- Table structure for table `CONTRIBUTION`
+--
+
+DROP TABLE IF EXISTS `CONTRIBUTION`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `CONTRIBUTION` (
+  `id_partenaire` int(11) NOT NULL,
+  `id_budget_m` int(11) NOT NULL,
+  `part_pourcentage` int(11) NOT NULL,
+  PRIMARY KEY (`id_partenaire`,`id_budget_m`),
+  KEY `id_budget_m` (`id_budget_m`),
+  CONSTRAINT `1` FOREIGN KEY (`id_partenaire`) REFERENCES `PARTENAIRE` (`id_partenaire`) ON DELETE CASCADE,
+  CONSTRAINT `2` FOREIGN KEY (`id_budget_m`) REFERENCES `BUDGET_MENSUEL` (`id_budget_m`) ON DELETE CASCADE,
+  CONSTRAINT `chk_pourcentage` CHECK (`part_pourcentage` between 0 and 100)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `CONTRIBUTION`
+--
+
+SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
+LOCK TABLES `CONTRIBUTION` WRITE;
+/*!40000 ALTER TABLE `CONTRIBUTION` DISABLE KEYS */;
+INSERT INTO `CONTRIBUTION` VALUES
+(1,1,60),
+(1,2,50),
+(2,1,40),
+(2,2,50),
+(3,3,75),
+(4,3,25),
+(5,4,50),
+(6,4,50);
+/*!40000 ALTER TABLE `CONTRIBUTION` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_uca1400_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`dev`@`localhost`*/ /*!50003 trigger verif_repart_contribution
+before INSERT
+ON CONTRIBUTION FOR EACH ROW
+BEGIN
+    declare somme_part_contribution int;
+    declare mes varchar(100);
+    select IFNULL(SUM(part_pourcentage), 0) into somme_part_contribution from CONTRIBUTION where id_budget_m = NEW.id_budget_m;
+    if (somme_part_contribution + NEW.part_pourcentage) > 100 then
+        set mes = concat("Part de contribution impossible : la somme des pourcentages depasse 100%");
+        signal SQLSTATE "45000" set MESSAGE_TEXT = mes;
+    end if;
+END 
+*/;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
+-- Table structure for table `DEPENSE`
+--
+
+DROP TABLE IF EXISTS `DEPENSE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `DEPENSE` (
+  `id_depense` int(11) NOT NULL AUTO_INCREMENT,
+  `titre` varchar(255) NOT NULL,
+  `montant_total` decimal(10,2) NOT NULL,
+  `date_depense` date NOT NULL,
+  `id_cat_depense` int(11) NOT NULL,
+  `id_foyer` int(11) NOT NULL,
+  PRIMARY KEY (`id_depense`),
+  KEY `id_cat_depense` (`id_cat_depense`),
+  KEY `id_foyer` (`id_foyer`),
+  CONSTRAINT `1` FOREIGN KEY (`id_cat_depense`) REFERENCES `CATEGORIE_DEPENSE` (`id_cat_depense`),
+  CONSTRAINT `2` FOREIGN KEY (`id_foyer`) REFERENCES `FOYER` (`id_foyer`) ON DELETE CASCADE,
+  CONSTRAINT `chk_montant_depense` CHECK (`montant_total` > 0)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `DEPENSE`
+--
+
+SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
+LOCK TABLES `DEPENSE` WRITE;
+/*!40000 ALTER TABLE `DEPENSE` DISABLE KEYS */;
+INSERT INTO `DEPENSE` VALUES
+(1,'Loyer',1200.00,'2026-10-01',1,1),
+(2,'Courses Semaine',150.00,'2026-10-17',2,1),
+(3,'Facture Électricité',80.00,'2026-10-08',6,2),
+(4,'Resto Anniversaire',200.00,'2026-10-28',4,2);
+/*!40000 ALTER TABLE `DEPENSE` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
+
+--
+-- Table structure for table `EPARGNE`
+--
+
+DROP TABLE IF EXISTS `EPARGNE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `EPARGNE` (
+  `id_epargne` int(11) NOT NULL AUTO_INCREMENT,
+  `montant_depose` decimal(10,2) DEFAULT 0.00,
+  `objectif_total` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`id_epargne`),
+  CONSTRAINT `chk_epargne_montants` CHECK (`montant_depose` >= 0 and `objectif_total` > 0)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `EPARGNE`
+--
+
+SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
+LOCK TABLES `EPARGNE` WRITE;
+/*!40000 ALTER TABLE `EPARGNE` DISABLE KEYS */;
+INSERT INTO `EPARGNE` VALUES
+(1,400.00,500.00),
+(2,1500.00,5000.00);
+/*!40000 ALTER TABLE `EPARGNE` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
+
+--
+-- Table structure for table `EPARGNER`
+--
+
+DROP TABLE IF EXISTS `EPARGNER`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `EPARGNER` (
+  `id_epargne` int(11) NOT NULL,
+  `id_budget_m` int(11) NOT NULL,
+  `date_epargne` date NOT NULL,
+  PRIMARY KEY (`id_epargne`,`id_budget_m`,`date_epargne`),
+  KEY `id_budget_m` (`id_budget_m`),
+  CONSTRAINT `1` FOREIGN KEY (`id_epargne`) REFERENCES `EPARGNE` (`id_epargne`) ON DELETE CASCADE,
+  CONSTRAINT `2` FOREIGN KEY (`id_budget_m`) REFERENCES `BUDGET_MENSUEL` (`id_budget_m`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `EPARGNER`
+--
+
+SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
+LOCK TABLES `EPARGNER` WRITE;
+/*!40000 ALTER TABLE `EPARGNER` DISABLE KEYS */;
+INSERT INTO `EPARGNER` VALUES
+(1,1,'2026-10-15');
+/*!40000 ALTER TABLE `EPARGNER` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
+
+--
+-- Table structure for table `EVENEMENT`
+--
+
+DROP TABLE IF EXISTS `EVENEMENT`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `EVENEMENT` (
+  `id_evenement` int(11) NOT NULL AUTO_INCREMENT,
+  `titre` varchar(255) NOT NULL,
+  `date_heure` datetime NOT NULL,
+  `type_moment` varchar(100) DEFAULT NULL,
+  `id_foyer` int(11) NOT NULL,
+  PRIMARY KEY (`id_evenement`),
+  KEY `id_foyer` (`id_foyer`),
+  CONSTRAINT `1` FOREIGN KEY (`id_foyer`) REFERENCES `FOYER` (`id_foyer`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `EVENEMENT`
+--
+
+SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
+LOCK TABLES `EVENEMENT` WRITE;
+/*!40000 ALTER TABLE `EVENEMENT` DISABLE KEYS */;
+INSERT INTO `EVENEMENT` VALUES
+(1,'Dîner sans écrans','2026-10-19 20:00:00','Moment à deux',1),
+(2,'RDV Banque','2026-10-22 14:00:00','Administratif',1),
+(3,'Anniversaire Christophe','2026-10-28 19:30:00','Fête',2);
+/*!40000 ALTER TABLE `EVENEMENT` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
+
+--
+-- Table structure for table `FOYER`
+--
+
+DROP TABLE IF EXISTS `FOYER`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `FOYER` (
+  `id_foyer` int(11) NOT NULL AUTO_INCREMENT,
+  `nom_foyer` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id_foyer`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `FOYER`
+--
+
+SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
+LOCK TABLES `FOYER` WRITE;
+/*!40000 ALTER TABLE `FOYER` DISABLE KEYS */;
+INSERT INTO `FOYER` VALUES
+(1,'Alexis & Djoumessy'),
+(2,'Thimoty & Christophe'),
+(3,'Jordan & Casey');
+/*!40000 ALTER TABLE `FOYER` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
+
+--
+-- Table structure for table `INTERAGIR`
+--
+
+DROP TABLE IF EXISTS `INTERAGIR`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `INTERAGIR` (
+  `id_partenaire` int(11) NOT NULL,
+  `id_article` int(11) NOT NULL,
+  `est_lu` tinyint(1) DEFAULT 0,
+  `est_enregistre` tinyint(1) DEFAULT 0,
+  PRIMARY KEY (`id_partenaire`,`id_article`),
+  KEY `id_article` (`id_article`),
+  CONSTRAINT `1` FOREIGN KEY (`id_partenaire`) REFERENCES `PARTENAIRE` (`id_partenaire`) ON DELETE CASCADE,
+  CONSTRAINT `2` FOREIGN KEY (`id_article`) REFERENCES `ARTICLE` (`id_article`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `INTERAGIR`
+--
+
+SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
+LOCK TABLES `INTERAGIR` WRITE;
+/*!40000 ALTER TABLE `INTERAGIR` DISABLE KEYS */;
+INSERT INTO `INTERAGIR` VALUES
+(1,1,1,1),
+(2,1,0,0);
+/*!40000 ALTER TABLE `INTERAGIR` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
+
+--
+-- Table structure for table `LISTER`
+--
+
+DROP TABLE IF EXISTS `LISTER`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `LISTER` (
+  `id_foyer` int(11) NOT NULL,
+  `id_produit` int(11) NOT NULL,
+  `quantite` int(11) DEFAULT 1,
+  `achete` tinyint(1) DEFAULT 0,
+  PRIMARY KEY (`id_foyer`,`id_produit`),
+  KEY `id_produit` (`id_produit`),
+  CONSTRAINT `1` FOREIGN KEY (`id_foyer`) REFERENCES `FOYER` (`id_foyer`) ON DELETE CASCADE,
+  CONSTRAINT `2` FOREIGN KEY (`id_produit`) REFERENCES `PRODUIT` (`id_produit`) ON DELETE CASCADE,
+  CONSTRAINT `chk_quantite` CHECK (`quantite` > 0)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `LISTER`
+--
+
+SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
+LOCK TABLES `LISTER` WRITE;
+/*!40000 ALTER TABLE `LISTER` DISABLE KEYS */;
+INSERT INTO `LISTER` VALUES
+(1,1,6,0),
+(1,2,1,1),
+(2,4,2,0);
+/*!40000 ALTER TABLE `LISTER` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
+
+--
+-- Table structure for table `PARTENAIRE`
+--
+
+DROP TABLE IF EXISTS `PARTENAIRE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `PARTENAIRE` (
+  `id_partenaire` int(11) NOT NULL AUTO_INCREMENT,
+  `prenom` varchar(100) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `mot_de_passe` varchar(255) NOT NULL,
+  `revenu_mensuel` decimal(10,2) DEFAULT 0.00,
+  `id_foyer` int(11) NOT NULL,
+  PRIMARY KEY (`id_partenaire`),
+  UNIQUE KEY `email` (`email`),
+  KEY `id_foyer` (`id_foyer`),
+  CONSTRAINT `1` FOREIGN KEY (`id_foyer`) REFERENCES `FOYER` (`id_foyer`) ON DELETE CASCADE,
+  CONSTRAINT `chk_revenu` CHECK (`revenu_mensuel` >= 0)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `PARTENAIRE`
+--
+
+SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
+LOCK TABLES `PARTENAIRE` WRITE;
+/*!40000 ALTER TABLE `PARTENAIRE` DISABLE KEYS */;
+INSERT INTO `PARTENAIRE` VALUES
+(1,'Alexis','alexis@email.com','hameau',3000.00,1),
+(2,'Djoumessy','djoumessy@email.com','goba',2000.00,1),
+(3,'Thimoty','thimoty@email.com','maume',4500.00,2),
+(4,'Christophe','christophe@email.com','lechopier',1500.00,2),
+(5,'Jordan','jordan@email.com','jordan123',2500.00,3),
+(6,'Casey','casey@email.com','casey123',2500.00,3);
+/*!40000 ALTER TABLE `PARTENAIRE` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
+
+--
+-- Table structure for table `PARTICIPER`
+--
+
+DROP TABLE IF EXISTS `PARTICIPER`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `PARTICIPER` (
+  `id_partenaire` int(11) NOT NULL,
+  `id_evenement` int(11) NOT NULL,
+  PRIMARY KEY (`id_partenaire`,`id_evenement`),
+  KEY `id_evenement` (`id_evenement`),
+  CONSTRAINT `1` FOREIGN KEY (`id_partenaire`) REFERENCES `PARTENAIRE` (`id_partenaire`) ON DELETE CASCADE,
+  CONSTRAINT `2` FOREIGN KEY (`id_evenement`) REFERENCES `EVENEMENT` (`id_evenement`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `PARTICIPER`
+--
+
+SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
+LOCK TABLES `PARTICIPER` WRITE;
+/*!40000 ALTER TABLE `PARTICIPER` DISABLE KEYS */;
+INSERT INTO `PARTICIPER` VALUES
+(1,1),
+(2,1),
+(3,3),
+(4,3);
+/*!40000 ALTER TABLE `PARTICIPER` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
+
+--
+-- Table structure for table `PAYER`
+--
+
+DROP TABLE IF EXISTS `PAYER`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `PAYER` (
+  `id_partenaire` int(11) NOT NULL,
+  `id_depense` int(11) NOT NULL,
+  `montant_paye` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`id_partenaire`,`id_depense`),
+  KEY `id_depense` (`id_depense`),
+  CONSTRAINT `1` FOREIGN KEY (`id_partenaire`) REFERENCES `PARTENAIRE` (`id_partenaire`) ON DELETE CASCADE,
+  CONSTRAINT `2` FOREIGN KEY (`id_depense`) REFERENCES `DEPENSE` (`id_depense`) ON DELETE CASCADE,
+  CONSTRAINT `chk_montant_paye` CHECK (`montant_paye` >= 0)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `PAYER`
+--
+
+SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
+LOCK TABLES `PAYER` WRITE;
+/*!40000 ALTER TABLE `PAYER` DISABLE KEYS */;
+INSERT INTO `PAYER` VALUES
+(1,1,1200.00),
+(1,2,50.00),
+(2,2,100.00),
+(3,3,40.00),
+(3,4,200.00),
+(4,3,40.00);
+/*!40000 ALTER TABLE `PAYER` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_uca1400_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`dev`@`localhost`*/ /*!50003 trigger trop_paye
+before INSERT
+ON PAYER FOR EACH ROW
+BEGIN
+    declare mes varchar(100);
+    declare somme_deja_paye DECIMAL(10,2);
+    declare somme_a_payer DECIMAL(10,2);
+    declare somme_supplementaire DECIMAL(10,2);
+    SELECT montant_total into somme_a_payer from DEPENSE where id_depense = NEW.id_depense;
+    SELECT IFNULL(SUM(montant_paye), 0.00) into somme_deja_paye from PAYER where id_depense = NEW.id_depense;
+    set somme_supplementaire = NEW.montant_paye;
+    if (somme_supplementaire + somme_deja_paye) > somme_a_payer then
+        set mes = concat("Trop payé : la somme payee depasse le montant total de la depense");
+        signal SQLSTATE "45000" set MESSAGE_TEXT = mes;
+    end if;
+END 
+*/;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
+-- Table structure for table `PRODUIT`
+--
+
+DROP TABLE IF EXISTS `PRODUIT`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `PRODUIT` (
+  `id_produit` int(11) NOT NULL AUTO_INCREMENT,
+  `nom` varchar(255) NOT NULL,
+  `id_cat_produit` int(11) NOT NULL,
+  PRIMARY KEY (`id_produit`),
+  KEY `id_cat_produit` (`id_cat_produit`),
+  CONSTRAINT `1` FOREIGN KEY (`id_cat_produit`) REFERENCES `CATEGORIE_PRODUIT` (`id_cat_produit`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `PRODUIT`
+--
+
+SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
+LOCK TABLES `PRODUIT` WRITE;
+/*!40000 ALTER TABLE `PRODUIT` DISABLE KEYS */;
+INSERT INTO `PRODUIT` VALUES
+(1,'Carottes',1),
+(2,'Lait demi-écrémé',2),
+(3,'Pâtes complètes',3),
+(4,'Liquide vaisselle',4);
+/*!40000 ALTER TABLE `PRODUIT` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
+
+--
+-- Table structure for table `REMBOURSEMENT`
+--
+
+DROP TABLE IF EXISTS `REMBOURSEMENT`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `REMBOURSEMENT` (
+  `id_remboursement` int(11) NOT NULL AUTO_INCREMENT,
+  `montant` decimal(10,2) NOT NULL,
+  `date_remboursement` date NOT NULL,
+  `est_regle` tinyint(1) DEFAULT 0,
+  `id_emetteur` int(11) NOT NULL,
+  `id_receveur` int(11) NOT NULL,
+  `id_depense` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_remboursement`),
+  KEY `id_emetteur` (`id_emetteur`),
+  KEY `id_receveur` (`id_receveur`),
+  KEY `id_depense` (`id_depense`),
+  CONSTRAINT `1` FOREIGN KEY (`id_emetteur`) REFERENCES `PARTENAIRE` (`id_partenaire`) ON DELETE CASCADE,
+  CONSTRAINT `2` FOREIGN KEY (`id_receveur`) REFERENCES `PARTENAIRE` (`id_partenaire`) ON DELETE CASCADE,
+  CONSTRAINT `3` FOREIGN KEY (`id_depense`) REFERENCES `DEPENSE` (`id_depense`) ON DELETE SET NULL,
+  CONSTRAINT `chk_montant_remboursement` CHECK (`montant` > 0),
+  CONSTRAINT `chk_emetteur_receveur` CHECK (`id_emetteur` <> `id_receveur`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `REMBOURSEMENT`
+--
+
+SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
+LOCK TABLES `REMBOURSEMENT` WRITE;
+/*!40000 ALTER TABLE `REMBOURSEMENT` DISABLE KEYS */;
+INSERT INTO `REMBOURSEMENT` VALUES
+(1,480.00,'2026-10-01',0,2,1,1),
+(2,40.00,'2026-10-17',0,1,2,2),
+(3,20.00,'2026-10-10',0,2,1,NULL),
+(4,50.00,'2026-09-15',1,4,3,NULL);
+/*!40000 ALTER TABLE `REMBOURSEMENT` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_uca1400_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`dev`@`localhost`*/ /*!50003 trigger emetteur_different_receveur_insert
+before INSERT
+ON REMBOURSEMENT FOR EACH ROW
+BEGIN
+    if NEW.id_emetteur = NEW.id_receveur then
+        signal SQLSTATE "45000" set MESSAGE_TEXT = "l'emetteur et le receveur sont identiques";
+    end if;
+end 
+*/;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_uca1400_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`dev`@`localhost`*/ /*!50003 trigger emetteur_different_receveur_update
+before update
+ON REMBOURSEMENT FOR EACH ROW
+BEGIN
+    if NEW.id_emetteur = NEW.id_receveur then
+        signal SQLSTATE "45000" set MESSAGE_TEXT = "l'emetteur et le receveur sont identiques";
+    end if;
+end 
+*/;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
+-- Table structure for table `TACHE`
+--
+
+DROP TABLE IF EXISTS `TACHE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `TACHE` (
+  `id_tache` int(11) NOT NULL AUTO_INCREMENT,
+  `libelle` varchar(255) NOT NULL,
+  `date_echeance` date DEFAULT NULL,
+  `duree_estimee` int(11) DEFAULT NULL,
+  `terminee` tinyint(1) DEFAULT 0,
+  `frequence_jours` int(11) DEFAULT 0,
+  `id_partenaire` int(11) DEFAULT NULL,
+  `id_cat_tache` int(11) NOT NULL,
+  `id_foyer` int(11) NOT NULL,
+  PRIMARY KEY (`id_tache`),
+  KEY `id_partenaire` (`id_partenaire`),
+  KEY `id_cat_tache` (`id_cat_tache`),
+  KEY `id_foyer` (`id_foyer`),
+  CONSTRAINT `1` FOREIGN KEY (`id_partenaire`) REFERENCES `PARTENAIRE` (`id_partenaire`) ON DELETE SET NULL,
+  CONSTRAINT `2` FOREIGN KEY (`id_cat_tache`) REFERENCES `CATEGORIE_TACHE` (`id_cat_tache`),
+  CONSTRAINT `3` FOREIGN KEY (`id_foyer`) REFERENCES `FOYER` (`id_foyer`) ON DELETE CASCADE,
+  CONSTRAINT `chk_duree` CHECK (`duree_estimee` > 0),
+  CONSTRAINT `chk_frequence` CHECK (`frequence_jours` >= 0)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `TACHE`
+--
+
+SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
+LOCK TABLES `TACHE` WRITE;
+/*!40000 ALTER TABLE `TACHE` DISABLE KEYS */;
+INSERT INTO `TACHE` VALUES
+(1,'Lancer une lessive','2026-10-19',15,0,0,1,1,1),
+(2,'Faire les courses','2026-10-19',40,0,7,2,2,1),
+(3,'Nettoyer la salle de bain','2026-10-20',25,0,14,NULL,1,1),
+(4,'Payer les impôts','2026-10-25',10,1,0,3,3,2);
+/*!40000 ALTER TABLE `TACHE` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
+
+--
 -- Current Database: `BanqueTPIndex`
 --
 
@@ -8052,6 +8973,12 @@ CREATE TABLE IF NOT EXISTS `transaction_registry` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Current Database: `ADeux`
+--
+
+USE `ADeux`;
+
+--
 -- Current Database: `BanqueTPIndex`
 --
 
@@ -8120,4 +9047,4 @@ USE `mysql`;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
 
--- Dump completed on 2026-10-22 12:42:06
+-- Dump completed on 2026-11-06  9:57:58
