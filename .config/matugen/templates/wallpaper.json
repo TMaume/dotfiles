@@ -1,0 +1,5 @@
+{
+  "primary": "{{colors.primary.default.hex}}",
+  "primary_container": "{{colors.primary_container.default.hex}}",
+  "background": "{{colors.background.default.hex}}"
+}

@@ -123,6 +123,24 @@ if systemctl is-active --quiet mariadb 2>/dev/null; then
     echo "✅ Base de données exportée dans ~/bases_de_donnees_backup.sql."
 fi
 
+# Exporte les profils et préréglages de fond d'écran DMS vers un fichier de graine versionné
+if [ -f "$HOME/.local/state/dms/session.json" ]; then
+    python3 -c "
+import json
+try:
+    with open('$HOME/.local/state/dms/session.json') as f:
+        s = json.load(f)
+    seed = {
+        'materialWallpapers': s.get('materialWallpapers', {}),
+        'materialWallpaperProfiles': s.get('materialWallpaperProfiles', {})
+    }
+    with open('$HOME/.config/dms/session.seed.json', 'w') as f:
+        json.dump(seed, f, indent=2)
+except Exception:
+    pass
+" 2>/dev/null || true
+fi
+
 echo -e "\n=== 3. Sauvegarde sur GitHub ==="
 # Ajoute les listes, les configurations système universelles et les fichiers de configuration utilisateur
 $DOTFILES_GIT add \
@@ -156,6 +174,10 @@ $DOTFILES_GIT add \
     ~/.config/dms/firefox.css \
     ~/.config/dms/plugins/ \
     ~/.config/dms/themes/ \
+    ~/.config/dms/wallpaper/ \
+    ~/.config/dms/session.seed.json \
+    ~/.config/matugen/ \
+    ~/.config/kitty/ \
     ~/.config/niri/config.kdl \
     ~/.config/niri/dms/alttab.kdl \
     ~/.config/niri/dms/binds.kdl \

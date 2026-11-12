@@ -133,6 +133,18 @@ if [ -f "$HOME/pkglist-flatpak.txt" ]; then
     done < "$HOME/pkglist-flatpak.txt"
 fi
 
+# Installation et configuration de Pywalfox (pont dynamique Firefox / Pywal)
+if command -v pipx &> /dev/null; then
+    if ! command -v pywalfox &> /dev/null; then
+        echo "Installation de Pywalfox via pipx..."
+        pipx install pywalfox 2>/dev/null || true
+    fi
+    if command -v pywalfox &> /dev/null; then
+        echo "Configuration du manifest Firefox pour Pywalfox..."
+        pywalfox install 2>/dev/null || true
+    fi
+fi
+
 echo -e "\n=== 6. Restauration des configurations système (/etc) et optimisations ==="
 if [ -d "$HOME/.dotfiles-system/etc" ]; then
     echo "Copie des fichiers universels vers /etc..."
@@ -159,6 +171,30 @@ for grp in gamemode input greeter; do
     fi
 done
 
+# Initialisation des profils et présélections de fond d'écran DMS
+if [ -f "$HOME/.config/dms/session.seed.json" ]; then
+    mkdir -p "$HOME/.local/state/dms"
+    if [ ! -f "$HOME/.local/state/dms/session.json" ]; then
+        cp "$HOME/.config/dms/session.seed.json" "$HOME/.local/state/dms/session.json"
+    else
+        python3 -c "
+import json
+try:
+    with open('$HOME/.local/state/dms/session.json') as f:
+        cur = json.load(f)
+    with open('$HOME/.config/dms/session.seed.json') as f:
+        seed = json.load(f)
+    cur.setdefault('materialWallpaperProfiles', {}).update(seed.get('materialWallpaperProfiles', {}))
+    if 'materialWallpapers' in seed:
+        cur['materialWallpapers'] = seed['materialWallpapers']
+    with open('$HOME/.local/state/dms/session.json', 'w') as f:
+        json.dump(cur, f, indent=2)
+except Exception:
+    pass
+" 2>/dev/null || true
+    fi
+fi
+
 # Synchronise les liens du thème dms-greeter vers l'utilisateur courant (évite le flash du thème par défaut au boot)
 if [ -d /var/cache/dms-greeter ]; then
     sudo rm -rf /var/cache/dms-greeter/users/root
@@ -171,9 +207,10 @@ if [ -d /var/cache/dms-greeter ]; then
     sudo ln -sfn "$HOME/.cache/dms/dms-colors.json" "/var/cache/dms-greeter/users/$USER/colors.json"
 fi
 
-# Adapte le chemin du fond d'écran dans Niri si le nom d'utilisateur diffère sur le nouveau PC
-if [ -f "$HOME/.config/niri/config.kdl" ] && [ "$HOME" != "/home/dtl21" ]; then
-    sed -i "s|/home/dtl21|$HOME|g" "$HOME/.config/niri/config.kdl"
+# Adapte le chemin du fond d'écran dans Niri et les templates Matugen si le nom d'utilisateur diffère sur le nouveau PC
+if [ "$HOME" != "/home/dtl21" ]; then
+    [ -f "$HOME/.config/niri/config.kdl" ] && sed -i "s|/home/dtl21|$HOME|g" "$HOME/.config/niri/config.kdl"
+    [ -f "$HOME/.config/matugen/config.toml" ] && sed -i "s|/home/dtl21|$HOME|g" "$HOME/.config/matugen/config.toml"
 fi
 
 # Applique le profil d'optimisation Firefox (RAM cache + VA-API)

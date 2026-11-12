@@ -1,0 +1,105 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+format = """
+[░▒▓]({{colors.primary.default.hex}})\
+$os\
+[](bg:{{colors.primary_container.default.hex}} fg:{{colors.primary.default.hex}})\
+$directory\
+[](fg:{{colors.primary_container.default.hex}} bg:{{colors.surface_container_high.default.hex}})\
+$git_branch\
+$git_status\
+[](fg:{{colors.surface_container_high.default.hex}} bg:{{colors.surface_container.default.hex}})\
+$nodejs\
+$bun\
+$rust\
+$golang\
+$php\
+[](fg:{{colors.surface_container.default.hex}} bg:{{colors.surface_container_low.default.hex}})\
+$time\
+[ ](fg:{{colors.surface_container_low.default.hex}})\
+\n$character"""
+
+[directory]
+style = "fg:{{colors.on_primary_container.default.hex}} bg:{{colors.primary_container.default.hex}}"
+format = "[ $path ]($style)"
+truncation_length = 3
+truncation_symbol = "…/"
+
+[directory.substitutions]
+"Documents" = "󰈙 "
+"Downloads" = " "
+"Music" = " "
+"Pictures" = " "
+
+[git_branch]
+symbol = ""
+style = "bg:{{colors.surface_container_high.default.hex}}"
+format = '[[ $symbol $branch ](fg:{{colors.primary.default.hex}} bg:{{colors.surface_container_high.default.hex}})]($style)'
+
+[git_status]
+style = "bg:{{colors.surface_container_high.default.hex}}"
+format = '[[($all_status$ahead_behind )](fg:{{colors.primary.default.hex}} bg:{{colors.surface_container_high.default.hex}})]($style)'
+
+[nodejs]
+symbol = ""
+style = "bg:{{colors.surface_container.default.hex}}"
+format = '[[ $symbol ($version) ](fg:{{colors.secondary.default.hex}} bg:{{colors.surface_container.default.hex}})]($style)'
+
+[bun]
+symbol = ""
+style = "bg:{{colors.surface_container.default.hex}}"
+format = '[[ $symbol ($version) ](fg:{{colors.secondary.default.hex}} bg:{{colors.surface_container.default.hex}})]($style)'
+
+[rust]
+symbol = ""
+style = "bg:{{colors.surface_container.default.hex}}"
+format = '[[ $symbol ($version) ](fg:{{colors.secondary.default.hex}} bg:{{colors.surface_container.default.hex}})]($style)'
+
+[golang]
+symbol = ""
+style = "bg:{{colors.surface_container.default.hex}}"
+format = '[[ $symbol ($version) ](fg:{{colors.secondary.default.hex}} bg:{{colors.surface_container.default.hex}})]($style)'
+
+[php]
+symbol = ""
+style = "bg:{{colors.surface_container.default.hex}}"
+format = '[[ $symbol ($version) ](fg:{{colors.secondary.default.hex}} bg:{{colors.surface_container.default.hex}})]($style)'
+
+[time]
+disabled = false
+time_format = "%R" # Hour:Minute Format
+style = "bg:{{colors.surface_container_low.default.hex}}"
+format = '[[  $time ](fg:{{colors.on_surface_variant.default.hex}} bg:{{colors.surface_container_low.default.hex}})]($style)'
+
+[os]
+style = "bg:{{colors.primary.default.hex}} fg:{{colors.on_primary.default.hex}}"
+format = "[ $symbol ]($style)"
+disabled = false
+
+[character]
+success_symbol = "[❯]({{colors.primary.default.hex}})"
+error_symbol = "[❯]({{colors.error.default.hex}})"
+
+[os.symbols]
+Windows = "󰍲"
+Ubuntu = "󰕈"
+SUSE = ""
+Raspbian = "󰐿"
+Mint = "󰣭"
+Macos = "󰀵"
+Manjaro = ""
+Linux = "󰌽"
+Gentoo = "󰣨"
+Fedora = "󰣛"
+Alpine = ""
+Amazon = ""
+Android = ""
+AOSC = ""
+Arch = "󰣇"
+Artix = "󰣇"
+EndeavourOS = ""
+CentOS = ""
+Debian = "󰣚"
+Redhat = "󱄛"
+RedHatEnterprise = "󱄛"
+Pop = ""
