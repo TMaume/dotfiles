@@ -14,6 +14,7 @@ application/x-extension-xht=firefox.desktop
 text/x-shellscript=com.danklinux.dms.notepad.desktop
 x-scheme-handler/antigravity=antigravity.desktop
 inode/directory=dev.duxlabs.files.desktop
+application/pdf=firefox.desktop
 
 [Added Associations]
 x-scheme-handler/http=firefox.desktop;
@@ -29,3 +30,5 @@ application/x-extension-xht=firefox.desktop;
 text/x-shellscript=com.danklinux.dms.notepad.desktop;
 x-scheme-handler/antigravity=antigravity.desktop;
 text/plain=dev.duxlabs.shell.notepad.desktop;
+text/x-python=com.microsoft.VSCode.desktop;
+application/pdf=firefox.desktop;

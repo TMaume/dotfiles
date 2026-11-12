@@ -4,7 +4,9 @@
     "useQuickCss": true,
     "themeLinks": [],
     "eagerPatches": false,
-    "enabledThemes": [],
+    "enabledThemes": [
+        "dank-discord.css"
+    ],
     "enableReactDevtools": true,
     "frameless": false,
     "transparent": false,
@@ -628,7 +630,8 @@
         },
         "NoTrack": {
             "enabled": true,
-            "disableAnalytics": true
+            "disableAnalytics": true,
+            "allowBadgeTracking": true
         },
         "Settings": {
             "enabled": true,
@@ -771,6 +774,20 @@
         },
         "MutedServersActivityBadge": {
             "enabled": false
+        },
+        "BetterSearch": {
+            "enabled": false
+        },
+        "WebRichPresence (arRPC)": {
+            "enabled": false
+        },
+        "WebKeybinds": {
+            "enabled": true,
+            "showNavigationButtons": true,
+            "overrideCommonKeybinds": true
+        },
+        "WebScreenShareFixes": {
+            "enabled": true
         }
     },
     "uiElements": {
@@ -787,7 +804,7 @@
         "authenticated": true,
         "url": "https://api.vencord.dev/",
         "settingsSync": true,
-        "settingsSyncVersion": 1794175997395
+        "settingsSyncVersion": 1794496039597
     },
     "nativeTitleBar": false
 }

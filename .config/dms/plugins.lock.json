@@ -1,6 +1,10 @@
 {
   "lockfileVersion": 1,
   "plugins": {
+    "calculator": {
+      "repo": "https://github.com/rochacbruno/DankCalculator",
+      "commit": "a27b80ad8c3dd42da11af83461674fb362817515"
+    },
     "dankAlbumWidget": {
       "repo": "https://github.com/kmf/dank-album-widget",
       "commit": "433d85bf6309e155f23c626590bf1f3f579d2770"
@@ -9,14 +13,40 @@
       "repo": "https://github.com/NordicsSys/dankCleaner",
       "commit": "bdf499182f39427ba0d720656e6fd131ddd57280"
     },
+    "dankGifSearch": {
+      "repo": "https://github.com/duxlabs-dev/dux-plugins",
+      "path": "DankGifSearch",
+      "commit": "7a964dad725964550734e43dbbcf88c72829d847"
+    },
     "dankKDEConnect": {
       "repo": "https://github.com/duxlabs-dev/dux-plugins",
       "path": "DankKDEConnect",
-      "commit": "9508fe62b90bd761b0c1d367cef2f1efefdddcaa"
+      "commit": "7a964dad725964550734e43dbbcf88c72829d847"
     },
-    "mediaControlPlus": {
+    "dankStickerSearch": {
+      "repo": "https://github.com/duxlabs-dev/dux-plugins",
+      "path": "DankStickerSearch",
+      "commit": "7a964dad725964550734e43dbbcf88c72829d847"
+    },
+    "discordVoice": {
+      "repo": "https://github.com/PandorasFox/dms-discord-widget",
+      "commit": "7771a41ed2b8810150afadfdd9241e1e8d97b7b9"
+    },
+    "emojiLauncher": {
+      "repo": "https://github.com/devnullvoid/dms-emoji-launcher",
+      "commit": "fc385900e6df292f0a7e5bdda4e3e37169897d7c"
+    },
+    "mediaPlayer": {
+      "repo": "https://github.com/bernardopg/mediaPlayer",
+      "commit": "0d4b75e7fe67942e1920e416124ef572c76e5dce"
+    },
+    "musicTheme": {
+      "repo": "https://github.com/felipeadeildo/dms-music-theme",
+      "commit": "70a916991118f2727c36c688478b990c1ea64d46"
+    },
+    "systemMonitorPlus": {
       "repo": "https://github.com/Dadangdut33/dms-plugins",
-      "path": "MediaControlPlus",
+      "path": "SystemMonitorPlus",
       "commit": "63fe6b87c497f1f7c2ea61432716817db1c5c3a4"
     },
     "volumeMixer": {

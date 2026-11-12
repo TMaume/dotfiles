@@ -48,6 +48,7 @@ libva-utils
 linux
 linux-firmware
 mako
+man-db
 mariadb
 matugen
 mkinitcpio

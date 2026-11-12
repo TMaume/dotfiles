@@ -1,5 +1,5 @@
 {
-  "currentThemeName": "custom",
+  "currentThemeName": "dynamic",
   "currentThemeCategory": "registry",
   "customThemeFile": "/home/dtl21/.config/dms/themes/catppuccin/theme.json",
   "registryThemeVariants": {
@@ -373,7 +373,8 @@
       "islandMediaClockVisible": true,
       "islandNotificationExpand": false,
       "islandSatellitesEnabled": true,
-      "islandSatellitePosition": "edges"
+      "islandSatellitePosition": "edges",
+      "islandInteractionMode": "click"
     },
     {
       "id": "bar1792575892812",
@@ -867,7 +868,7 @@
         "showDigitalSeconds": true,
         "showAnalogNumbers": false,
         "showAnalogSeconds": true,
-        "autoPosition": true,
+        "autoPosition": false,
         "colorMode": "default",
         "customColor": "#ffffff",
         "italic": false
@@ -958,7 +959,7 @@
         "showDigitalSeconds": true,
         "showAnalogNumbers": false,
         "showAnalogSeconds": true,
-        "autoPosition": true,
+        "autoPosition": false,
         "colorMode": "default",
         "customColor": "#ffffff",
         "italic": false
@@ -1067,5 +1068,7 @@
       "id": "youtubemusic",
       "enabled": true
     }
-  ]
+  ],
+  "terminalPalette": "medium",
+  "matugenScheme": "scheme-content"
 }

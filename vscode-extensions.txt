@@ -4,6 +4,7 @@ alpharomercoma.classic-card-table-games
 anseki.vscode-color
 christian-kohler.npm-intellisense
 codezombiech.gitignore
+danklinux.dms-theme
 donjayamanne.git-extension-pack
 donjayamanne.githistory
 eamodio.gitlens

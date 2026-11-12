@@ -13,5 +13,46 @@
   },
   "mediaControlPlus": {
     "enabled": true
+  },
+  "calculator": {
+    "enabled": true,
+    "trigger": "="
+  },
+  "systemMonitorPlus": {
+    "enabled": false
+  },
+  "dmsconky": {
+    "particleSize": 8,
+    "particleCount": 150,
+    "particleOpacity": 1,
+    "musicPlayerPath": "/usr/local/bin/splayer",
+    "appSize": 80,
+    "widgetHeight": 522,
+    "widgetWidth": 298,
+    "showClock": false,
+    "showWeather": false,
+    "showNetwork": false
+  },
+  "bongoCat": {
+    "enabled": true
+  },
+  "dankGifSearch": {
+    "enabled": true,
+    "preferredFormat": "gif"
+  },
+  "dankStickerSearch": {
+    "enabled": true,
+    "preferredFormat": "gif"
+  },
+  "discordVoice": {
+    "enabled": true
+  },
+  "emojiLauncher": {
+    "enabled": true
+  },
+  "musicTheme": {
+    "enabled": true,
+    "matugenScheme": "scheme-tonal-spot",
+    "holdMs": "0"
   }
 }
