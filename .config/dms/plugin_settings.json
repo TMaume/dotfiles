@@ -19,7 +19,17 @@
     "trigger": "="
   },
   "systemMonitorPlus": {
-    "enabled": false
+    "enabled": true,
+    "cpuTempEnabled": true,
+    "resourceOrder": "cpuTemp,cpuUsage,ramUsage,gpuTemp,diskPartitionUsage,networkSpeed",
+    "ramUsageEnabled": true,
+    "gpuTempEnabled": false,
+    "diskPartitionUsageEnabled": false,
+    "networkSpeedEnabled": false,
+    "networkSpeedVisualStyle": "default",
+    "cpuUsageVisualStyle": "default",
+    "cpuTempVisualStyle": "default",
+    "ramUsageVisualStyle": "default"
   },
   "dmsconky": {
     "particleSize": 8,
@@ -45,7 +55,8 @@
     "preferredFormat": "gif"
   },
   "discordVoice": {
-    "enabled": true
+    "enabled": true,
+    "maxBarAvatars": 10
   },
   "emojiLauncher": {
     "enabled": true

@@ -229,18 +229,26 @@
       ],
       "rightWidgets": [
         {
+          "id": "discordVoice",
+          "enabled": true
+        },
+        {
+          "id": "systemMonitorPlus",
+          "enabled": true
+        },
+        {
           "id": "cpuTemp",
-          "enabled": true,
+          "enabled": false,
           "minimumWidth": true
         },
         {
           "id": "cpuUsage",
-          "enabled": true,
+          "enabled": false,
           "minimumWidth": true
         },
         {
           "id": "memUsage",
-          "enabled": true,
+          "enabled": false,
           "minimumWidth": true,
           "showInGb": false
         },
