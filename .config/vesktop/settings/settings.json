@@ -212,7 +212,7 @@
         "ImageZoom": {
             "enabled": true,
             "size": 501.05633802816897,
-            "zoom": 1,
+            "zoom": 2.9999999999999996,
             "nearestNeighbour": false,
             "square": false,
             "saveZoomValues": true,
@@ -532,7 +532,7 @@
             "enabled": true
         },
         "StartupTimings": {
-            "enabled": true
+            "enabled": false
         },
         "StreamerModeOnStream": {
             "enabled": false
@@ -788,6 +788,15 @@
         },
         "WebScreenShareFixes": {
             "enabled": true
+        },
+        "DisableDeepLinks": {
+            "enabled": true
+        },
+        "FixDiscordCss": {
+            "enabled": true
+        },
+        "WebContextMenus": {
+            "enabled": true
         }
     },
     "uiElements": {
@@ -804,7 +813,7 @@
         "authenticated": true,
         "url": "https://api.vencord.dev/",
         "settingsSync": true,
-        "settingsSyncVersion": 1794496039597
+        "settingsSyncVersion": 1794523447096
     },
     "nativeTitleBar": false
 }

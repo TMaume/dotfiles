@@ -25,3 +25,7 @@ user_pref("network.http.http3.enable", true);
 user_pref("network.http.pacing.requests.enabled", false);
 user_pref("network.dnsCacheEntries", 2000);
 user_pref("network.dnsCacheExpiration", 3600);
+
+// 5. Desktop Portal Integration (use dfiles / native portal file picker)
+user_pref("widget.use-xdg-desktop-portal.file-picker", 1);
+user_pref("widget.use-xdg-desktop-portal.mime-handler", 1);

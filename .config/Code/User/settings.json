@@ -68,7 +68,7 @@
 
     },
     "security.workspace.trust.banner": "always",
-    "workbench.colorTheme": "Dynamic Base16 DankShell (Dark)",
+    "workbench.colorTheme": "Dynamic Base16 DankShell",
     "github.copilot.enable": {
         "*": true,
         "plaintext": false,
