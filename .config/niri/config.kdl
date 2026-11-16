@@ -153,6 +153,7 @@ layer-rule {
     place-within-backdrop true
 }
 overview {
+    backdrop-color "#000000"
     workspace-shadow {
         off
     }
@@ -276,3 +277,4 @@ include optional=true "dms/binds.kdl"
 include optional=true "dms/outputs.kdl"
 include optional=true "dms/cursor.kdl"
 include optional=true "dms/input.kdl"
+include optional=true "dms/wpblur.kdl"

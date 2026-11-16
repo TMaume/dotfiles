@@ -261,8 +261,12 @@
           "enabled": false
         },
         {
-          "id": "battery",
+          "id": "batteryPlus",
           "enabled": true
+        },
+        {
+          "id": "battery",
+          "enabled": false
         },
         {
           "id": "controlCenterButton",
@@ -1078,5 +1082,6 @@
     }
   ],
   "terminalPalette": "medium",
-  "matugenScheme": "scheme-content"
+  "matugenScheme": "scheme-content",
+  "lockAtStartup": true
 }

@@ -1,6 +1,14 @@
 {
   "lockfileVersion": 1,
   "plugins": {
+    "aiQuotas": {
+      "repo": "https://github.com/agneswd/dms-ai-quotas",
+      "commit": "bae9d7d065330b7315bd74248856c0d8fc6dee3c"
+    },
+    "batteryPlus": {
+      "repo": "https://github.com/arcatva/dms-battery-plus",
+      "commit": "4e653d09174e1edc260f279c42ec2477b6fb2e24"
+    },
     "calculator": {
       "repo": "https://github.com/rochacbruno/DankCalculator",
       "commit": "a27b80ad8c3dd42da11af83461674fb362817515"

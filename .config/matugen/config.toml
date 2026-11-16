@@ -3,3 +3,7 @@
 [templates.starship]
 input_path = '/home/dtl21/.config/matugen/templates/starship.toml'
 output_path = '/home/dtl21/.config/starship.toml'
+
+[templates.sidra]
+input_path = '/home/dtl21/.config/matugen/templates/sidra.json'
+output_path = '/home/dtl21/.config/Sidra/custom-theme.json'

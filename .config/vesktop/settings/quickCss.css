@@ -1,0 +1,17 @@
+/* Smooth color transitions for dynamic theming (Matugen / Music Theme) */
+html, body, #app-mount,
+.theme-dark, .theme-light,
+[class*="app_"],
+[class*="bg_"],
+[class*="chat_"],
+[class*="chatContent_"],
+[class*="content_"],
+[class*="sidebar_"],
+[class*="panels_"],
+[class*="container_"],
+[class*="membersWrap_"],
+[class*="members_"],
+[class*="nowPlayingColumn_"],
+[class*="channelTextArea_"] {
+    transition: background-color 0.4s ease, border-color 0.4s ease, color 0.4s ease !important;
+}

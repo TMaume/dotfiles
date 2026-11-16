@@ -65,5 +65,9 @@
     "enabled": true,
     "matugenScheme": "scheme-tonal-spot",
     "holdMs": "0"
+  },
+  "batteryPlus": {
+    "enabled": true,
+    "timespanHours": 24
   }
 }

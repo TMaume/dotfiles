@@ -14,3 +14,7 @@ command = "/usr/bin/dms-greeter --command niri --cache-dir /var/cache/dms-greete
 # on the greeter. A graphical greeter may for example require the user to be
 # in the `video` group.
 user = "greeter"
+
+[initial_session]
+command = "niri-session"
+user = "dtl21"

@@ -743,19 +743,21 @@
             "enabled": false
         },
         "MusicRichPresence": {
-            "enabled": false,
+            "enabled": true,
             "scrobblerBackend": "lastfm",
-            "shareUsername": false,
+            "shareUsername": true,
             "clickableLinks": true,
             "hideWithSpotify": true,
-            "hideWithActivity": false,
-            "statusName": "some music",
+            "hideWithActivity": true,
+            "statusName": "Listening to {title} by {artist}",
             "statusDisplayType": "artist",
             "nameFormat": "status-name",
-            "useListeningStatus": false,
+            "useListeningStatus": true,
             "missingArt": "logo",
             "showLogo": true,
-            "showAlbumCover": true
+            "showAlbumCover": true,
+            "apiKey": "231d00fc869ad9bb193cc0fca4c3bbba",
+            "username": "DT-L21"
         },
         "AddAttachments": {
             "enabled": false
@@ -813,7 +815,7 @@
         "authenticated": true,
         "url": "https://api.vencord.dev/",
         "settingsSync": true,
-        "settingsSyncVersion": 1794523447096
+        "settingsSyncVersion": 1794580725660
     },
     "nativeTitleBar": false
 }
