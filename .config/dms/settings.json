@@ -233,6 +233,10 @@
           "enabled": true
         },
         {
+          "id": "aiQuotas",
+          "enabled": true
+        },
+        {
           "id": "systemMonitorPlus",
           "enabled": true
         },

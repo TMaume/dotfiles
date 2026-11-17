@@ -42,7 +42,7 @@
     },
     "emojiLauncher": {
       "repo": "https://github.com/devnullvoid/dms-emoji-launcher",
-      "commit": "fc385900e6df292f0a7e5bdda4e3e37169897d7c"
+      "commit": "cd7bbba76c0d9b8da65337de5125659846e1ce5c"
     },
     "mediaPlayer": {
       "repo": "https://github.com/bernardopg/mediaPlayer",
@@ -59,7 +59,7 @@
     },
     "volumeMixer": {
       "repo": "https://github.com/cwelsys/dms-volume-mixer",
-      "commit": "353e00b659a16df07105b16c8790e6b526743471"
+      "commit": "8df3f8d650ab828a174b14854a21b561c0a2ddff"
     }
   }
 }

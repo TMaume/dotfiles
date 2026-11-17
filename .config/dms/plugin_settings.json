@@ -69,5 +69,17 @@
   "batteryPlus": {
     "enabled": true,
     "timespanHours": 24
+  },
+  "aiQuotas": {
+    "enabled": true,
+    "claudeEnabled": false,
+    "codexEnabled": false,
+    "openCodeEnabled": false,
+    "zaiEnabled": false,
+    "kimiEnabled": false,
+    "deepSeekEnabled": false,
+    "openRouterEnabled": false,
+    "grokEnabled": false,
+    "showResetCountdown": true
   }
 }

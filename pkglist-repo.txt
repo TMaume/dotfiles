@@ -39,6 +39,7 @@ gst-plugins-good
 impression
 inetutils
 jdk-openjdk
+jq
 kimageformats
 kitty
 less
