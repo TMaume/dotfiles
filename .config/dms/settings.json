@@ -1087,5 +1087,7 @@
   ],
   "terminalPalette": "medium",
   "matugenScheme": "scheme-content",
-  "lockAtStartup": true
+  "lockAtStartup": true,
+  "blurLayerOutlineOpacity": 0,
+  "blurForegroundLayers": true
 }

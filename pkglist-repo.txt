@@ -1,4 +1,5 @@
 accountsservice
+alsa-utils
 archiso
 base
 base-devel
@@ -28,9 +29,11 @@ fprintd
 fuse2
 fuzzel
 gamemode
+gamescope
 git
 github-cli
 go
+godot
 gping
 grim
 gst-libav
@@ -42,6 +45,7 @@ jdk-openjdk
 jq
 kimageformats
 kitty
+labwc
 less
 lib32-gamemode
 libpulse
@@ -53,6 +57,7 @@ man-db
 mariadb
 matugen
 mkinitcpio
+mpv
 nano
 ncdu
 networkmanager
@@ -74,8 +79,10 @@ python-build
 python-dotenv
 python-installer
 python-langchain
+python-pillow
 python-pip
 python-pipx
+python-qrcode
 python-virtualenv
 qemu-base
 qt5-tools
@@ -84,6 +91,7 @@ reflector
 rust
 slurp
 snapshot
+socat
 starship
 steam
 strace
@@ -114,6 +122,7 @@ wpa_supplicant
 xdg-desktop-portal-gnome
 xdg-desktop-portal-gtk
 xwayland-satellite
+yt-dlp
 zip
 zram-generator
 zsh-autosuggestions

@@ -33,17 +33,7 @@ image/x-png=firefox.desktop
 image/pjpeg=firefox.desktop
 
 [Added Associations]
-x-scheme-handler/http=firefox.desktop;
-x-scheme-handler/https=firefox.desktop;
-x-scheme-handler/chrome=firefox.desktop;
 x-scheme-handler/google-chrome=firefox.desktop;
-text/html=firefox.desktop;
-application/x-extension-htm=firefox.desktop;
-application/x-extension-html=firefox.desktop;
-application/x-extension-shtml=firefox.desktop;
-application/xhtml+xml=firefox.desktop;
-application/x-extension-xhtml=firefox.desktop;
-application/x-extension-xht=firefox.desktop;
 application/xhtml_xml=firefox.desktop;
 application/xml=firefox.desktop;
 text/xml=firefox.desktop;
@@ -62,6 +52,9 @@ image/svg+xml=firefox.desktop;
 image/avif=firefox.desktop;
 image/bmp=firefox.desktop;
 image/tiff=firefox.desktop;
+x-scheme-handler/http=firefox.desktop;
+x-scheme-handler/https=firefox.desktop;
+x-scheme-handler/chrome=firefox.desktop;
 
 [Removed Associations]
 image/png=com.google.Chrome.desktop;google-chrome.desktop;

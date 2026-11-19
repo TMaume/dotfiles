@@ -80,6 +80,7 @@
     "deepSeekEnabled": false,
     "openRouterEnabled": false,
     "grokEnabled": false,
-    "showResetCountdown": true
+    "showResetCountdown": true,
+    "copilotEnabled": false
   }
 }

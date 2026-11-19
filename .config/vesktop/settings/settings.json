@@ -484,7 +484,7 @@
             "iconSpacing": 1
         },
         "ShowHiddenChannels": {
-            "enabled": true,
+            "enabled": false,
             "showMode": 0,
             "hideUnreads": true,
             "defaultAllowedUsersAndRolesDropdownState": true
@@ -520,7 +520,7 @@
             "enabled": false
         },
         "SpotifyControls": {
-            "enabled": true,
+            "enabled": false,
             "hoverControls": false
         },
         "SpotifyCrack": {
@@ -529,7 +529,7 @@
             "keepSpotifyActivityOnIdle": false
         },
         "SpotifyShareCommands": {
-            "enabled": true
+            "enabled": false
         },
         "StartupTimings": {
             "enabled": false
@@ -538,7 +538,7 @@
             "enabled": false
         },
         "SuperReactionTweaks": {
-            "enabled": true,
+            "enabled": false,
             "unlimitedSuperReactionPlaying": false,
             "superReactionPlayingLimit": 20,
             "superReactByDefault": true
@@ -789,7 +789,8 @@
             "overrideCommonKeybinds": true
         },
         "WebScreenShareFixes": {
-            "enabled": true
+            "enabled": true,
+            "betterCodecs": false
         },
         "DisableDeepLinks": {
             "enabled": true
@@ -815,7 +816,7 @@
         "authenticated": true,
         "url": "https://api.vencord.dev/",
         "settingsSync": true,
-        "settingsSyncVersion": 1794580725660
+        "settingsSyncVersion": 1795049796922
     },
     "nativeTitleBar": false
 }

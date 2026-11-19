@@ -3,7 +3,7 @@
   "plugins": {
     "aiQuotas": {
       "repo": "https://github.com/agneswd/dms-ai-quotas",
-      "commit": "bae9d7d065330b7315bd74248856c0d8fc6dee3c"
+      "commit": "dd5231b4f38c16f735d2610a97529835f6b97335"
     },
     "batteryPlus": {
       "repo": "https://github.com/arcatva/dms-battery-plus",
