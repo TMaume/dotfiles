@@ -13,7 +13,7 @@ fi
 
 echo -e "\n=== 2. Exportation des configurations actuelles (Portables / Sans matériel spécifique) ==="
 # Exporte les paquets des dépôts officiels en excluant les pilotes/microcodes spécifiques au matériel
-pacman -Qqen | grep -v -E '^(intel-ucode|amd-ucode|intel-media-driver|libva-mesa-driver|libva-nvidia-driver|vulkan-intel|lib32-vulkan-intel|vulkan-radeon|lib32-vulkan-radeon|nvidia|nvidia-utils|lib32-nvidia-utils|sof-firmware)$' > ~/pkglist-repo.txt
+pacman -Qqen | grep -v -E '^(intel-ucode|amd-ucode|intel-media-driver|libva-mesa-driver|libva-nvidia-driver|vulkan-intel|lib32-vulkan-intel|vulkan-radeon|lib32-vulkan-radeon|nvidia|nvidia-utils|lib32-nvidia-utils|sof-firmware|throttled)$' > ~/pkglist-repo.txt
 
 # Exporte les paquets AUR en excluant les outils spécifiques ThinkPad (throttled) et les paquets -debug
 pacman -Qqem | grep -v -E '^(throttled|.*-debug)$' > ~/pkglist-aur.txt
@@ -143,56 +143,80 @@ fi
 
 echo -e "\n=== 3. Sauvegarde sur GitHub ==="
 # Ajoute les listes, les configurations système universelles et les fichiers de configuration utilisateur
-$DOTFILES_GIT add \
-    ~/pkglist-repo.txt \
-    ~/pkglist-aur.txt \
-    ~/pkglist-flatpak.txt \
-    ~/vscode-extensions.txt \
-    ~/services-list.txt \
-    ~/.dotfiles-system/ \
-    ~/bases_de_donnees_backup.sql \
-    ~/install.sh \
-    ~/update.sh \
-    ~/.config/code-flags.conf \
-    ~/.config/electron-flags.conf \
-    ~/.config/mimeapps.list \
-    ~/.config/firefox-user.js \
-    ~/.config/fastfetch/ \
-    ~/.config/systemd/user/dms.service.d/override.conf \
-    ~/.config/systemd/user/dfiles.service.d/after-dms.conf \
-    ~/.config/systemd/user/dcal.service.d/after-dms.conf \
-    ~/.config/systemd/user/dcal-annual-events.service \
-    ~/.config/systemd/user/dcal-annual-events.timer \
-    ~/.local/bin/dcal-generate-events \
-    ~/.config/dankcal/ \
-    ~/.config/dfiles/ui-settings.json \
-    ~/.config/environment.d/90-dms.conf \
-    ~/.config/Code/User/settings.json \
-    ~/.config/dms/settings.json \
-    ~/.config/dms/plugin_settings.json \
-    ~/.config/dms/plugins.lock.json \
-    ~/.config/dms/firefox.css \
-    ~/.config/dms/plugins/ \
-    ~/.config/dms/themes/ \
-    ~/.config/dms/wallpaper/ \
-    ~/.config/dms/session.seed.json \
-    ~/.config/matugen/ \
-    ~/.config/kitty/ \
-    ~/.config/niri/config.kdl \
-    ~/.config/niri/dms/alttab.kdl \
-    ~/.config/niri/dms/binds.kdl \
-    ~/.config/niri/dms/colors.kdl \
-    ~/.config/niri/dms/cursor.kdl \
-    ~/.config/niri/dms/input.kdl \
-    ~/.config/niri/dms/layout.kdl \
-    ~/.config/niri/dms/outputs.kdl \
-    ~/.config/niri/dms/windowrules.kdl \
-    ~/.config/niri/dms/wpblur.kdl \
-    ~/.config/fish/config.fish \
-    ~/.config/ccache/ \
-    ~/.config/vesktop/settings.json \
-    ~/.config/vesktop/settings/ \
-    ~/Pictures/frame-1.png 2>/dev/null || true
+PATHS_TO_ADD=(
+    ~/README.md
+    ~/pkglist-repo.txt
+    ~/pkglist-aur.txt
+    ~/pkglist-flatpak.txt
+    ~/vscode-extensions.txt
+    ~/services-list.txt
+    ~/.dotfiles-system/
+    ~/bases_de_donnees_backup.sql
+    ~/install.sh
+    ~/update.sh
+    ~/.zshrc
+    ~/.zprofile
+    ~/.gitconfig
+    ~/.config/code-flags.conf
+    ~/.config/electron-flags.conf
+    ~/.config/vesktop-flags.conf
+    ~/.config/mimeapps.list
+    ~/.config/firefox-user.js
+    ~/.config/starship.toml
+    ~/.config/fastfetch/
+    ~/.config/gtk-3.0/bookmarks
+    ~/.config/gtk-3.0/dank-colors.css
+    ~/.config/gtk-3.0/settings.ini
+    ~/.config/gtk-4.0/dank-colors.css
+    ~/.config/gtk-4.0/settings.ini
+    ~/.config/qt5ct/qt5ct.conf
+    ~/.config/qt6ct/qt6ct.conf
+    ~/.config/xdg-desktop-portal/
+    ~/.config/easyeffects/db/easyeffectsrc
+    ~/.config/systemd/user/dms.service.d/override.conf
+    ~/.config/systemd/user/dfiles.service.d/after-dms.conf
+    ~/.config/systemd/user/dcal.service.d/after-dms.conf
+    ~/.config/systemd/user/dcal-annual-events.service
+    ~/.config/systemd/user/dcal-annual-events.timer
+    ~/.config/systemd/user/fix-webcam.service
+    ~/.local/bin/dcal-generate-events
+    ~/.local/bin/dms-opium-wallpaper.py
+    ~/.local/bin/fix-webcam.sh
+    ~/.config/dankcal/
+    ~/.config/dfiles/ui-settings.json
+    ~/.config/environment.d/90-dms.conf
+    ~/.config/Code/User/settings.json
+    ~/.config/dms/settings.json
+    ~/.config/dms/plugin_settings.json
+    ~/.config/dms/plugins.lock.json
+    ~/.config/dms/firefox.css
+    ~/.config/dms/plugins/
+    ~/.config/dms/themes/
+    ~/.config/dms/wallpaper/
+    ~/.config/dms/session.seed.json
+    ~/.config/matugen/
+    ~/.config/kitty/
+    ~/.config/niri/config.kdl
+    ~/.config/niri/dms/alttab.kdl
+    ~/.config/niri/dms/binds.kdl
+    ~/.config/niri/dms/colors.kdl
+    ~/.config/niri/dms/cursor.kdl
+    ~/.config/niri/dms/input.kdl
+    ~/.config/niri/dms/layout.kdl
+    ~/.config/niri/dms/outputs.kdl
+    ~/.config/niri/dms/windowrules.kdl
+    ~/.config/niri/dms/wpblur.kdl
+    ~/.config/fish/config.fish
+    ~/.config/ccache/
+    ~/.config/vesktop/settings.json
+    ~/.config/vesktop/settings/
+)
+
+for path in "${PATHS_TO_ADD[@]}"; do
+    if [ -e "$path" ]; then
+        $DOTFILES_GIT add "$path" 2>/dev/null || true
+    fi
+done
 
 # Ajoute toutes les modifications et suppressions des fichiers déjà suivis
 $DOTFILES_GIT add -u

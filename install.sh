@@ -149,6 +149,10 @@ echo -e "\n=== 6. Restauration des configurations système (/etc) et optimisatio
 if [ -d "$HOME/.dotfiles-system/etc" ]; then
     echo "Copie des fichiers universels vers /etc..."
     sudo cp -r "$HOME/.dotfiles-system/etc/"* /etc/
+    # Adapte l'utilisateur de la session initiale greetd si le nom d'utilisateur diffère
+    if [ "$USER" != "dtl21" ] && [ -f /etc/greetd/config.toml ]; then
+        sudo sed -i "s/user = \"dtl21\"/user = \"$USER\"/g" /etc/greetd/config.toml
+    fi
 fi
 
 # Optimise le montage SSD avec noatime dans /etc/fstab sur le nouveau PC
@@ -164,8 +168,8 @@ sudo sysctl --system >/dev/null || true
 sudo udevadm control --reload-rules || true
 sudo systemd-tmpfiles --create 2>/dev/null || true
 
-# Ajoute l'utilisateur aux groupes gamemode, input (requis par DMS evdev) et greeter
-for grp in gamemode input greeter; do
+# Ajoute l'utilisateur aux groupes gamemode, input (requis par DMS evdev), greeter et docker
+for grp in gamemode input greeter docker; do
     if getent group "$grp" >/dev/null 2>&1; then
         sudo usermod -aG "$grp" "$USER" || true
     fi
@@ -207,10 +211,22 @@ if [ -d /var/cache/dms-greeter ]; then
     sudo ln -sfn "$HOME/.cache/dms/dms-colors.json" "/var/cache/dms-greeter/users/$USER/colors.json"
 fi
 
-# Adapte le chemin du fond d'écran dans Niri et les templates Matugen si le nom d'utilisateur diffère sur le nouveau PC
+# Adapte les chemins codés en dur si le nom d'utilisateur / dossier personnel diffère sur le nouveau PC
 if [ "$HOME" != "/home/dtl21" ]; then
-    [ -f "$HOME/.config/niri/config.kdl" ] && sed -i "s|/home/dtl21|$HOME|g" "$HOME/.config/niri/config.kdl"
-    [ -f "$HOME/.config/matugen/config.toml" ] && sed -i "s|/home/dtl21|$HOME|g" "$HOME/.config/matugen/config.toml"
+    for cfg in \
+        "$HOME/.config/niri/config.kdl" \
+        "$HOME/.config/matugen/config.toml" \
+        "$HOME/.config/dms/settings.json" \
+        "$HOME/.zshrc" \
+        "$HOME/.zprofile"; do
+        [ -f "$cfg" ] && sed -i "s|/home/dtl21|$HOME|g" "$cfg"
+    done
+fi
+
+# Définit Zsh comme shell par défaut si disponible
+if command -v zsh &> /dev/null && [ "$SHELL" != "$(command -v zsh)" ]; then
+    echo "Configuration de Zsh comme shell par défaut..."
+    chsh -s "$(command -v zsh)" || true
 fi
 
 # Applique le profil d'optimisation Firefox (RAM cache + VA-API)
@@ -242,17 +258,17 @@ fi
 sudo systemctl disable cups.service mariadb.service NetworkManager-wait-online.service 2>/dev/null || true
 sudo systemctl enable cups.socket paccache.timer fstrim.timer reflector.timer 2>/dev/null || true
 
-# Activation des services utilisateur (DMS, dfiles, dcal et synchronisation annuelle des calendriers français)
+# Activation des services utilisateur (DMS, dfiles, dcal, webcam, AppImageLauncher et synchronisation annuelle)
 systemctl --user daemon-reload 2>/dev/null || true
-systemctl --user enable dms.service dfiles.service dsearch.service 2>/dev/null || true
+systemctl --user enable dms.service dfiles.service dsearch.service fix-webcam.service appimagelauncherd.service 2>/dev/null || true
 systemctl --user enable --now dcal.service dcal-annual-events.timer 2>/dev/null || true
 
-if [ -f "$HOME/.local/bin/dcal-generate-events" ]; then
-    chmod +x "$HOME/.local/bin/dcal-generate-events"
-    if command -v dcal &> /dev/null; then
-        echo "Génération et synchronisation initiale du Calendrier Français dans dcal..."
-        "$HOME/.local/bin/dcal-generate-events" || true
-    fi
+for bin in "$HOME/.local/bin/dcal-generate-events" "$HOME/.local/bin/dms-opium-wallpaper.py" "$HOME/.local/bin/fix-webcam.sh"; do
+    [ -f "$bin" ] && chmod +x "$bin"
+done
+if [ -f "$HOME/.local/bin/dcal-generate-events" ] && command -v dcal &> /dev/null; then
+    echo "Génération et synchronisation initiale du Calendrier Français dans dcal..."
+    "$HOME/.local/bin/dcal-generate-events" || true
 fi
 
 echo -e "\n=== 8. Configuration de la base de données (MariaDB) ==="

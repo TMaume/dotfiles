@@ -1,0 +1,11 @@
+[Unit]
+Description=Apply webcam quality settings
+After=default.target sound.target
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/fix-webcam.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=default.target

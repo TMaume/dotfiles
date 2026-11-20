@@ -105,7 +105,6 @@ swaybg
 swayidle
 swaylock
 system-config-printer
-throttled
 tldr
 tmux
 tree
