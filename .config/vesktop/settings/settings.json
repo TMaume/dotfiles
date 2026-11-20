@@ -7,7 +7,7 @@
     "enabledThemes": [
         "dank-discord.css"
     ],
-    "enableReactDevtools": true,
+    "enableReactDevtools": false,
     "frameless": false,
     "transparent": false,
     "winCtrlQ": false,
@@ -237,7 +237,7 @@
             "enabled": false
         },
         "MemberCount": {
-            "enabled": true,
+            "enabled": false,
             "memberList": true,
             "toolTip": true,
             "voiceActivity": true
@@ -252,7 +252,7 @@
             "enabled": false
         },
         "MessageLogger": {
-            "enabled": true,
+            "enabled": false,
             "deleteStyle": "text",
             "ignoreBots": false,
             "ignoreSelf": false,
@@ -405,7 +405,7 @@
             "enabled": false
         },
         "PlatformIndicators": {
-            "enabled": true,
+            "enabled": false,
             "list": false,
             "badges": true,
             "messages": false,
@@ -461,7 +461,7 @@
             "onlySnow": false
         },
         "Summaries": {
-            "enabled": true,
+            "enabled": false,
             "summaryExpiryThresholdDays": 3
         },
         "SendTimestamps": {
@@ -469,7 +469,7 @@
             "replaceMessageContents": true
         },
         "ServerListIndicators": {
-            "enabled": true,
+            "enabled": false,
             "mode": 3
         },
         "ShikiCodeblocks": {
@@ -556,7 +556,7 @@
             "enabled": false
         },
         "TypingIndicator": {
-            "enabled": true,
+            "enabled": false,
             "includeMutedChannels": false,
             "includeCurrentChannel": true,
             "indicatorMode": 3
@@ -578,7 +578,7 @@
             "enabled": false
         },
         "UserVoiceShow": {
-            "enabled": true,
+            "enabled": false,
             "showInUserProfileModal": true,
             "showInMemberList": true,
             "showInMessages": true
@@ -743,7 +743,7 @@
             "enabled": false
         },
         "MusicRichPresence": {
-            "enabled": true,
+            "enabled": false,
             "scrobblerBackend": "lastfm",
             "shareUsername": true,
             "clickableLinks": true,
@@ -815,8 +815,8 @@
     "cloud": {
         "authenticated": true,
         "url": "https://api.vencord.dev/",
-        "settingsSync": true,
-        "settingsSyncVersion": 1795049796922
+        "settingsSync": false,
+        "settingsSyncVersion": 1795172515728
     },
     "nativeTitleBar": false
 }
