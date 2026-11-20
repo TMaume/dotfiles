@@ -1,6 +1,8 @@
 {
   "dankKDEConnect": {
-    "enabled": true
+    "enabled": true,
+    "scanSubdirectories": true,
+    "selectedDeviceId": ""
   },
   "volumeMixer": {
     "enabled": false

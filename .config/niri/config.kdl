@@ -278,3 +278,6 @@ include optional=true "dms/outputs.kdl"
 include optional=true "dms/cursor.kdl"
 include optional=true "dms/input.kdl"
 include optional=true "dms/wpblur.kdl"
+
+// Demarrage automatique de KDE Connect (DMS Phone Connect)
+spawn-at-startup "/usr/bin/kdeconnectd"

@@ -8,3 +8,4 @@ NetworkManager.service
 paccache.timer
 power-profiles-daemon.service
 reflector.timer
+waydroid-container.service

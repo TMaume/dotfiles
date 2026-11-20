@@ -276,6 +276,10 @@
           "id": "controlCenterButton",
           "enabled": true,
           "showMicPercent": true
+        },
+        {
+          "id": "dankKDEConnect",
+          "enabled": true
         }
       ],
       "spacing": 4,

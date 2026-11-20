@@ -38,7 +38,7 @@
     },
     "discordVoice": {
       "repo": "https://github.com/PandorasFox/dms-discord-widget",
-      "commit": "7771a41ed2b8810150afadfdd9241e1e8d97b7b9"
+      "commit": "2fe282e3d7a8c37c7581391f90eea8906e426ec8"
     },
     "emojiLauncher": {
       "repo": "https://github.com/devnullvoid/dms-emoji-launcher",

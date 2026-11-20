@@ -43,9 +43,11 @@ impression
 inetutils
 jdk-openjdk
 jq
+kdeconnect
 kimageformats
 kitty
 labwc
+layer-shell-qt
 less
 lib32-gamemode
 libpulse
@@ -61,6 +63,7 @@ mpv
 nano
 ncdu
 networkmanager
+ninja
 niri
 noto-fonts
 noto-fonts-cjk
@@ -82,6 +85,7 @@ python-langchain
 python-pillow
 python-pip
 python-pipx
+python-pyclip
 python-qrcode
 python-virtualenv
 qemu-base
@@ -92,6 +96,7 @@ rust
 slurp
 snapshot
 socat
+sshfs
 starship
 steam
 strace
@@ -108,11 +113,13 @@ ttf-dejavu
 ttf-jetbrains-mono-nerd
 ttf-liberation
 ttf-nerd-fonts-symbols
+umu-launcher
 unzip
 usbmuxd
 vlc
 vlc-plugin-ffmpeg
 waybar
+waydroid
 wine
 wireplumber
 wireshark-qt
