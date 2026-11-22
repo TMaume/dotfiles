@@ -800,6 +800,9 @@
         },
         "WebContextMenus": {
             "enabled": true
+        },
+        "BetterYouTubeEmbeds": {
+            "enabled": true
         }
     },
     "uiElements": {
@@ -816,7 +819,7 @@
         "authenticated": true,
         "url": "https://api.vencord.dev/",
         "settingsSync": false,
-        "settingsSyncVersion": 1795172515728
+        "settingsSyncVersion": 1795344528506
     },
     "nativeTitleBar": false
 }

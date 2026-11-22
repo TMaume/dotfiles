@@ -9,6 +9,7 @@ gns3-gui
 gns3-server
 google-chrome
 greetd-dms-greeter-bin
+iloader-bin
 neofetch
 openclaw
 rojo-bin
@@ -18,4 +19,5 @@ ubridge
 vesktop
 visual-studio-code-bin
 vpcs
+xtool
 yay
