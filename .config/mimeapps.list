@@ -31,6 +31,7 @@ image/bmp=firefox.desktop
 image/tiff=firefox.desktop
 image/x-png=firefox.desktop
 image/pjpeg=firefox.desktop
+x-scheme-handler/freebuff=freebuff-desktop.desktop
 
 [Added Associations]
 x-scheme-handler/google-chrome=firefox.desktop;

@@ -5,6 +5,7 @@ dankcalendar-bin
 dsearch-bin
 dux-files-bin
 dynamips
+freebuff-bin
 gns3-gui
 gns3-server
 google-chrome

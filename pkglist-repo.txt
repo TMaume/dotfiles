@@ -30,6 +30,7 @@ fuse2
 fuzzel
 gamemode
 gamescope
+gemini-cli
 git
 github-cli
 go

@@ -743,7 +743,7 @@
             "enabled": false
         },
         "MusicRichPresence": {
-            "enabled": false,
+            "enabled": true,
             "scrobblerBackend": "lastfm",
             "shareUsername": true,
             "clickableLinks": true,
@@ -803,6 +803,9 @@
         },
         "BetterYouTubeEmbeds": {
             "enabled": true
+        },
+        "VesktopPatches": {
+            "enabled": true
         }
     },
     "uiElements": {
@@ -819,7 +822,7 @@
         "authenticated": true,
         "url": "https://api.vencord.dev/",
         "settingsSync": false,
-        "settingsSyncVersion": 1795376813066
+        "settingsSyncVersion": 1795517322279
     },
     "nativeTitleBar": false
 }
