@@ -4,6 +4,7 @@ blesh-git
 dankcalendar-bin
 dsearch-bin
 dux-files-bin
+dux-icons
 dynamips
 freebuff-bin
 gns3-gui

@@ -208,7 +208,8 @@
         {
           "id": "launcherButton",
           "enabled": true,
-          "launcherLogoColorOverride": "primary"
+          "launcherLogoColorOverride": "primary",
+          "launcherLogoMode": "apps"
         },
         {
           "id": "workspaceSwitcher",
@@ -1089,5 +1090,6 @@
   "matugenScheme": "scheme-content",
   "lockAtStartup": true,
   "blurLayerOutlineOpacity": 0,
-  "blurForegroundLayers": true
+  "blurForegroundLayers": true,
+  "iconThemePerMode": false
 }
