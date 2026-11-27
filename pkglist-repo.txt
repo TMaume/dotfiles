@@ -28,6 +28,7 @@ flatpak
 fprintd
 fuse2
 fuzzel
+fwupd
 gamemode
 gamescope
 gemini-cli
@@ -72,6 +73,7 @@ noto-fonts-emoji
 noto-fonts-extra
 pacman-contrib
 pam-u2f
+php
 pipewire
 pipewire-alsa
 pipewire-jack
